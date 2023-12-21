@@ -1,14 +1,42 @@
 #include "Application.h"
 
-ECS gECS;
+ECS ecs;
+
+void Application::InitECS()
+{
+    ecs.Init();
+    ecs.RegisterComponent<Transform>();
+    ecs.RegisterComponent<RigidBody>();
+    ecs.RegisterComponent<Renderer>();
+
+    Signature physicsSignature;
+    physicsSignature.set(ecs.GetComponentType<Transform>());
+    physicsSignature.set(ecs.GetComponentType<RigidBody>());
+
+    Signature renderSignature;
+    renderSignature.set(ecs.GetComponentType<Transform>());
+    renderSignature.set(ecs.GetComponentType<Renderer>());
+
+    physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
+    ecs.SetSystemSignature<PhysicsSystem>(physicsSignature);
+
+    renderSystem = ecs.RegisterSystem<RenderSystem>();
+    ecs.SetSystemSignature<RenderSystem>(renderSignature);
+
+    entities = std::vector<Entity>(MAX_ENTITIES);
+}
 
 int Application::Start()
 {
     window.create(sf::VideoMode(1280, 720), "ImGui + SFML = <3");
     window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
+    InitECS();
 
-    sf::Time elapsed_time;
+    entities[0] = ecs.CreateEntity();
+    ecs.AddComponent(entities[0], Renderer{});
+    ecs.AddComponent(entities[0], Transform{ Vector2{50, 50} });
+    ecs.AddComponent(entities[0], RigidBody{ 2, Vector2{10.0, 10.0 } });
 
     while (running) {
         Update();
@@ -40,14 +68,18 @@ void Application::Update()
 
     // Update
     const sf::Time dt = deltaClock.restart();
+    physicsSystem->Update(dt.asSeconds());
+
+    //Setup UI
     ImGui::SFML::Update(window, dt);
-
-    //Render UI
     ImGui::SFML::SetCurrentWindow(window);
-
     ImGui::ShowDemoWindow(&showImGuiDemoWindow);
+
+    //Draw Game
     window.clear();
-    //window.draw(shape);
+    renderSystem->DrawEntities(window);
+    
+    //Draw UI and display window
     ImGui::SFML::Render(window);
     window.display();
 }

@@ -1,10 +1,8 @@
 #pragma once
-#include "Types.h"
-#include "Math.h"
-#include <cstdint>
 #include <vector>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "Types.h"
 
 struct Renderer {
 	sf::Color color{ 255,255,255 };

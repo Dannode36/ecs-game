@@ -52,8 +52,8 @@ public:
 			auto const& system = pair.second;
 			auto const& systemSignature = mSignatures[type];
 
-			// Entity signature matches system signature - insert into set
-			if (entitySignature == systemSignature)
+			// Entity signature contains same bits as system signature - add to set
+			if ((entitySignature & systemSignature) == systemSignature)
 			{
 				system->mEntities.insert(entity);
 			}
@@ -71,7 +71,6 @@ public:
 		// If element was found
 		if (it != v.end())
 		{
-			auto index = it - v.begin();
 			v.erase(it);
 		}
 	}

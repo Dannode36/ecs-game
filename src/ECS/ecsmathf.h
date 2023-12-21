@@ -1,10 +1,6 @@
 #pragma once
-#include "../ECS/Components.h"
-
-template <typename T>
-inline T clip(const T& n, const T& lower, const T& upper) {
-	return std::max(lower, std::min(n, upper));
-}
+#include "Components.h"
+#include "mathf.h"
 
 inline bool CircleCircleOverlap(Transform& c1, Transform& c2) {
 	return pow((c2.pos.x - c1.pos.x), 2) + pow((c2.pos.y - c1.pos.y), 2) <= pow((c1.radius + c2.radius), 2);

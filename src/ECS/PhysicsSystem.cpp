@@ -1,27 +1,20 @@
+#include <iostream>
+#include <vector>
 #include "PhysicsSystem.h"
 #include "ECS.h"
 #include "CONSTANTS.h"
 #include "Components.h"
-#include <iostream>
-#include <vector>
-extern ECS gECS;
+#include "ecsmathf.h"
+
+extern ECS ecs;
 
 void PhysicsSystem::Init() {
 
 }
 
-bool CircleCircleOverlap(Transform& c1, Transform& c2) {
-	return pow((c2.pos.x - c1.pos.x), 2) + pow((c2.pos.y - c1.pos.y), 2) <= pow((c1.radius + c2.radius), 2);
-}
-
-bool CirclePointOverlap(Transform& circle, Vector2& point) {
-	return pow((point.x - circle.pos.x), 2) + pow((point.y - circle.pos.y), 2) <= circle.radius * circle.radius;
-}
-
 void checkForAndSolveCollision(Transform& c1, Transform& c2) {
 	float dist = static_cast<float>(pow((c2.pos.x - c1.pos.x), 2) + pow((c2.pos.y - c1.pos.y), 2));
 	if (dist <= pow((c1.radius + c2.radius), 2)) {
-		std::cout << "Collision Found" << "\n";
 
 		dist = sqrt(dist);
 		float midpointx{ (c1.pos.x + c2.pos.x) / 2 };
@@ -50,16 +43,16 @@ void checkForAndSolveCollision(Transform& c1, Transform& c2) {
 void PhysicsSystem::Update(double dt) {
 	for (auto const& entity : mEntities)
 	{
-		auto& rigidBody = gECS.GetComponent<RigidBody>(entity);
-		auto& transform = gECS.GetComponent<Transform>(entity);
+		auto& rigidBody = ecs.GetComponent<RigidBody>(entity);
+		auto& transform = ecs.GetComponent<Transform>(entity);
 
 		if (!rigidBody.kinematic) {
 			for (auto const& entity : mEntities)
 			{
 				for (auto const& entity2 : mEntities) {
 					if (entity != entity2) {
-						auto& transform = gECS.GetComponent<Transform>(entity);
-						auto& transform2 = gECS.GetComponent<Transform>(entity2);
+						auto& transform = ecs.GetComponent<Transform>(entity);
+						auto& transform2 = ecs.GetComponent<Transform>(entity2);
 						checkForAndSolveCollision(transform, transform2);
 					}
 				}
@@ -71,7 +64,7 @@ void PhysicsSystem::Update(double dt) {
 Transform* PhysicsSystem::GetOverlapingTransform(Vector2 pos) {
 	for (auto const& entity : mEntities)
 	{
-		auto& transform = gECS.GetComponent<Transform>(entity);
+		auto& transform = ecs.GetComponent<Transform>(entity);
 		if (CirclePointOverlap(transform, pos)) {
 			return &transform;
 		}

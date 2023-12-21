@@ -1,16 +1,13 @@
+#include <iostream>
 #include "RenderSystem.h"
 #include "ECS.h"
-#include <iostream>
 
-extern ECS gECS;
+extern ECS ecs;
 
-void RenderSystem::Draw(sf::RenderWindow& window) {
-	window.clear(sf::Color::Black);
-	sf::VertexArray vertArray;
-
+void RenderSystem::DrawEntities(sf::RenderWindow& window) {
 	for (auto const& entity : mEntities){
-		auto& transform = gECS.GetComponent<Transform>(entity);
-		auto& renderer = gECS.GetComponent<Renderer>(entity);
+		auto& transform = ecs.GetComponent<Transform>(entity);
+		auto& renderer = ecs.GetComponent<Renderer>(entity);
 		float radius = transform.radius;
 
 		sf::CircleShape circle(radius, 32);

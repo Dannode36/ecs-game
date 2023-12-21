@@ -5,6 +5,6 @@
 
 class RenderSystem : public System {
 public:
-	void Draw(sf::RenderWindow& window);
+	void DrawEntities(sf::RenderWindow& window);
 	bool debugRender{ false };
 };

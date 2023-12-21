@@ -23,6 +23,7 @@ public:
     int Start();
 
 private:
-    void Stop();
+    void InitECS();
     void Update();
+    void Stop();
 };
