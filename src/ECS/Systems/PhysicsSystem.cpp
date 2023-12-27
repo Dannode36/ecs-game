@@ -1,10 +1,10 @@
 #include <iostream>
 #include <vector>
 #include "PhysicsSystem.h"
-#include "ECS.h"
-#include "CONSTANTS.h"
-#include "Components.h"
-#include "ecsmathf.h"
+#include "../ECS.h"
+#include "../CONSTANTS.h"
+#include "../Components.h"
+#include "../ecsmathf.h"
 
 extern ECS ecs;
 
@@ -13,19 +13,19 @@ void PhysicsSystem::Init() {
 }
 
 void checkForAndSolveCollision(Transform& c1, Transform& c2) {
-	float dist = static_cast<float>(pow((c2.pos.x - c1.pos.x), 2) + pow((c2.pos.y - c1.pos.y), 2));
+	float dist = static_cast<float>(pow((c2.position.x - c1.position.x), 2) + pow((c2.position.y - c1.position.y), 2));
 	if (dist <= pow((c1.radius + c2.radius), 2)) {
 
 		dist = sqrt(dist);
-		float midpointx{ (c1.pos.x + c2.pos.x) / 2 };
-		float midpointy{ (c1.pos.y + c2.pos.y) / 2 };
+		float midpointx{ (c1.position.x + c2.position.x) / 2 };
+		float midpointy{ (c1.position.y + c2.position.y) / 2 };
 
 		//Static Resolution
-		c1.pos.x = midpointx + c1.radius * (c1.pos.x - c2.pos.x) / dist;
-		c1.pos.y = midpointy + c1.radius * (c1.pos.y - c2.pos.y) / dist;
+		c1.position.x = midpointx + c1.radius * (c1.position.x - c2.position.x) / dist;
+		c1.position.y = midpointy + c1.radius * (c1.position.y - c2.position.y) / dist;
 
-		c2.pos.x = midpointx + c2.radius * (c2.pos.x - c1.pos.x) / dist;
-		c2.pos.y = midpointy + c2.radius * (c2.pos.y - c1.pos.y) / dist;
+		c2.position.x = midpointx + c2.radius * (c2.position.x - c1.position.x) / dist;
+		c2.position.y = midpointy + c2.radius * (c2.position.y - c1.position.y) / dist;
 
 		//Dynamic Resolution
 		/*double d = sqrt(pow(c1.pos.x - c2.pos.x, 2) + pow(c1.pos.y - c2.pos.y, 2));
@@ -61,11 +61,11 @@ void PhysicsSystem::Update(double dt) {
 	}
 }
 
-Transform* PhysicsSystem::GetOverlapingTransform(Vector2 pos) {
+Transform* PhysicsSystem::GetOverlapingTransform(Vector2 position) {
 	for (auto const& entity : mEntities)
 	{
 		auto& transform = ecs.GetComponent<Transform>(entity);
-		if (CirclePointOverlap(transform, pos)) {
+		if (CirclePointOverlap(transform, position)) {
 			return &transform;
 		}
 	}

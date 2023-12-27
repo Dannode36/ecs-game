@@ -135,14 +135,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\ECS\PhysicsSystem.cpp" />
-    <ClCompile Include="src\ECS\RenderSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="src\ECS\VecOverloads.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\rapidxml.hpp" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\ECS\Components\Character.h" />
+    <ClInclude Include="src\ECS\Components\Renderer.h" />
+    <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="src\ECS\ComponentArray.h" />
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components.h" />
@@ -150,8 +153,8 @@
     <ClInclude Include="src\ECS\ECS.h" />
     <ClInclude Include="src\ECS\EntityManager.h" />
     <ClInclude Include="src\ECS\ecsmathf.h" />
-    <ClInclude Include="src\ECS\PhysicsSystem.h" />
-    <ClInclude Include="src\ECS\RenderSystem.h" />
+    <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
+    <ClInclude Include="src\ECS\Systems\RenderSystem.h" />
     <ClInclude Include="src\ECS\System.h" />
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\ECS\Types.h" />
