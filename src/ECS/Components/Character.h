@@ -4,5 +4,4 @@
 
 struct Character {
 	std::string name;
-	sf::Texture texture;
 };

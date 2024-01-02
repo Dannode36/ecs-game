@@ -1,24 +1,16 @@
 #include "Application.h"
+#include <mathf.h>
 
 ECS ecs;
 
 void Application::InitECS()
 {
     ecs.Init();
-    ecs.RegisterComponent<Transform>();
-    ecs.RegisterComponent<RigidBody>();
-    ecs.RegisterComponent<Renderer>();
-
-    Signature physicsSignature;
-    physicsSignature.set(ecs.GetComponentType<Transform>());
-    physicsSignature.set(ecs.GetComponentType<RigidBody>());
+    ecs.RegisterComponent<GameObject>();
+    ecs.RegisterComponent<Character>();
 
     Signature renderSignature;
-    renderSignature.set(ecs.GetComponentType<Transform>());
-    renderSignature.set(ecs.GetComponentType<Renderer>());
-
-    physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
-    ecs.SetSystemSignature<PhysicsSystem>(physicsSignature);
+    renderSignature.set(ecs.GetComponentType<GameObject>());
 
     renderSystem = ecs.RegisterSystem<RenderSystem>();
     ecs.SetSystemSignature<RenderSystem>(renderSignature);
@@ -34,10 +26,22 @@ int Application::Start()
     InitECS();
 
     entities[0] = ecs.CreateEntity();
-    ecs.AddComponent(entities[0], Renderer{});
-    ecs.AddComponent(entities[0], Transform{ Vector2{50, 50} });
-    ecs.AddComponent(entities[0], RigidBody{ 2, Vector2{10.0, 10.0 } });
+    GameObject player;
+    auto texture = assetmgr.textureCache.Load("assets/player.png");
+    player.sprite.setTexture(*texture);
+    ecs.AddComponent(entities[0], player);
 
+    auto soundBuffer = assetmgr.soundCache.Load("assets/wind.ogg");
+    sf::Sound wind(*soundBuffer);
+    wind.setLoop(true);
+    wind.setRelativeToListener(true);
+    wind.setVolume(36);
+    wind.play();
+
+    fade.setPosition(sf::Vector2f(0, 0));
+    fade.setFillColor(sf::Color(0, 0, 0, 0));
+
+    deltaClock.restart();
     while (running) {
         Update();
     }
@@ -48,7 +52,26 @@ int Application::Start()
 
 void Application::Update()
 {
-    static sf::Clock deltaClock;
+    if (fadingScreen) {
+        fade.setSize(sf::Vector2f(window.getSize()));
+
+        currentTime += deltaClock.getElapsedTime().asMilliseconds();
+        if (currentTime < targetTime) {
+            if (fadingIn) {
+                fade.setFillColor(sf::Color(0, 0, 0, lerp(startAlpha, endAlpha, currentTime / (float)targetTime)));
+            }
+            else
+            {
+                fade.setFillColor(sf::Color(0, 0, 0, lerp(endAlpha, startAlpha, currentTime / (float)targetTime)));
+            }
+        }
+        else {
+            fadingScreen = false;
+            currentTime = 0;
+        }
+        printf("current time %d\n", currentTime);
+    }
+
     // Main window event processing
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -68,18 +91,27 @@ void Application::Update()
 
     // Update
     const sf::Time dt = deltaClock.restart();
-    physicsSystem->Update(dt.asSeconds());
+    //physicsSystem->Update(dt.asSeconds());
 
-    //Setup UI
+    //Draw UI
     ImGui::SFML::Update(window, dt);
     ImGui::SFML::SetCurrentWindow(window);
     ImGui::ShowDemoWindow(&showImGuiDemoWindow);
 
+    assetmgr.RenderDebugMetricsUI(NULL);
+
+    if (ImGui::Begin("Debug")) {
+        ImGui::Checkbox("Fade Screen", &fadingScreen);
+        ImGui::Checkbox("Fade In", &fadingIn);
+    }
+    ImGui::End();
+
     //Draw Game
-    window.clear();
+    window.clear(sf::Color(255, 255, 255, 255));
     renderSystem->DrawEntities(window);
-    
-    //Draw UI and display window
+    window.draw(fade);
+
+    //Draw all to window
     ImGui::SFML::Render(window);
     window.display();
 }

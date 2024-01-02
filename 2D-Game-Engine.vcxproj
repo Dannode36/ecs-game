@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\assetManager\AssetManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\RenderSystem.cpp" />
@@ -141,11 +142,12 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\assetManager\AssetCache.h" />
+    <ClInclude Include="src\assetManager\AssetManager.h" />
     <ClInclude Include="include\rapidxml.hpp" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\ECS\Components\Character.h" />
     <ClInclude Include="src\ECS\Components\Renderer.h" />
-    <ClInclude Include="src\ECS\Components\Transform.h" />
     <ClInclude Include="src\ECS\ComponentArray.h" />
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components.h" />

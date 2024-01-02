@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics/Color.hpp>
 
-struct Renderer {
-	bool active{ false };
+struct GameObject {
 	sf::Sprite sprite;
+	bool active{ true };
 };
