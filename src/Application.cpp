@@ -8,12 +8,17 @@ void Application::InitECS()
     ecs.Init();
     ecs.RegisterComponent<GameObject>();
     ecs.RegisterComponent<Character>();
-
-    Signature renderSignature;
-    renderSignature.set(ecs.GetComponentType<GameObject>());
+    ecs.RegisterComponent<MovementController>();
 
     renderSystem = ecs.RegisterSystem<RenderSystem>();
+    Signature renderSignature;
+    renderSignature.set(ecs.GetComponentType<GameObject>());
     ecs.SetSystemSignature<RenderSystem>(renderSignature);
+
+    movementSystem = ecs.RegisterSystem<MovementSystem>();
+    Signature movementSignature;
+    movementSignature.set(ecs.GetComponentType<GameObject>());
+    ecs.SetSystemSignature<MovementSystem>(movementSignature);
 
     entities = std::vector<Entity>(MAX_ENTITIES);
 }
@@ -27,16 +32,24 @@ int Application::Start()
 
     entities[0] = ecs.CreateEntity();
     GameObject player;
-    auto texture = assetmgr.textureCache.Load("assets/player.png");
+    auto texture = assetMgr.Load<sf::Texture>("assets/player.png");
     player.sprite.setTexture(*texture);
+    player.sprite.setColor(sf::Color(100, 255, 100));
     ecs.AddComponent(entities[0], player);
+    ecs.AddComponent(entities[0], MovementController{40.0f});
 
-    auto soundBuffer = assetmgr.soundCache.Load("assets/wind.ogg");
+    /*auto soundBuffer = assetMgr.Load<sf::SoundBuffer>("assets/wind.ogg");
     sf::Sound wind(*soundBuffer);
     wind.setLoop(true);
     wind.setRelativeToListener(true);
     wind.setVolume(36);
-    wind.play();
+    wind.play();*/
+
+    auto music = assetMgr.Load<sf::Music>("assets/wind.ogg");
+    music->setLoop(true);
+    music->setRelativeToListener(true);
+    music->setVolume(36);
+    music->play();
 
     fade.setPosition(sf::Vector2f(0, 0));
     fade.setFillColor(sf::Color(0, 0, 0, 0));
@@ -72,6 +85,10 @@ void Application::Update()
         printf("current time %d\n", currentTime);
     }
 
+    //DO NOT USE INPUT MANAGER IN A NEW FRAME BEFORE THIS CALL 
+    //Clean key states before updating for this frame. 
+    inputMgr.Clear();
+
     // Main window event processing
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -81,6 +98,9 @@ void Application::Update()
             ImGui::SFML::Shutdown(); // will shutdown all windows
             Stop();
             return;
+        }
+        if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
+            inputMgr.UpdateKeyState(event);
         }
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::D && event.key.control && event.key.alt) {
@@ -92,13 +112,13 @@ void Application::Update()
     // Update
     const sf::Time dt = deltaClock.restart();
     //physicsSystem->Update(dt.asSeconds());
-
+    movementSystem->Update(inputMgr, dt);
     //Draw UI
     ImGui::SFML::Update(window, dt);
     ImGui::SFML::SetCurrentWindow(window);
     ImGui::ShowDemoWindow(&showImGuiDemoWindow);
 
-    assetmgr.RenderDebugMetricsUI(NULL);
+    assetMgr.RenderDebugMetricsUI(NULL);
 
     if (ImGui::Begin("Debug")) {
         ImGui::Checkbox("Fade Screen", &fadingScreen);

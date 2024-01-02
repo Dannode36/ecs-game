@@ -10,6 +10,7 @@
 #include <SFML/Window/Event.hpp>
 #include "ECS/ECS.h"
 #include "assetManager/AssetManager.h"
+#include "InputManager.h"
 
 class Application
 {
@@ -18,14 +19,17 @@ private:
     sf::RenderWindow window;
     sf::Clock deltaClock;
 
+    //Input
+    InputManager inputMgr;
 
     //Assets
-    AssetManager assetmgr;
+    AssetManager assetMgr;
 
     //ECS
     std::vector<Entity> entities;
     //std::shared_ptr<PhysicsSystem> physicsSystem;
     std::shared_ptr<RenderSystem> renderSystem;
+    std::shared_ptr<MovementSystem> movementSystem;
 
     //Misc
     bool showImGuiDemoWindow{ false };

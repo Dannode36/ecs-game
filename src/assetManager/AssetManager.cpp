@@ -7,6 +7,7 @@ void AssetManager::RenderDebugMetricsUI(bool* open)
 	if(ImGui::Begin("Asset Cache Metrics", open)) {
 		ImGui::Text("Texture Cache Size: %d", textureCache.cache.size());
 		ImGui::Text("Sound Cache Size: %d", soundCache.cache.size());
+		ImGui::Text("Music Cache Size: %d", musicCache.cache.size());
 	}
 	ImGui::End();
 }

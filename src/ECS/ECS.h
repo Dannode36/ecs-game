@@ -6,6 +6,7 @@
 //Includes for easy of use
 #include "Systems/PhysicsSystem.h"
 #include "Systems/RenderSystem.h"
+#include "Systems/MovementSystem.h"
 
 class ECS
 {

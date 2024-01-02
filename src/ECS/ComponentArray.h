@@ -47,7 +47,7 @@ public:
 
 	T& GetData(Entity entity)
 	{
-		//assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Retrieving non-existent component.");
+		assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Retrieving non-existent component.");
 
 		// Return a reference to the entity's component
 		return mComponentArray[mEntityToIndexMap[entity]];
