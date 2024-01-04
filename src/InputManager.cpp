@@ -13,11 +13,11 @@ void InputManager::UpdateKeyState(const sf::Event& keyEvent)
 {
 	if (keyEvent.type == sf::Event::KeyPressed) {
 		keyStates[keyEvent.key.code].pressed = true;
-		keyStates[keyEvent.key.code].up = true;
+		keyStates[keyEvent.key.code].down = true;
 	}
 	else if (keyEvent.type == sf::Event::KeyReleased) {
 		keyStates[keyEvent.key.code].pressed = false;
-		keyStates[keyEvent.key.code].down = true;
+		keyStates[keyEvent.key.code].up = true;
 	}
 }
 

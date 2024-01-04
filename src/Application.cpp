@@ -26,7 +26,8 @@ void Application::InitECS()
 int Application::Start()
 {
     window.create(sf::VideoMode(1280, 720), "ImGui + SFML = <3");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(165);
+    window.setKeyRepeatEnabled(false);
     ImGui::SFML::Init(window);
     InitECS();
 
@@ -109,10 +110,11 @@ void Application::Update()
         }
     }
 
-    // Update
+    //Update Logic
     const sf::Time dt = deltaClock.restart();
     //physicsSystem->Update(dt.asSeconds());
     movementSystem->Update(inputMgr, dt);
+
     //Draw UI
     ImGui::SFML::Update(window, dt);
     ImGui::SFML::SetCurrentWindow(window);
@@ -131,7 +133,7 @@ void Application::Update()
     renderSystem->DrawEntities(window);
     window.draw(fade);
 
-    //Draw all to window
+    //Render
     ImGui::SFML::Render(window);
     window.display();
 }

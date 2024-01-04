@@ -15,8 +15,8 @@ class InputManager
 {
 private:
 	KeyState keyStates[KeyCode::KeyCount];
-
 public:
+	bool controlsInverted{ false };
 	void Clear();
 	void UpdateKeyState(const sf::Event& keyEvent);
 	bool GetKey(KeyCode key) const;

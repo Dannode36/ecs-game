@@ -6,4 +6,5 @@ int main()
 {
     Application app;
     app.Start();
+    Application penis;
 }
