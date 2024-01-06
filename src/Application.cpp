@@ -41,8 +41,8 @@ int Application::Start()
         i++;
     }
 
-    //window.create(sf::VideoMode(1280, 800), "ImGui + SFML = <3");
-    window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
+    window.create(sf::VideoMode(1280, 800), "ImGui + SFML = <3");
+    //window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
     //window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
@@ -82,6 +82,22 @@ int Application::Start()
     std::shared_ptr<sf::Texture> buttonHovered = assetMgr.Load<sf::Texture>("assets/button_hovered.png");
     std::shared_ptr<sf::Texture> buttonPressed = assetMgr.Load<sf::Texture>("assets/button_pressed.png");
     button = Button(*buttonNormal, *buttonHovered, *buttonPressed, sf::Vector2f(300, 300));
+    button.event.addListener(
+        [&](Button& sender) {
+            fmt::print("Button({}) was pressed\n", fmt::ptr(&sender));
+            Stop(StatusAppOK);
+        });
+
+    button2 = Button(
+        assetMgr.Load<sf::Texture>("assets/button_normal.png"), 
+        assetMgr.Load<sf::Texture>("assets/button_hovered.png"), 
+        assetMgr.Load<sf::Texture>("assets/button_pressed.png"), 
+        sf::Vector2f(200, 300));
+    button2.event.addListener(
+        [&](Button& sender) {
+            fmt::print("Button({}) was pressed\n", fmt::ptr(&sender));
+            Stop(StatusAppOK);
+        });
 
     auto music = assetMgr.Load<sf::Music>("assets/wind.ogg");
     music->setLoop(true);
@@ -97,7 +113,6 @@ int Application::Start()
         Update();
     }
 
-    Stop();
     return 0;
 }
 
@@ -134,7 +149,7 @@ void Application::Update()
         if (event.type == sf::Event::Closed) {
             window.close();
             ImGui::SFML::Shutdown(); // will shutdown all windows
-            Stop();
+            Stop(StatusAppOK);
             return;
         }
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
@@ -180,19 +195,22 @@ void Application::Update()
     button.update(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
     window.draw(button);
 
+    button2.update(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+    window.draw(button2);
     ////Cursor position
     //static sf::RectangleShape rect(sf::Vector2f(4, 4));
     //rect.setFillColor(sf::Color::Black);
     //rect.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
     //window.draw(rect);
-    window.draw(fade);
+    //window.draw(fade);
 
     //Render
     ImGui::SFML::Render(window);
     window.display();
 }
 
-void Application::Stop()
+void Application::Stop(StatusType status)
 {
+    fmt::print("Exit Status: {}\n", (int)status);
     running = false;
 }

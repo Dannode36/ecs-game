@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\interfaces\IState.cpp" />
     <ClCompile Include="src\ui\FpsGraph.cpp" />
     <ClCompile Include="src\ui\Button.cpp" />
     <ClCompile Include="src\ECS\Systems\MovementSystem.cpp" />
@@ -157,7 +158,9 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\types.h" />
     <ClInclude Include="src\ECS\Components\NPC.h" />
+    <ClInclude Include="include\interfaces\IState.h" />
     <ClInclude Include="src\ui\FpsGraph.h" />
     <ClInclude Include="src\ui\Button.h" />
     <ClInclude Include="src\ECS\Components\Collider.h" />
@@ -183,7 +186,7 @@
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\ECS\Types.h" />
     <ClInclude Include="include\mathf.h" />
-    <ClInclude Include="src\util\Event.h" />
+    <ClInclude Include="include\util\Event.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Wind.ogg">
@@ -193,6 +196,7 @@
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\button_hovered.png" />
     <Image Include="assets\button_normal.png" />
     <Image Include="assets\button_pressed.png" />
     <Image Include="assets\player.png">
@@ -200,6 +204,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <Font Include="assets\Roboto-Regular.ttf" />
     <Font Include="assets\Stardew_Valley.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

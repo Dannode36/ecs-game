@@ -1,24 +1,44 @@
 #include "Button.h"
 #include "../Input.h"
 #include <fmt/format.h>
+#include <types.h>
 
-Button::Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, sf::Vector2f position) {
+Button::Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, sf::Vector2f position) : normal(), hovered(), clicked(), state(Button_Normal) {
     this->normal.setTexture(normal);
     this->normal.setPosition(position);
 
-    this->hovered.setTexture(hovered);
+    this->hovered.setTexture(normal);
     this->hovered.setPosition(position);
 
     this->clicked.setTexture(clicked);
     this->clicked.setPosition(position);
-
-    setState(Button_Normal);
+    currentSprite = nullptr;
 }
+Button::Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position)
+    : normal(), hovered(), clicked(), state(Button_Normal)
+{
+    this->normal.setTexture(*normal);
+    this->normal.setPosition(position);
+
+    this->hovered.setTexture(*normal);
+    this->hovered.setPosition(position);
+
+    this->clicked.setTexture(*clicked);
+    this->clicked.setPosition(position);
+    currentSprite = nullptr;
+}
+
 void Button::update(sf::Vector2f mousePos) {
+    if (currentSprite == nullptr) {
+        currentSprite = &normal;
+    }
+
     if (currentSprite->getGlobalBounds().contains(mousePos)) {
-        bool mouseLeftDown = Input::GetMouseButtonDown(MouseButton::Left);
-        bool mouseLeftPressed = Input::GetMouseButton(MouseButton::Left);
-        if (mouseLeftDown || (mouseLeftPressed && state == Buton_Pressed)) {
+        if (state == Buton_Pressed && Input::GetMouseButton(MouseButton::Left)) {
+            return; //Do nuthin
+        }
+        else if (Input::GetMouseButtonDown(MouseButton::Left)) 
+        {
             setState(Buton_Pressed);
         }
         else {
@@ -31,17 +51,17 @@ void Button::update(sf::Vector2f mousePos) {
 }
 void Button::setState(ButtonState newState) {
     if (state != newState) {
-        state = newState;
-
-        if (state == Button_Normal) {
+        if (newState == Button_Normal) {
             currentSprite = &normal;
         }
-        else if (state == Button_Hovered) {
+        else if (newState == Button_Hovered) {
             currentSprite = &hovered;
         }
-        else if (state == Buton_Pressed) {
+        else if (newState == Buton_Pressed) {
             currentSprite = &clicked;
+            event.fire(*this);
         }
+        state = newState;
     }
 }
 ButtonState Button::getState() const {

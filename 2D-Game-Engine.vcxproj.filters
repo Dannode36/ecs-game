@@ -42,6 +42,9 @@
     <ClCompile Include="src\ui\FpsGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\interfaces\IState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ECS\ComponentArray.h">
@@ -122,7 +125,13 @@
     <ClInclude Include="src\ECS\Components\NPC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\Event.h">
+    <ClInclude Include="include\util\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interfaces\IState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -141,8 +150,12 @@
     <Image Include="assets\button_pressed.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\button_hovered.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\Stardew_Valley.ttf" />
+    <Font Include="assets\Roboto-Regular.ttf" />
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@
 #include "Input.h"
 #include "ui/Button.h"
 #include "ui/FpsGraph.h"
+#include <types.h>
 
 class Application
 {
@@ -38,6 +39,7 @@ private:
     bool showImGuiDemoWindow{ false };
 
     Button button;
+    Button button2;
 
     sf::RectangleShape fade;
     bool fadingScreen{ false };
@@ -45,14 +47,14 @@ private:
     int startAlpha = 255;
     int endAlpha = 0;
     int targetTime = 2500;
-    int currentTime;
+    int currentTime = 0;
 public:
     int Start();
+    void Update();
+    void Stop(StatusType status);
 
 private:
     void InitECS();
-    void Update();
-    void Stop();
 public:
 
     Application() = default;
