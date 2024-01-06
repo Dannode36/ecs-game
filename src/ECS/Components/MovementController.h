@@ -1,5 +1,7 @@
 #pragma once
-struct MovementController
+#include "../Types.h"
+
+Component MovementController
 {
 	float speed;
 };

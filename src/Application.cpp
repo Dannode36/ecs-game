@@ -1,5 +1,6 @@
 #include "Application.h"
 #include <mathf.h>
+#include "fmt/format.h"
 
 ECS ecs;
 
@@ -7,6 +8,7 @@ void Application::InitECS()
 {
     ecs.Init();
     ecs.RegisterComponent<GameObject>();
+    ecs.RegisterComponent<Collider>();
     ecs.RegisterComponent<Character>();
     ecs.RegisterComponent<MovementController>();
 
@@ -15,9 +17,15 @@ void Application::InitECS()
     renderSignature.set(ecs.GetComponentType<GameObject>());
     ecs.SetSystemSignature<RenderSystem>(renderSignature);
 
+    physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
+    Signature physicsSignature;
+    physicsSignature.set(ecs.GetComponentType<Collider>());
+    ecs.SetSystemSignature<PhysicsSystem>(renderSignature);
+
     movementSystem = ecs.RegisterSystem<MovementSystem>();
     Signature movementSignature;
     movementSignature.set(ecs.GetComponentType<GameObject>());
+    movementSignature.set(ecs.GetComponentType<MovementController>());
     ecs.SetSystemSignature<MovementSystem>(movementSignature);
 
     entities = std::vector<Entity>(MAX_ENTITIES);
@@ -25,10 +33,22 @@ void Application::InitECS()
 
 int Application::Start()
 {
-    window.create(sf::VideoMode(1280, 720), "ImGui + SFML = <3");
-    window.setFramerateLimit(165);
+    fmt::print("Available Video Modes ->\n");
+    int i = 0;
+    for (auto& videoMode : sf::VideoMode::getFullscreenModes())
+    {
+        fmt::print("Video mode {0}: Width={1}, Height={2}, Bits per pixel={3}\n", i, videoMode.width, videoMode.height, videoMode.bitsPerPixel);
+        i++;
+    }
+
+    //window.create(sf::VideoMode(1280, 800), "ImGui + SFML = <3");
+    window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
+    //window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
     ImGui::SFML::Init(window);
+    gameView.reset(sf::FloatRect(0, 0, 640, 360));
+
     InitECS();
 
     entities[0] = ecs.CreateEntity();
@@ -37,7 +57,16 @@ int Application::Start()
     player.sprite.setTexture(*texture);
     player.sprite.setColor(sf::Color(100, 255, 100));
     ecs.AddComponent(entities[0], player);
-    ecs.AddComponent(entities[0], MovementController{40.0f});
+    ecs.AddComponent(entities[0], Collider{ sf::Vector2f(), 40.0f });
+    ecs.AddComponent(entities[0], MovementController{ 40.0f });
+
+    entities[1] = ecs.CreateEntity();
+    GameObject enemy;
+    auto texture2 = assetMgr.Load<sf::Texture>("assets/player.png");
+    enemy.sprite.setTexture(*texture);
+    enemy.sprite.setColor(sf::Color(255, 100, 100));
+    ecs.AddComponent(entities[1], enemy);
+    ecs.AddComponent(entities[1], Collider{ sf::Vector2f(), 40.0f });
 
     /*auto soundBuffer = assetMgr.Load<sf::SoundBuffer>("assets/wind.ogg");
     sf::Sound wind(*soundBuffer);
@@ -45,6 +74,14 @@ int Application::Start()
     wind.setRelativeToListener(true);
     wind.setVolume(36);
     wind.play();*/
+
+    font.loadFromFile("assets/Roboto-Regular.ttf");
+    font.setSmooth(false);
+
+    std::shared_ptr<sf::Texture> buttonNormal = assetMgr.Load<sf::Texture>("assets/button_normal.png");
+    std::shared_ptr<sf::Texture> buttonHovered = assetMgr.Load<sf::Texture>("assets/button_hovered.png");
+    std::shared_ptr<sf::Texture> buttonPressed = assetMgr.Load<sf::Texture>("assets/button_pressed.png");
+    button = Button(*buttonNormal, *buttonHovered, *buttonPressed, sf::Vector2f(300, 300));
 
     auto music = assetMgr.Load<sf::Music>("assets/wind.ogg");
     music->setLoop(true);
@@ -88,7 +125,7 @@ void Application::Update()
 
     //DO NOT USE INPUT MANAGER IN A NEW FRAME BEFORE THIS CALL 
     //Clean key states before updating for this frame. 
-    inputMgr.Clear();
+    Input::Refresh();
 
     // Main window event processing
     sf::Event event;
@@ -101,7 +138,10 @@ void Application::Update()
             return;
         }
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-            inputMgr.UpdateKeyState(event);
+            Input::UpdateKeyState(event);
+        }
+        if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased) {
+            Input::UpdateMouseState(event);
         }
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::D && event.key.control && event.key.alt) {
@@ -112,10 +152,10 @@ void Application::Update()
 
     //Update Logic
     const sf::Time dt = deltaClock.restart();
-    //physicsSystem->Update(dt.asSeconds());
-    movementSystem->Update(inputMgr, dt);
+    physicsSystem->Update(dt.asSeconds());
+    movementSystem->Update(dt);
 
-    //Draw UI
+    //Draw Debug UI
     ImGui::SFML::Update(window, dt);
     ImGui::SFML::SetCurrentWindow(window);
     ImGui::ShowDemoWindow(&showImGuiDemoWindow);
@@ -125,12 +165,26 @@ void Application::Update()
     if (ImGui::Begin("Debug")) {
         ImGui::Checkbox("Fade Screen", &fadingScreen);
         ImGui::Checkbox("Fade In", &fadingIn);
+
+        fpsGraph.Render(dt.asSeconds());
     }
     ImGui::End();
 
     //Draw Game
-    window.clear(sf::Color(255, 255, 255, 255));
+    window.clear(sf::Color::Black);
+    window.setView(gameView);
     renderSystem->DrawEntities(window);
+
+    //Draw Game UI
+    //window.setView(window.getDefaultView());
+    button.update(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+    window.draw(button);
+
+    ////Cursor position
+    //static sf::RectangleShape rect(sf::Vector2f(4, 4));
+    //rect.setFillColor(sf::Color::Black);
+    //rect.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+    //window.draw(rect);
     window.draw(fade);
 
     //Render

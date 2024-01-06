@@ -1,17 +1,16 @@
-//#include <iostream>
-//#include <vector>
-//#include "PhysicsSystem.h"
-//#include "../ECS.h"
-//#include "../CONSTANTS.h"
-//#include "../Components.h"
-//#include "../ecsmathf.h"
-//
-//extern ECS ecs;
-//
-//void PhysicsSystem::Init() {
-//
-//}
-//
+#include <iostream>
+#include <vector>
+#include "PhysicsSystem.h"
+#include "../ECS.h"
+#include "../CONSTANTS.h"
+#include "../ecsmathf.h"
+
+extern ECS ecs;
+
+void PhysicsSystem::Init() {
+
+}
+
 //void checkForAndSolveCollision(Transform& c1, Transform& c2) {
 //	float dist = static_cast<float>(pow((c2.position.x - c1.position.x), 2) + pow((c2.position.y - c1.position.y), 2));
 //	if (dist <= pow((c1.radius + c2.radius), 2)) {
@@ -39,35 +38,25 @@
 //		vy2 = circle2.vy + p * circle2.mass * ny;*/
 //	}
 //}
-//
-//void PhysicsSystem::Update(double dt) {
-//	for (auto const& entity : mEntities)
-//	{
-//		auto& rigidBody = ecs.GetComponent<RigidBody>(entity);
-//		auto& transform = ecs.GetComponent<Transform>(entity);
-//
-//		if (!rigidBody.kinematic) {
-//			for (auto const& entity : mEntities)
-//			{
-//				for (auto const& entity2 : mEntities) {
-//					if (entity != entity2) {
-//						auto& transform = ecs.GetComponent<Transform>(entity);
-//						auto& transform2 = ecs.GetComponent<Transform>(entity2);
-//						checkForAndSolveCollision(transform, transform2);
-//					}
-//				}
-//			}
-//		}
-//	}
-//}
-//
-//Transform* PhysicsSystem::GetOverlapingTransform(Vector2 position) {
-//	for (auto const& entity : mEntities)
-//	{
-//		auto& transform = ecs.GetComponent<Transform>(entity);
-//		if (CirclePointOverlap(transform, position)) {
-//			return &transform;
-//		}
-//	}
-//	return nullptr;
-//}
+
+void PhysicsSystem::Update(double dt) {
+	for (auto const& entity : mEntities)
+	{
+		auto& collider = ecs.GetComponent<Collider>(entity);
+		auto& object = ecs.GetComponent<GameObject>(entity);
+
+		for (auto const& entity2 : mEntities) {
+			if (entity != entity2) {
+				auto& collider2 = ecs.GetComponent<Collider>(entity);
+				auto& object2 = ecs.GetComponent<GameObject>(entity);
+
+				collider.bounds.center = object.sprite.getPosition() + collider.offset;
+				collider2.bounds.center = object2.sprite.getPosition() + collider2.offset;
+
+				if (collider.bounds.Intersects(ecs.GetComponent<Collider>(entity2).bounds)) {
+					//printf("Collision Detected\n");
+				}
+			}
+		}
+	}
+}

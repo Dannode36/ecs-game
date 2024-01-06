@@ -1,10 +1,10 @@
 #pragma once
 #include "System.h"
-#include "../../InputManager.h"
+#include "../../Input.h"
 #include "../Components.h"
 class MovementSystem : public System
 {
 public:
-	void Update(InputManager& inputMgr, const sf::Time& dt);
+	void Update(const sf::Time& dt);
 };
 

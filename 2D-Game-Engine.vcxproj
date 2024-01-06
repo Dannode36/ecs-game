@@ -146,25 +146,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\FpsGraph.cpp" />
+    <ClCompile Include="src\ui\Button.cpp" />
     <ClCompile Include="src\ECS\Systems\MovementSystem.cpp" />
-    <ClCompile Include="src\InputManager.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\assetManager\AssetManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\RenderSystem.cpp" />
-    <ClCompile Include="src\ECS\VecOverloads.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ECS\Components\NPC.h" />
+    <ClInclude Include="src\ui\FpsGraph.h" />
+    <ClInclude Include="src\ui\Button.h" />
+    <ClInclude Include="src\ECS\Components\Collider.h" />
     <ClInclude Include="src\ECS\Systems\MovementSystem.h" />
     <ClInclude Include="src\ECS\Components\MovementController.h" />
-    <ClInclude Include="src\InputManager.h" />
+    <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\assetManager\AssetCache.h" />
     <ClInclude Include="src\assetManager\AssetManager.h" />
     <ClInclude Include="include\rapidxml.hpp" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\ECS\Components\Character.h" />
-    <ClInclude Include="src\ECS\Components\Renderer.h" />
+    <ClInclude Include="src\ECS\Components\GameObject.h" />
     <ClInclude Include="src\ECS\ComponentArray.h" />
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\Components.h" />
@@ -178,6 +183,7 @@
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\ECS\Types.h" />
     <ClInclude Include="include\mathf.h" />
+    <ClInclude Include="src\util\Event.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Wind.ogg">
@@ -187,9 +193,14 @@
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\button_normal.png" />
+    <Image Include="assets\button_pressed.png" />
     <Image Include="assets\player.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\Stardew_Valley.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
