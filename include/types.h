@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "SFML/Graphics/Texture.hpp"
 #include "SFML/Audio/Music.hpp"
 #include "SFML/Audio/SoundBuffer.hpp"
@@ -18,6 +19,10 @@ enum StatusType
 
     // Values from +-100 to +-199 are reserved for File status responses
 };
+
+class IApplication;
+class AssetManager;
+class StateManager;
 
 typedef std::shared_ptr<sf::SoundBuffer> SoundBufferPtr;
 typedef std::shared_ptr<sf::Music> MusicPtr;

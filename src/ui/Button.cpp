@@ -1,5 +1,5 @@
-#include "Button.h"
-#include "../Input.h"
+#include "ui/Button.h"
+#include "Input.h"
 #include <fmt/format.h>
 #include <types.h>
 
@@ -14,6 +14,7 @@ Button::Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, 
     this->clicked.setPosition(position);
     currentSprite = nullptr;
 }
+
 Button::Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position)
     : normal(), hovered(), clicked(), state(Button_Normal)
 {

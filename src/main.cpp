@@ -5,6 +5,6 @@
 int main()
 {
     Application app;
-    app.Start();
-    Application penis;
+    //Application penis;
+    return app.Start();
 }

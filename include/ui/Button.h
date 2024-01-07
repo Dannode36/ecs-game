@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "util/Event.h"
+#include "types.h"
 
 enum ButtonState {
     Button_None = 0,
@@ -26,7 +27,7 @@ private:
 public:
     Button() = default;
     Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, sf::Vector2f position);
-    Button(std::shared_ptr<sf::Texture> normal, std::shared_ptr<sf::Texture> hovered, std::shared_ptr<sf::Texture> clicked, sf::Vector2f position);
+    Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
     void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
     void setState(ButtonState clicked);

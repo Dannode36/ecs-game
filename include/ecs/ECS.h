@@ -4,9 +4,9 @@
 #include "EntityManager.h"
 
 //Includes for easy of use
-#include "Systems/PhysicsSystem.h"
-#include "Systems/RenderSystem.h"
-#include "Systems/MovementSystem.h"
+#include "systems/PhysicsSystem.h"
+#include "systems/RenderSystem.h"
+#include "systems/MovementSystem.h"
 
 class ECS
 {

@@ -2,132 +2,68 @@
 #include <interfaces/IState.h>
 #include <types.h>
 
-IState::IState(const std::string theStateID, Application& theApp) :
-    mApp(theApp),
+IState::IState(const std::string theStateID, IApplication& theApp) :
+    app(theApp),
     mStateID(theStateID),
-    mElapsedTime(0.0f),
-    mPausedTime(0.0f),
-    mElapsedClock(),
-    mPausedClock(),
-    mInit(false),
+    mLoaded(false),
     mPaused(false),
-    mCleanup(false),
-    pad_()
-{
-    std::cout << "IState::ctor(" << mStateID << ")" << std::endl;
+    mCleanup(false) { }
+
+IState::~IState() {
+    Unload();
+    Cleanup();
 }
 
-IState::~IState()
-{
-    std::cout << "IState::dtor(" << mStateID << ")" << std::endl;
-}
-
-const std::string IState::GetID() const
-{
+const std::string IState::GetID() const {
     return mStateID;
 }
 
-void IState::DoInit()
-{
-    std::cout << "IState::DoInit(" << mStateID << ")" << std::endl;
-
-    // If Cleanup hasn't been called yet, call it now!
-    if (true == mCleanup)
-    {
-        HandleCleanup();
-    }
-
-    // Initialize if necessary
-    if (false == mInit)
-    {
-        mInit = true;
-        mPaused = false;
-        mElapsedTime = 0.0f;
-        mElapsedClock.restart();
-        mPausedTime = 0.0f;
-        mPausedClock.restart();
-    }
+bool IState::IsLoaded() const {
+    return mLoaded;
 }
 
-void IState::DeInit()
-{
-    std::cout << "IState::DeInit(" << mStateID << ")" << std::endl;
-
-    if (true == mInit)
-    {
-        mCleanup = true;
-        mInit = false;
-        mElapsedTime += mElapsedClock.getElapsedTime().asSeconds();
-
-        if (true == mPaused)
-        {
-            mPausedTime += mPausedClock.getElapsedTime().asSeconds();
-        }
-    }
-}
-
-bool IState::IsInitComplete() const
-{
-    return mInit;
-}
-
-bool IState::IsPaused() const
-{
+bool IState::IsPaused() const {
     return mPaused;
 }
 
-void IState::Pause()
-{
-    std::cout << "IState::Pause(" << mStateID << ")" << std::endl;
-
-    if (false == mPaused)
-    {
-        mPaused = true;
-        mPausedClock.restart();
+void IState::Load() {
+    // If Cleanup hasn't been called yet, call it now!
+    if (true == mCleanup) {
+        Dispose();
     }
-}
 
-void IState::Resume()
-{
-    std::cout << "IState::Resume(" << mStateID << ")" << std::endl;
-
-    if (true == mPaused)
-    {
+    // Initialize if necessary
+    if (mLoaded == false) {
+        mLoaded = true;
         mPaused = false;
-        mPausedTime += mPausedClock.getElapsedTime().asSeconds();
     }
 }
 
-void IState::HandleEvents(sf::Event theEvent)
-{
-    // Exit program if Escape key is pressed
-    if ((theEvent.type == sf::Event::KeyReleased) && (theEvent.key.code == sf::Keyboard::Escape))
-    {
-        // Signal the application to exit
-        mApp.Stop(StatusAppOK);
-
+void IState::Unload() {
+    if (mLoaded == true) {
+        mCleanup = true;
+        mLoaded = false;
     }
 }
 
-float IState::GetElapsedTime() const
-{
-    float result = mElapsedClock.getElapsedTime().asSeconds();
-
-    if (false == mInit)
-    {
-        result = mElapsedTime;
+void IState::Pause() {
+    if (mPaused == false) {
+        mPaused = true;
     }
+}
 
-    return result;
+void IState::Resume() {
+    if (mPaused == true) {
+        mPaused = false;
+    }
 }
 
 void IState::Cleanup()
 {
-    // This will be true if this IState is about to be deleted soon
-    if (true == mCleanup)
+    if (mCleanup == true)
     {
         // Call our handle cleanup virtual method
-        HandleCleanup();
+        Dispose();
 
         // Clear our cleanup flag
         mCleanup = false;
