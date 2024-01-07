@@ -20,9 +20,9 @@ StatusType Application::Start()
     ImGui::SFML::Init(window);
 
     stateManager.RegisterApp(this);
-    //stateManager.AddInactiveState(new GameState("Game", *this));
-    //stateManager.AddActiveState(new MainMenuState("MainMenu", *this));
-    stateManager.AddActiveState(new GameState("Game", *this));
+    stateManager.AddInactiveState(new GameState("Game", *this));
+    stateManager.AddActiveState(new MainMenuState("Main Menu", *this));
+    //stateManager.AddActiveState(new GameState("Game", *this));
 
     while (running && !stateManager.IsEmpty()) {
         Update();

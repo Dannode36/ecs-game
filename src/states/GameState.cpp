@@ -80,8 +80,8 @@ void GameState::Load() {
     button = Button(*buttonNormal, *buttonHovered, *buttonPressed, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
-            fmt::print("Button({}) was pressed\n", fmt::ptr(&sender));
-            app.Stop(StatusAppOK);
+            fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
+            app.stateManager.SetActiveState("Main Menu");
         });
 
     button2 = Button(*buttonNormal, *buttonHovered, *buttonPressed, sf::Vector2f(200, 300));
@@ -104,6 +104,22 @@ void GameState::Load() {
 void GameState::Reload() {
     view.reset(sf::FloatRect(0, 0, 640, 360));
     app.window.setView(view);
+    wind->stop();
+    wind->play();
+}
+
+void GameState::Pause() {
+    IState::Pause();
+    if (IsLoaded()) {
+        wind->stop();
+    }
+}
+
+void GameState::Resume() {
+    IState::Resume();
+    if (IsLoaded()) {
+        wind->play();
+    }
 }
 
 void GameState::HandleEvent(sf::Event& event) {

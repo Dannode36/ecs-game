@@ -230,7 +230,8 @@ void StateManager::SetActiveState(std::string stateID)
         });
 
     if (it != m_Stack.end()) {
-        std::cout << "StateManager::SetActiveState(" << (*it)->GetID() << ")\n";
+        IState* state = *it;
+        std::cout << "StateManager::SetActiveState(" << state->GetID() << ")\n";
 
         m_Stack.erase(it);
 
@@ -238,7 +239,7 @@ void StateManager::SetActiveState(std::string stateID)
             m_Stack.back()->Pause();
         }
 
-        m_Stack.push_back(*it);
+        m_Stack.push_back(state);
 
         // Has this state ever been loaded?
         if (m_Stack.back()->IsLoaded()) {

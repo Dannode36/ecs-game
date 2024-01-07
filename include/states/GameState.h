@@ -51,6 +51,8 @@ public:
     // Inherited via IState
     void Load() override;
     void Reload() override;
+    void Pause() override;
+    void Resume() override;
     void HandleEvent(sf::Event& event) override;
     void Update(sf::Time dt) override;
     void Draw(sf::RenderWindow& window) override;
