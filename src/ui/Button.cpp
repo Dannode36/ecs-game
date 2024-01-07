@@ -1,5 +1,5 @@
-#include "Button.h"
-#include "../Input.h"
+#include "ui/Button.h"
+#include "Input.h"
 #include <fmt/format.h>
 #include <types.h>
 
