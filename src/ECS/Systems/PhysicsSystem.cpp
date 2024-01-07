@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
-#include "ecs/systems/PhysicsSystem.h"
-#include "ecs/ECS.h"
-#include "ecs/CONSTANTS.h"
-#include "ecs/ecsmathf.h"
+#include "PhysicsSystem.h"
+#include "../ECS.h"
+#include "../CONSTANTS.h"
+#include "../ecsmathf.h"
 
 extern ECS ecs;
 

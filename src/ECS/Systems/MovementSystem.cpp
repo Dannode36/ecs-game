@@ -1,5 +1,5 @@
-#include "ecs/systems/MovementSystem.h"
-#include "ecs/ECS.h"
+#include "MovementSystem.h"
+#include "../ECS.h"
 #include <mathf.h>
 
 extern ECS ecs;

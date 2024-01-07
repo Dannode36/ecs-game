@@ -9,8 +9,8 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Font.hpp>
-#include "ecs/ECS.h"
-#include "managers/AssetManager.h"
+#include "ECS/ECS.h"
+#include "assetManager/AssetManager.h"
 #include "Input.h"
 #include "ui/Button.h"
 #include "ui/FpsGraph.h"

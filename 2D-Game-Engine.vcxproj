@@ -146,47 +146,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\states\MainMenuState.cpp" />
     <ClCompile Include="src\interfaces\IState.cpp" />
     <ClCompile Include="src\ui\FpsGraph.cpp" />
     <ClCompile Include="src\ui\Button.cpp" />
-    <ClCompile Include="src\ecs\Systems\MovementSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\MovementSystem.cpp" />
     <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\managers\AssetManager.cpp" />
+    <ClCompile Include="src\assetManager\AssetManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\ecs\Systems\PhysicsSystem.cpp" />
-    <ClCompile Include="src\ecs\Systems\RenderSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="src\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\util\AssetCache.h" />
-    <ClInclude Include="include\managers\AssetManager.h" />
     <ClInclude Include="include\types.h" />
-    <ClInclude Include="include\states\MainMenuState.h" />
-    <ClInclude Include="include\ecs\Components\NPC.h" />
+    <ClInclude Include="src\ECS\Components\NPC.h" />
     <ClInclude Include="include\interfaces\IState.h" />
-    <ClInclude Include="include\ui\FpsGraph.h" />
-    <ClInclude Include="include\ui\Button.h" />
-    <ClInclude Include="include\ecs\Components\Collider.h" />
-    <ClInclude Include="include\ecs\Systems\MovementSystem.h" />
-    <ClInclude Include="include\ecs\Components\MovementController.h" />
-    <ClInclude Include="include\Input.h" />
+    <ClInclude Include="src\ui\FpsGraph.h" />
+    <ClInclude Include="src\ui\Button.h" />
+    <ClInclude Include="src\ECS\Components\Collider.h" />
+    <ClInclude Include="src\ECS\Systems\MovementSystem.h" />
+    <ClInclude Include="src\ECS\Components\MovementController.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\assetManager\AssetCache.h" />
+    <ClInclude Include="src\assetManager\AssetManager.h" />
     <ClInclude Include="include\rapidxml.hpp" />
-    <ClInclude Include="include\Application.h" />
-    <ClInclude Include="include\ecs\Components\Character.h" />
-    <ClInclude Include="include\ecs\Components\GameObject.h" />
-    <ClInclude Include="include\ecs\ComponentArray.h" />
-    <ClInclude Include="include\ecs\ComponentManager.h" />
-    <ClInclude Include="include\ecs\Components.h" />
-    <ClInclude Include="include\ecs\CONSTANTS.h" />
-    <ClInclude Include="include\ecs\ECS.h" />
-    <ClInclude Include="include\ecs\EntityManager.h" />
-    <ClInclude Include="include\ecs\ecsmathf.h" />
-    <ClInclude Include="include\ecs\Systems\PhysicsSystem.h" />
-    <ClInclude Include="include\ecs\Systems\RenderSystem.h" />
-    <ClInclude Include="include\ecs\Systems\System.h" />
-    <ClInclude Include="include\ecs\SystemManager.h" />
-    <ClInclude Include="include\ecs\Types.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\ECS\Components\Character.h" />
+    <ClInclude Include="src\ECS\Components\GameObject.h" />
+    <ClInclude Include="src\ECS\ComponentArray.h" />
+    <ClInclude Include="src\ECS\ComponentManager.h" />
+    <ClInclude Include="src\ECS\Components.h" />
+    <ClInclude Include="src\ECS\CONSTANTS.h" />
+    <ClInclude Include="src\ECS\ECS.h" />
+    <ClInclude Include="src\ECS\EntityManager.h" />
+    <ClInclude Include="src\ECS\ecsmathf.h" />
+    <ClInclude Include="src\ECS\Systems\PhysicsSystem.h" />
+    <ClInclude Include="src\ECS\Systems\RenderSystem.h" />
+    <ClInclude Include="src\ECS\Systems\System.h" />
+    <ClInclude Include="src\ECS\SystemManager.h" />
+    <ClInclude Include="src\ECS\Types.h" />
     <ClInclude Include="include\mathf.h" />
     <ClInclude Include="include\util\Event.h" />
   </ItemGroup>

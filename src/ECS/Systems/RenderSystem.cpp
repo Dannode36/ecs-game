@@ -1,6 +1,6 @@
 #include <iostream>
-#include "ecs/systems/RenderSystem.h"
-#include "ecs/ECS.h"
+#include "RenderSystem.h"
+#include "../ECS.h"
 
 extern ECS ecs;
 
