@@ -46,26 +46,26 @@ void Application::Update() {
     Input::Refresh();
 
     // Main window event processing
-    sf::Event checkEvent;
-    while (window.pollEvent(checkEvent)) {
-        ImGui::SFML::ProcessEvent(window, checkEvent);
+    sf::Event event;
+    while (window.pollEvent(event)) {
+        ImGui::SFML::ProcessEvent(window, event);
 
-        activeState->HandleEvent(checkEvent); //Allow active state to process the event
+        activeState->HandleEvent(event); //Allow active state to process the event
 
-        if (checkEvent.type == sf::Event::Closed) {
+        if (event.type == sf::Event::Closed) {
             window.close();
             ImGui::SFML::Shutdown(); // will shutdown all windows
             Stop(StatusAppOK);
             return;
         }
-        if (checkEvent.type == sf::Event::KeyPressed || checkEvent.type == sf::Event::KeyReleased) {
-            Input::UpdateKeyState(checkEvent);
+        if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
+            Input::UpdateKeyState(event);
         }
-        if (checkEvent.type == sf::Event::MouseButtonPressed || checkEvent.type == sf::Event::MouseButtonReleased) {
-            Input::UpdateMouseState(checkEvent);
+        if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased) {
+            Input::UpdateMouseState(event);
         }
-        if (checkEvent.type == sf::Event::KeyPressed) {
-            if (checkEvent.key.code == sf::Keyboard::D && checkEvent.key.control && checkEvent.key.alt) {
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::D && event.key.control && event.key.alt) {
                 showImGuiDemoWindow = !showImGuiDemoWindow;
             }
         }

@@ -19,7 +19,7 @@ void MainMenuState::Load() {
     texture = app.assetManager.Load<sf::Texture>("assets/button_normal.png");
 
     button = Button(texture, texture, texture, sf::Vector2f(300, 300));
-    button.checkEvent.addListener(
+    button.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Game");
@@ -49,7 +49,7 @@ void MainMenuState::Reload() {
     app.window.setView(view);
 }
 
-void MainMenuState::HandleEvent(sf::Event& checkEvent) {
+void MainMenuState::HandleEvent(sf::Event& event) {
 
 }
 

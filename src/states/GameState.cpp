@@ -78,14 +78,14 @@ void GameState::Load() {
     buttonPressed = app.assetManager.Load<sf::Texture>("assets/button_pressed.png");
 
     button = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(300, 300));
-    button.checkEvent.addListener(
+    button.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Main Menu");
         });
 
     button2 = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(200, 300));
-    button2.checkEvent.addListener(
+    button2.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Unload Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.DropActiveState();
@@ -122,7 +122,7 @@ void GameState::Resume() {
     }
 }
 
-void GameState::HandleEvent(sf::Event& checkEvent) {
+void GameState::HandleEvent(sf::Event& event) {
 
 }
 

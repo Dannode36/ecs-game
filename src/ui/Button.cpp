@@ -60,7 +60,7 @@ void Button::setState(ButtonState newState) {
         }
         else if (newState == Buton_Pressed) {
             currentSprite = &clicked;
-            checkEvent.fire(*this);
+            event.fire(*this);
         }
         state = newState;
     }

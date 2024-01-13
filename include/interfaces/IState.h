@@ -61,7 +61,7 @@ public:
         State when it is the active State.
         @param[in] event to process from the App class Loop method
     */
-    virtual void HandleEvent(sf::Event& checkEvent) = 0;
+    virtual void HandleEvent(sf::Event& event) = 0;
 
     /*
         \brief Update is responsible for handling all State fixed update needs for

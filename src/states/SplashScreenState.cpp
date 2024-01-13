@@ -14,7 +14,7 @@ void SplashScreenState::Reload() {
 
 }
 
-void SplashScreenState::HandleEvent(sf::Event& checkEvent) {
+void SplashScreenState::HandleEvent(sf::Event& event) {
 
 }
 
