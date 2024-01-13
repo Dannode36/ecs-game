@@ -19,7 +19,7 @@ void MainMenuState::Load() {
     texture = app.assetManager.Load<sf::Texture>("assets/button_normal.png");
 
     button = Button(texture, texture, texture, sf::Vector2f(300, 300));
-    button.event.addListener(
+    button.checkEvent.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Game");
@@ -30,9 +30,18 @@ void MainMenuState::Load() {
     checkboxCheck = app.assetManager.Load<sf::Texture>("assets/checkbox_check.png");
 
     checkbox = Checkbox(checkboxNormal, checkboxHovered, checkboxCheck, sf::Vector2f(200, 300));
-    checkbox.event.addListener(
+    checkbox.checkEvent.addListener(
         [&](bool checked) {
             fmt::print("Checkbox was clicked and checked is now {}\n", checked);
+        });
+    checkbox.hoverEvent.addListener(
+        [&](bool hovered) {
+            if (hovered) {
+                fmt::print("Checkbox is hovered\n");
+            }
+            else {
+                fmt::print("Checkbox is no longer hovered\n");
+            }
         });
 }
 
@@ -40,7 +49,7 @@ void MainMenuState::Reload() {
     app.window.setView(view);
 }
 
-void MainMenuState::HandleEvent(sf::Event& event) {
+void MainMenuState::HandleEvent(sf::Event& checkEvent) {
 
 }
 

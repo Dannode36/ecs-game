@@ -192,6 +192,15 @@
     <Image Include="assets\button_hovered.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\checkbox_check.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\checkbox_hovered.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\checkbox_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\Stardew_Valley.ttf" />

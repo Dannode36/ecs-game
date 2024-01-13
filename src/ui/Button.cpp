@@ -7,7 +7,7 @@ Button::Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, 
     this->normal.setTexture(normal);
     this->normal.setPosition(position);
 
-    this->hovered.setTexture(normal);
+    this->hovered.setTexture(hovered);
     this->hovered.setPosition(position);
 
     this->clicked.setTexture(clicked);
@@ -21,7 +21,7 @@ Button::Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Ve
     this->normal.setTexture(*normal);
     this->normal.setPosition(position);
 
-    this->hovered.setTexture(*normal);
+    this->hovered.setTexture(*hovered);
     this->hovered.setPosition(position);
 
     this->clicked.setTexture(*clicked);
@@ -60,7 +60,7 @@ void Button::setState(ButtonState newState) {
         }
         else if (newState == Buton_Pressed) {
             currentSprite = &clicked;
-            event.fire(*this);
+            checkEvent.fire(*this);
         }
         state = newState;
     }

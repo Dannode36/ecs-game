@@ -24,7 +24,7 @@ public:
 	// Inherited via IState
 	void Load() override;
 	void Reload() override;
-	void HandleEvent(sf::Event& event) override;
+	void HandleEvent(sf::Event& checkEvent) override;
 	void Update(sf::Time dt) override;
 	void Draw(sf::RenderWindow& target) override;
 

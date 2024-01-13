@@ -12,11 +12,13 @@ private:
     sf::Sprite check;
     sf::Sprite* currentSprite;
 
-    bool checked;
-    bool hovered;
+
 
 public:
-    Event<bool> event;
+    bool checked;
+    bool hovered;
+    Event<bool> checkEvent;
+    Event<bool> hoverEvent;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -212,6 +212,9 @@
     <Image Include="assets\button_hovered.png" />
     <Image Include="assets\button_normal.png" />
     <Image Include="assets\button_pressed.png" />
+    <Image Include="assets\checkbox_check.png" />
+    <Image Include="assets\checkbox_hovered.png" />
+    <Image Include="assets\checkbox_normal.png" />
     <Image Include="assets\player.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>

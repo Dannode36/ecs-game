@@ -19,7 +19,7 @@ private:
     ButtonState state;
 
 public:
-    Event<Button> event;
+    Event<Button> checkEvent;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
