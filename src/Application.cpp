@@ -6,17 +6,21 @@
 
 StatusType Application::Start()
 {
-    fmt::print("Available Video Modes ->\n");
+    fmt::print("----Available Video Modes ->----\n");
     int i = 0;
     for (auto& videoMode : sf::VideoMode::getFullscreenModes()) {
         fmt::print("Video mode {0}: Width={1}, Height={2}, Bits per pixel={3}\n", i, videoMode.width, videoMode.height, videoMode.bitsPerPixel);
         i++;
     }
+    fmt::print("--------------------------------\n");
 
-    window.create(sf::VideoMode(1280, 800), "ImGui + SFML = <3");
+    window.create(sf::VideoMode(1280, 800), "ECS Game");
     //window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
+
+    uiView.setSize(sf::Vector2f(window.getSize()));
+
     ImGui::SFML::Init(window);
 
     stateManager.RegisterApp(this);
@@ -81,9 +85,9 @@ void Application::Update() {
     if (ImGui::Begin("Metrics")) {
         fpsGraph.Render("Framerate", 1.f / dt.asSeconds());
         ImGui::NewLine();
-        ftGraph.Render("Actual frame time (ms)", frameClock.getElapsedTime().asMilliseconds());
+        ftGraph.Render("Actual frame time (ms)", static_cast<float>(frameClock.getElapsedTime().asMilliseconds()));
         ImGui::NewLine();
-        wtGraph.Render("Total time waiting (ms)", dt.asMilliseconds() - frameClock.getElapsedTime().asMilliseconds());
+        wtGraph.Render("Total time waiting (ms)", static_cast<float>(dt.asMilliseconds() - frameClock.getElapsedTime().asMilliseconds()));
     }
     ImGui::End();
 

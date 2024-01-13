@@ -12,6 +12,7 @@ public:
 
 	bool running{ true };
 	sf::RenderWindow window;
+	sf::View uiView;
 
 	AssetManager assetManager{};
 	StateManager stateManager{};

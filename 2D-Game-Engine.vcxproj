@@ -146,6 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\GUI.cpp" />
+    <ClCompile Include="src\ui\Checkbox.cpp" />
     <ClCompile Include="src\states\SplashScreenState.cpp" />
     <ClCompile Include="src\states\GameState.cpp" />
     <ClCompile Include="src\managers\AssetManager.cpp" />
@@ -162,6 +164,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ui\GUI.h" />
+    <ClInclude Include="include\ui\Checkbox.h" />
     <ClInclude Include="include\interfaces\IApplication.h" />
     <ClInclude Include="include\states\GameState.h" />
     <ClInclude Include="include\states\SplashScreenState.h" />

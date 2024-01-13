@@ -137,25 +137,22 @@ void StateManager::DropActiveState() {
 
         m_Stack.pop_back();
         m_Stack.insert(m_Stack.begin(), activeState);
-    }
-    else {
-        m_App->Stop(StatusAppOK);
-        return;
+
+        // Is there another state to activate? then call Resume to activate it
+        if (!m_Stack.empty()) {
+            // Has this state ever been initialized?
+            if (m_Stack.back()->IsLoaded()) {
+                m_Stack.back()->Resume();
+            }
+            else {
+                m_Stack.back()->Load();
+            }
+            return; //New state loaded
+        }
     }
 
-    // Is there another state to activate? then call Resume to activate it
-    if(!m_Stack.empty()) {
-        // Has this state ever been initialized?
-        if(m_Stack.back()->IsLoaded()) {
-            m_Stack.back()->Resume();
-        }
-        else {
-            m_Stack.back()->Load();
-        }
-    }
-    else {
-        m_App->Stop(StatusAppOK);
-    }
+    //No State
+    m_App->Stop(StatusAppOK);
 }
 
 void StateManager::ResetActiveState() {

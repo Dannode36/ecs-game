@@ -77,18 +77,18 @@ void GameState::Load() {
     buttonHovered = app.assetManager.Load<sf::Texture>("assets/button_hovered.png");
     buttonPressed = app.assetManager.Load<sf::Texture>("assets/button_pressed.png");
 
-    button = Button(*buttonNormal, *buttonHovered, *buttonPressed, sf::Vector2f(300, 300));
+    button = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Main Menu");
         });
 
-    button2 = Button(*buttonNormal, *buttonHovered, *buttonPressed, sf::Vector2f(200, 300));
+    button2 = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(200, 300));
     button2.event.addListener(
         [&](Button& sender) {
-            fmt::print("Button({}) was pressed\n", fmt::ptr(&sender));
-            app.Stop(StatusAppOK);
+            fmt::print("Button(Unload Scene, {}) was pressed\n", fmt::ptr(&sender));
+            app.stateManager.DropActiveState();
         });
 
     wind = app.assetManager.Load<sf::Music>("assets/wind.ogg");
@@ -102,7 +102,7 @@ void GameState::Load() {
 }
 
 void GameState::Reload() {
-    view.reset(sf::FloatRect(0, 0, 640, 360));
+    //view.reset(sf::FloatRect(0, 0, 640, 360));
     app.window.setView(view);
     wind->stop();
     wind->play();
@@ -135,8 +135,7 @@ void GameState::Update(sf::Time dt) {
             if (fadingIn) {
                 fade.setFillColor(sf::Color(0, 0, 0, lerp(startAlpha, endAlpha, currentTime / (float)targetTime)));
             }
-            else
-            {
+            else {
                 fade.setFillColor(sf::Color(0, 0, 0, lerp(endAlpha, startAlpha, currentTime / (float)targetTime)));
             }
         }
@@ -150,8 +149,9 @@ void GameState::Update(sf::Time dt) {
     physicsSystem->Update(dt.asSeconds());
     movementSystem->Update(dt);
 
-    button.update(app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window)));
-    button2.update(app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window)));
+    auto mouseGlobalPos = app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window));
+    button.update(mouseGlobalPos);
+    button2.update(mouseGlobalPos);
 }
 
 void GameState::Draw(sf::RenderWindow& window) {
@@ -165,9 +165,11 @@ void GameState::Draw(sf::RenderWindow& window) {
 
     //Draw Game
     window.clear(sf::Color::Black);
+    //window.setView(window.getDefaultView());
     renderSystem->DrawEntities(window);
 
     //Draw Game UI
+    //window.setView(app.uiView);
     window.draw(button);
     window.draw(button2);
 }

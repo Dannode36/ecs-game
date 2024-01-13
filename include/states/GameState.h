@@ -37,7 +37,6 @@ private:
     int targetTime = 2500;
     int currentTime = 0;
 
-
     //Assets
     MusicPtr wind;
     TexturePtr playerTexture;
