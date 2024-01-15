@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\GuiElement.cpp" />
     <ClCompile Include="src\ui\GUI.cpp" />
     <ClCompile Include="src\ui\Checkbox.cpp" />
     <ClCompile Include="src\states\SplashScreenState.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ui\GuiElement.h" />
     <ClInclude Include="include\ui\GUI.h" />
     <ClInclude Include="include\ui\Checkbox.h" />
     <ClInclude Include="include\interfaces\IApplication.h" />

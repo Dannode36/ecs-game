@@ -1,24 +1,20 @@
 #pragma once
-
-#pragma once
 #include "SFML/Graphics.hpp"
 #include "util/Event.h"
 #include "types.h"
+#include "GuiElement.h"
 
-class Checkbox : public sf::Drawable {
+class Checkbox : public IGuiElement, public sf::Drawable {
 private:
     sf::Sprite normal;
     sf::Sprite hover;
     sf::Sprite check;
     sf::Sprite* currentSprite;
 
-
-
 public:
     bool checked;
     bool hovered;
     Event<bool> checkEvent;
-    Event<bool> hoverEvent;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -31,4 +27,7 @@ public:
     void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
     void setState(bool checked, bool hovered);
     sf::Sprite* getCurrentSprite();
+
+    // Inherited via IGuiElement
+    void handleEvent(sf::Event& event) override;
 };

@@ -68,6 +68,9 @@ void Checkbox::setState(bool checked, bool hovered) {
 sf::Sprite* Checkbox::getCurrentSprite() {
     return currentSprite;
 }
+void Checkbox::handleEvent(sf::Event& event)
+{
+}
 void Checkbox::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(*currentSprite);
     if (checked) {
