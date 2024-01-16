@@ -15,7 +15,7 @@ private:
     sf::Sprite normal;
     sf::Sprite hovered;
     sf::Sprite clicked;
-    sf::Sprite* currentSprite;
+    sf::Sprite& currentSprite;
     ButtonState state;
 
 public:
@@ -25,10 +25,10 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
-    Button() = default;
-    Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, sf::Vector2f position);
+    Button();
     Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
+    void create(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
     void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
     void setState(ButtonState clicked);
     ButtonState getState() const;

@@ -23,9 +23,9 @@ StatusType Application::Start()
 
     ImGui::SFML::Init(window);
 
-    stateManager.RegisterApp(this);
-    stateManager.AddInactiveState(new GameState("Game", *this));
-    stateManager.AddActiveState(new MainMenuState("Main Menu", *this));
+    stateManager.RegisterApp(*this);
+    stateManager.AddInactiveState(std::shared_ptr<IState>(new GameState("Game", *this)));
+    stateManager.AddActiveState(std::shared_ptr<IState>(new MainMenuState("Main Menu", *this)));
     //stateManager.AddActiveState(new GameState("Game", *this));
 
     while (running && !stateManager.IsEmpty()) {
@@ -41,7 +41,7 @@ void Application::Stop(StatusType status)
 }
 
 void Application::Update() {
-    IState* activeState = stateManager.GetActiveState();
+    auto activeState = stateManager.GetActiveState();
 
     Input::Refresh();
 
@@ -91,11 +91,15 @@ void Application::Update() {
     }
     ImGui::End();
 
+
     //Draw State
     activeState->Draw(window);
 
     //Render
     ImGui::SFML::Render(window);
     window.display();
+
+    //Cleanup
+    stateManager.Cleanup();
     frameClock.restart();
 }

@@ -12,7 +12,11 @@ GameState::~GameState(){
 }
 
 void GameState::Dispose() {
-
+    wind.reset();
+    playerTexture.reset();
+    buttonNormal.reset();
+    buttonHovered.reset();
+    buttonPressed.reset();
 }
 
 void GameState::InitECS()
@@ -77,14 +81,14 @@ void GameState::Load() {
     buttonHovered = app.assetManager.Load<sf::Texture>("assets/button_hovered.png");
     buttonPressed = app.assetManager.Load<sf::Texture>("assets/button_pressed.png");
 
-    button = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(300, 300));
+    button.create(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Main Menu");
         });
 
-    button2 = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(200, 300));
+    button2.create(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(200, 300));
     button2.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Unload Scene, {}) was pressed\n", fmt::ptr(&sender));

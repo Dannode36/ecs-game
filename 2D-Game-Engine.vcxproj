@@ -209,6 +209,7 @@
     </None>
     <None Include="vcpkg-configuration.json" />
     <None Include="vcpkg.json" />
+    <None Include="vcpkg_installed\x64-windows\x64-windows\debug\bin\fmtd.dll" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\button_hovered.png" />

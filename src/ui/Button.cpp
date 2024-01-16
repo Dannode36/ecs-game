@@ -3,21 +3,16 @@
 #include <fmt/format.h>
 #include <types.h>
 
-Button::Button(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, sf::Vector2f position) : normal(), hovered(), clicked(), state(Button_Normal) {
-    this->normal.setTexture(normal);
-    this->normal.setPosition(position);
-
-    this->hovered.setTexture(hovered);
-    this->hovered.setPosition(position);
-
-    this->clicked.setTexture(clicked);
-    this->clicked.setPosition(position);
-    currentSprite = nullptr;
-}
+Button::Button() : normal(), hovered(), clicked(), state(Button_Normal), currentSprite(this->normal)
+{ }
 
 Button::Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position)
-    : normal(), hovered(), clicked(), state(Button_Normal)
+    : normal(), hovered(), clicked(), state(Button_Normal), currentSprite(this->normal)
 {
+    create(normal, hovered, clicked, position);
+}
+
+void Button::create(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position) {
     this->normal.setTexture(*normal);
     this->normal.setPosition(position);
 
@@ -26,15 +21,12 @@ Button::Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Ve
 
     this->clicked.setTexture(*clicked);
     this->clicked.setPosition(position);
-    currentSprite = nullptr;
+
+    currentSprite = this->normal;
 }
 
 void Button::update(sf::Vector2f mousePos) {
-    if (currentSprite == nullptr) {
-        currentSprite = &normal;
-    }
-
-    if (currentSprite->getGlobalBounds().contains(mousePos)) {
+    if (currentSprite.getGlobalBounds().contains(mousePos)) {
         if (state == Buton_Pressed && Input::GetMouseButton(MouseButton::Left)) {
             return; //Do nuthin
         }
@@ -53,14 +45,17 @@ void Button::update(sf::Vector2f mousePos) {
 void Button::setState(ButtonState newState) {
     if (state != newState) {
         if (newState == Button_Normal) {
-            currentSprite = &normal;
+            currentSprite = normal;
         }
         else if (newState == Button_Hovered) {
-            currentSprite = &hovered;
+            currentSprite = hovered;
         }
         else if (newState == Buton_Pressed) {
-            currentSprite = &clicked;
+            currentSprite = clicked;
             event.fire(*this);
+        }
+        else {
+            throw std::exception("fuck... button state is what?");
         }
         state = newState;
     }
@@ -69,8 +64,8 @@ ButtonState Button::getState() const {
     return state;
 }
 sf::Sprite* Button::getCurrentSprite() {
-    return currentSprite;
+    return &currentSprite;
 }
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(*currentSprite);
+    target.draw(currentSprite);
 }

@@ -34,4 +34,14 @@ public:
 			return asset;
 		}
 	}
+
+	size_t validAssetCount() {
+		size_t i = 0;
+		for (auto& asset : cache) {
+			if (!asset.second.expired()) {
+				i++;
+			}
+		}
+		return i;
+	}
 };

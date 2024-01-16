@@ -15,46 +15,30 @@ StateManager::~StateManager() {
     while(!m_Stack.empty())
     {
         // Retrieve the currently active state and unload then delete it
-        IState* state = m_Stack.back();
-        m_Stack.pop_back();
+        auto& state = m_Stack.back();
 
         state->Pause();
         state->Unload();
         state->Cleanup();
-        delete state;
-    }
 
-    if (!m_Dead.empty()) {
-        IState* anState = m_Dead.back();
-        assert(NULL != anState && "StateManager::Dispose() invalid dropped state pointer");
-
-        // Pop the dead state off the stack
-        m_Dead.pop_back();
-
-        anState->Unload();
-        anState->Cleanup();
-        delete anState;
+        m_Stack.pop_back();
+        //State destructor called
     }
 }
 
-void StateManager::RegisterApp(IApplication* app) {
-    // Check that our pointer is good
-    assert(NULL != app && "StateManager::RegisterApp() app pointer provided is bad");
+void StateManager::RegisterApp(IApplication& app) {
     assert(NULL == m_App && "StateManager::RegisterApp() app pointer was already registered");
 
-    m_App = app;
+    m_App = std::shared_ptr<IApplication>(&app);
 }
 
 bool StateManager::IsEmpty() {
     return m_Stack.empty();
 }
 
-void StateManager::AddActiveState(IState* theState) {
-    // Check that they didn't provide a bad pointer
-    assert(NULL != theState && "StateManager::AddActiveState() received a bad pointer");
-
+void StateManager::AddActiveState(std::shared_ptr<IState> state) {
     // Log the adding of each state
-    std::cout << "StateManager::AddActiveState(" << theState->GetID() << ")\n";
+    std::cout << "StateManager::AddActiveState(" << state->GetID() << ")\n";
 
     // Is there a state currently running? then Pause it
     if(!m_Stack.empty()) {
@@ -64,24 +48,21 @@ void StateManager::AddActiveState(IState* theState) {
     }
 
     // Add the active state
-    m_Stack.push_back(theState);
+    m_Stack.push_back(state);
 
     // Initialize the new active state
-    m_Stack.back()->Load();
+    state->Load();
 }
 
-void StateManager::AddInactiveState(IState* theState) {
-    // Check that they didn't provide a bad pointer
-    assert(NULL != theState && "StateManager::AddInactiveState() received a bad pointer");
-
+void StateManager::AddInactiveState(std::shared_ptr<IState> state) {
     // Log the adding of each state
-    std::cout << "StateManager::AddInactiveState(" << theState->GetID() << ")\n";
+    std::cout << "StateManager::AddInactiveState(" << state->GetID() << ")\n";
 
     // Add the inactive state to the bottom of the stack
-    m_Stack.insert(m_Stack.begin(), theState);
+    m_Stack.insert(m_Stack.begin(), state);
 }
 
-IState* StateManager::GetActiveState() {
+std::shared_ptr<IState> StateManager::GetActiveState() {
     return m_Stack.back();
 }
 
@@ -89,7 +70,7 @@ void StateManager::InactivateActiveState() {
 
     if(!m_Stack.empty()) {
         // Retrieve the currently active state
-        IState* activeState = m_Stack.back();
+        auto& activeState = m_Stack.back();
 
         // Log the inactivating an active state
         std::cout << "StateManager::InactivateActiveState(" << activeState->GetID() << ")" << std::endl;
@@ -109,8 +90,7 @@ void StateManager::InactivateActiveState() {
     }
 
     // Is there another state to activate? then call Resume to activate it
-    if(!m_Stack.empty())
-    {
+    if(!m_Stack.empty()) {
         // Has this state ever been initialized?
         if(m_Stack.back()->IsLoaded()) {
             // Resume the new active state
@@ -129,7 +109,7 @@ void StateManager::InactivateActiveState() {
 void StateManager::DropActiveState() {
     // Is there no currently active state to drop?
     if(!m_Stack.empty()) {
-        IState* activeState = m_Stack.back();
+        auto& activeState = m_Stack.back();
         std::cout << "StateManager::DropActiveState(" << activeState->GetID() << ")\n";
 
         activeState->Pause();
@@ -159,7 +139,7 @@ void StateManager::ResetActiveState() {
     // Is there no currently active state to reset?
     if(!m_Stack.empty()) {
         // Retrieve the currently active state
-        IState* anState = m_Stack.back();
+        auto& anState = m_Stack.back();
 
         // Log the resetting of an active state
         std::cout << "StateManager::ResetActiveState(" << anState->GetID() << ")\n";
@@ -184,7 +164,7 @@ void StateManager::ResetActiveState() {
 void StateManager::RemoveActiveState() {
     if(!m_Stack.empty()) {
         // Retrieve the currently active state
-        IState* anState = m_Stack.back();
+        auto& anState = m_Stack.back();
 
         // Log the removing of an active state
         std::cout << "StateManager::RemoveActiveState(" << anState->GetID() << ")\n";
@@ -197,9 +177,6 @@ void StateManager::RemoveActiveState() {
 
         // Pop the currently active state off the stack
         m_Stack.pop_back();
-
-        // Move this state to our dropped stack
-        m_Dead.push_back(anState);
     }
 
     // Is there another state to activate? then call Resume to activate it
@@ -219,15 +196,21 @@ void StateManager::RemoveActiveState() {
     }
 }
 
+void StateManager::Cleanup() {
+    for (auto& state : m_Stack) {
+        state->Cleanup(); //TODO: optimize this crap
+    }
+}
+
 void StateManager::SetActiveState(std::string stateID)
 {
     auto it = std::find_if(m_Stack.begin(), m_Stack.end(),
-        [&](const IState* state) -> bool {
+        [&](const auto& state) -> bool {
             return state->GetID() == stateID;
         });
 
     if (it != m_Stack.end()) {
-        IState* state = *it;
+        auto state = *it;
         std::cout << "StateManager::SetActiveState(" << state->GetID() << ")\n";
 
         m_Stack.erase(it);
@@ -238,7 +221,7 @@ void StateManager::SetActiveState(std::string stateID)
 
         m_Stack.push_back(state);
 
-        // Has this state ever been loaded?
+        // Has the new state ever been loaded?
         if (m_Stack.back()->IsLoaded()) {
             m_Stack.back()->Resume();
         }
@@ -246,23 +229,7 @@ void StateManager::SetActiveState(std::string stateID)
             m_Stack.back()->Load();
         }
     }
-}
-
-void StateManager::Cleanup() {
-    if(!m_Dead.empty()) {
-        IState* anState = m_Dead.back();
-        assert(NULL != anState && "StateManager::Dispose() invalid dropped state pointer");
-
-        // Pop the dead state off the stack
-        m_Dead.pop_back();
-
-        anState->Unload();
-        anState->Cleanup();
-        delete anState;
-    }
-
-    // Make sure we still have an active state
-    if(NULL == m_Stack.back()) {
-        m_App->Stop(StatusAppOK);
+    else {
+        std::cout << "StateManager: The state \"" << stateID << "\" could not be found\n";
     }
 }

@@ -8,10 +8,9 @@ class StateManager
 {
 private:
     /// Pointer to the App class for error handling and logging
-    IApplication* m_App;
+    std::shared_ptr<IApplication> m_App;
     /// Stack to store the current and previously active states
-    std::vector<IState*>  m_Stack;
-    std::vector<IState*>  m_Dead;
+    std::vector<std::shared_ptr<IState>>  m_Stack;
 
 private:
     // StateManager copy constructor is undefined/private because we do not allow copies of our class 
@@ -23,16 +22,19 @@ public:
     StateManager();
     virtual ~StateManager();
 
-    void RegisterApp(IApplication* theApp);
+    void RegisterApp(IApplication& theApp);
     bool IsEmpty();
 
-    void AddActiveState(IState* theState);
-    void AddInactiveState(IState* theState);
-    IState* GetActiveState();
+    std::shared_ptr<IState> GetActiveState();
+    void AddActiveState(std::shared_ptr<IState> state);
+    void AddInactiveState(std::shared_ptr<IState> state);
+
+    void SetActiveState(std::string theStateID);
     void InactivateActiveState();
     void DropActiveState();
     void ResetActiveState();
     void RemoveActiveState();
-    void SetActiveState(std::string theStateID);
+
+    //Cleans up unloaded states after gameloop completes
     void Cleanup();
 };
