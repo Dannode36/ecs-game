@@ -3,18 +3,15 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <ui/Button.h>
 #include <ui/Checkbox.h>
+#include <ui/GUI.h>
 
 class MainMenuState : public IState
 {
 private:
 	sf::View view;
 
-	TexturePtr texture;
+	GUI gui;
 	Button button{};
-
-	TexturePtr checkboxNormal;
-	TexturePtr checkboxHovered;
-	TexturePtr checkboxCheck;
 	Checkbox checkbox{};
 
 public:

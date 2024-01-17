@@ -122,6 +122,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
     <ClCompile Include="src\ui\GuiElement.cpp" />
     <ClCompile Include="src\ui\GUI.cpp" />
     <ClCompile Include="src\ui\Checkbox.cpp" />
@@ -155,7 +157,7 @@
     <ClCompile Include="src\managers\StateManager.cpp" />
     <ClCompile Include="src\states\MainMenuState.cpp" />
     <ClCompile Include="src\interfaces\IState.cpp" />
-    <ClCompile Include="src\ui\FpsGraph.cpp" />
+    <ClCompile Include="src\ui\MetricGraph.cpp" />
     <ClCompile Include="src\ui\Button.cpp" />
     <ClCompile Include="src\ECS\Systems\MovementSystem.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -165,6 +167,9 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ecs\systems\EnemySystem.h" />
+    <ClInclude Include="include\ecs\components\Enemy.h" />
+    <ClInclude Include="include\ecs\components\Projectile.h" />
     <ClInclude Include="include\ui\GuiElement.h" />
     <ClInclude Include="include\ui\GUI.h" />
     <ClInclude Include="include\ui\Checkbox.h" />
@@ -175,7 +180,7 @@
     <ClInclude Include="include\states\MainMenuState.h" />
     <ClInclude Include="include\ecs\components\NPC.h" />
     <ClInclude Include="include\interfaces\IState.h" />
-    <ClInclude Include="include\ui\FpsGraph.h" />
+    <ClInclude Include="include\ui\imgui\MetricGraph.h" />
     <ClInclude Include="include\ui\Button.h" />
     <ClInclude Include="include\ecs\components\Collider.h" />
     <ClInclude Include="include\ecs\systems\MovementSystem.h" />

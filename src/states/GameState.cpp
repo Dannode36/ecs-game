@@ -14,9 +14,6 @@ GameState::~GameState(){
 void GameState::Dispose() {
     wind.reset();
     playerTexture.reset();
-    buttonNormal.reset();
-    buttonHovered.reset();
-    buttonPressed.reset();
 }
 
 void GameState::InitECS()
@@ -26,6 +23,8 @@ void GameState::InitECS()
     ecs.RegisterComponent<Collider>();
     ecs.RegisterComponent<Character>();
     ecs.RegisterComponent<MovementController>();
+    ecs.RegisterComponent<Enemy>();
+    ecs.RegisterComponent<Projectile>();
 
     renderSystem = ecs.RegisterSystem<RenderSystem>();
     Signature renderSignature;
@@ -43,6 +42,12 @@ void GameState::InitECS()
     movementSignature.set(ecs.GetComponentType<MovementController>());
     ecs.SetSystemSignature<MovementSystem>(movementSignature);
 
+    enemySystem = ecs.RegisterSystem<EnemySystem>();
+    Signature enemySignature;
+    enemySignature.set(ecs.GetComponentType<GameObject>());
+    enemySignature.set(ecs.GetComponentType<Enemy>());
+    ecs.SetSystemSignature<EnemySystem>(enemySignature);
+
     entities = std::vector<Entity>(MAX_ENTITIES);
 }
 
@@ -53,10 +58,11 @@ void GameState::Load() {
     app.window.setView(view);
 
     InitECS();
+    playerTexture = app.assetManager.Load<sf::Texture>("assets/player.png");
+    enemySystem->Init(playerTexture);
 
     entities[0] = ecs.CreateEntity();
     GameObject player;
-    playerTexture = app.assetManager.Load<sf::Texture>("assets/player.png");
     player.sprite.setTexture(*playerTexture);
     player.sprite.setColor(sf::Color(100, 255, 100));
     ecs.AddComponent(entities[0], player);
@@ -70,6 +76,8 @@ void GameState::Load() {
     ecs.AddComponent(entities[1], enemy);
     ecs.AddComponent(entities[1], Collider{ sf::Vector2f(), 40.0f });
 
+    enemySystem->Init(playerTexture);
+
     /*auto soundBuffer = assetMgr.Load<sf::SoundBuffer>("assets/wind.ogg");
     sf::Sound wind(*soundBuffer);
     wind.setLoop(true);
@@ -77,18 +85,18 @@ void GameState::Load() {
     wind.setVolume(36);
     wind.play();*/
 
-    buttonNormal = app.assetManager.Load<sf::Texture>("assets/button_normal.png");
-    buttonHovered = app.assetManager.Load<sf::Texture>("assets/button_hovered.png");
-    buttonPressed = app.assetManager.Load<sf::Texture>("assets/button_pressed.png");
+    TexturePtr buttonNormal = app.assetManager.Load<sf::Texture>("assets/button_normal.png");
+    TexturePtr buttonHovered = app.assetManager.Load<sf::Texture>("assets/button_hovered.png");
+    TexturePtr buttonPressed = app.assetManager.Load<sf::Texture>("assets/button_pressed.png");
 
-    button.create(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(300, 300));
+    button = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Main Menu");
         });
 
-    button2.create(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(200, 300));
+    button2 = Button(buttonNormal, buttonHovered, buttonPressed, sf::Vector2f(200, 300));
     button2.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Unload Scene, {}) was pressed\n", fmt::ptr(&sender));
@@ -152,6 +160,7 @@ void GameState::Update(sf::Time dt) {
 
     physicsSystem->Update(dt.asSeconds());
     movementSystem->Update(dt);
+    enemySystem->Update(dt, entities[0]);
 
     auto mouseGlobalPos = app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window));
     button.update(mouseGlobalPos);

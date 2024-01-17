@@ -18,6 +18,10 @@ public:
         }
     }
 
+    inline void clear() {
+        m_EventHandlers.clear();
+    }
+
     inline virtual void fire(Ps&... args) {
         for (auto& handler : m_EventHandlers)
         {

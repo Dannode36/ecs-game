@@ -4,12 +4,13 @@
 #include "types.h"
 #include "GuiElement.h"
 
-class Checkbox : public IGuiElement, public sf::Drawable {
+class Checkbox : public IGuiElement {
 private:
-    sf::Sprite normal;
-    sf::Sprite hover;
-    sf::Sprite check;
-    sf::Sprite* currentSprite;
+    TexturePtr normal;
+    TexturePtr hover;
+    TexturePtr checkmark;
+    sf::Sprite sprite;
+    sf::Sprite checkmarkSprite;
 
 public:
     bool checked;
@@ -21,12 +22,10 @@ private:
 
 public:
     Checkbox() = default;
-    Checkbox(sf::Texture& normal, sf::Texture& hovered, sf::Texture& clicked, sf::Vector2f position);
     Checkbox(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
     void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
     void setState(bool checked, bool hovered);
-    sf::Sprite* getCurrentSprite();
 
     // Inherited via IGuiElement
     void handleEvent(sf::Event& event) override;

@@ -9,9 +9,10 @@
 
 #include "interfaces/IState.h"
 #include <managers/AssetManager.h>
-#include <ui/FpsGraph.h>
+#include <ui/imgui/MetricGraph.h>
 #include <ui/Button.h>
 #include <ecs/ECS.h>
+#include <ecs/systems/EnemySystem.h>
 
 class GameState : public IState
 {
@@ -20,10 +21,12 @@ private:
     sf::View view;
 
     //ECS
+    Entity player;
     std::vector<Entity> entities;
     std::shared_ptr<PhysicsSystem> physicsSystem;
     std::shared_ptr<RenderSystem> renderSystem;
     std::shared_ptr<MovementSystem> movementSystem;
+    std::shared_ptr<EnemySystem> enemySystem;
 
     //UI
     Button button;
@@ -40,10 +43,6 @@ private:
     //Assets
     MusicPtr wind;
     TexturePtr playerTexture;
-    TexturePtr buttonNormal;
-    TexturePtr buttonHovered;
-    TexturePtr buttonPressed;
-
 public:
     GameState(const std::string stateID, IApplication& app);
     ~GameState();

@@ -3,39 +3,22 @@
 #include <fmt/format.h>
 #include <types.h>
 
-Checkbox::Checkbox(sf::Texture& normal, sf::Texture& hover, sf::Texture& check, sf::Vector2f position)
-    : normal(), hover(), check(), checked(), hovered() 
+Checkbox::Checkbox(TexturePtr normal, TexturePtr hover, TexturePtr checkmark, sf::Vector2f position)
+    : checked(false), hovered(false)
 {
-    this->normal.setTexture(normal);
-    this->normal.setPosition(position);
+    this->normal = normal;
+    this->hover = hover;
+    this->checkmark = checkmark;
 
-    this->hover.setTexture(hover);
-    this->hover.setPosition(position);
-
-    this->check.setTexture(check);
-    this->check.setPosition(position);
-    currentSprite = nullptr;
-}
-Checkbox::Checkbox(TexturePtr normal, TexturePtr hover, TexturePtr check, sf::Vector2f position)
-    : normal(), hover(), check(), checked(), hovered()
-{
-    this->normal.setTexture(*normal);
-    this->normal.setPosition(position);
-
-    this->hover.setTexture(*hover);
-    this->hover.setPosition(position);
-
-    this->check.setTexture(*check);
-    this->check.setPosition(position);
-    currentSprite = nullptr;
+    sprite.setTexture(*normal);
+    sprite.setPosition(position);
+    checkmarkSprite.setTexture(*checkmark);
+    checkmarkSprite.setPosition(position);
 }
 
 void Checkbox::update(sf::Vector2f mousePos) {
-    if (currentSprite == nullptr) {
-        currentSprite = &normal;
-    }
 
-    if (currentSprite->getGlobalBounds().contains(mousePos)) {
+    if (sprite.getGlobalBounds().contains(mousePos)) {
         if (Input::GetMouseButtonDown(MouseButton::Left)) {
             setState(!checked, true);
         }
@@ -49,10 +32,10 @@ void Checkbox::update(sf::Vector2f mousePos) {
 }
 void Checkbox::setState(bool checked, bool hovered) {
     if (hovered) {
-        currentSprite = &hover;
+        sprite.setTexture(*hover);
     }
     else {
-        currentSprite = &normal;
+        sprite.setTexture(*normal);
     }
 
     if (this->checked != checked) {
@@ -65,15 +48,12 @@ void Checkbox::setState(bool checked, bool hovered) {
     this->checked = checked;
     this->hovered = hovered;
 }
-sf::Sprite* Checkbox::getCurrentSprite() {
-    return currentSprite;
-}
-void Checkbox::handleEvent(sf::Event& event)
-{
+void Checkbox::handleEvent(sf::Event& event) {
+
 }
 void Checkbox::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(*currentSprite);
+    target.draw(sprite);
     if (checked) {
-        target.draw(check);
+        target.draw(checkmarkSprite);
     }
 }

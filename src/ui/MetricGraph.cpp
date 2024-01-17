@@ -1,4 +1,4 @@
-#include "ui/FpsGraph.h"
+#include "ui/imgui/MetricGraph.h"
 #include <imgui.h>
 
 void MetricGraph::Render(std::string label, float value)
@@ -25,7 +25,7 @@ void MetricGraph::Render(std::string label, float value)
 	}
 	avg = avg / (float)bufferSize;
 
-	ImGui::Text((label + ": %f").c_str(), value);
+	ImGui::Text((label + ": %f | max %f |").c_str(), value, max);
 	
 	float histogramMax = fmaxf(avg * 2.71, max);
 	ImGui::PlotHistogram(label.c_str(), &frames[0], (int)frames.size(), 0, NULL, graphMin, histogramMax, ImVec2(300, 100));

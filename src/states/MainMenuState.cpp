@@ -9,28 +9,27 @@ MainMenuState::~MainMenuState() {
 }
 
 void MainMenuState::Dispose() {
-    texture.reset();
-    checkboxNormal.reset();
-    checkboxHovered.reset();
-    checkboxCheck.reset();
+
 }
 
 void MainMenuState::Load() {
+    IState::Load();
+
     view.reset(sf::FloatRect(0, 0, 640, 360));
     app.window.setView(view);
 
-    texture = app.assetManager.Load<sf::Texture>("assets/button_normal.png");
+    TexturePtr texture = app.assetManager.Load<sf::Texture>("assets/button_normal.png");
 
-    button.create(texture, texture, texture, sf::Vector2f(300, 300));
+    button = Button(texture, texture, texture, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
             fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
             app.stateManager.SetActiveState("Game");
         });
 
-    checkboxNormal = app.assetManager.Load<sf::Texture>("assets/checkbox_normal.png");
-    checkboxHovered = app.assetManager.Load<sf::Texture>("assets/checkbox_hovered.png");
-    checkboxCheck = app.assetManager.Load<sf::Texture>("assets/checkbox_check.png");
+    TexturePtr checkboxNormal = app.assetManager.Load<sf::Texture>("assets/checkbox_normal.png");
+    TexturePtr checkboxHovered = app.assetManager.Load<sf::Texture>("assets/checkbox_hovered.png");
+    TexturePtr checkboxCheck = app.assetManager.Load<sf::Texture>("assets/checkbox_check.png");
 
     checkbox = Checkbox(checkboxNormal, checkboxHovered, checkboxCheck, sf::Vector2f(200, 300));
     checkbox.checkEvent.addListener(

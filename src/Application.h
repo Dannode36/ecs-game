@@ -8,7 +8,7 @@
 #include "SFML/Window/Event.hpp"
 
 #include "interfaces/IApplication.h"
-#include <ui/FpsGraph.h>
+#include <ui/imgui/MetricGraph.h>
 
 class Application : IApplication
 {

@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "util/Event.h"
+#include "ui/GuiElement.h"
 #include "types.h"
 
 enum ButtonState {
@@ -10,12 +11,12 @@ enum ButtonState {
     Buton_Pressed
 };
 
-class Button : public sf::Drawable {
+class Button : public IGuiElement {
 private:
-    sf::Sprite normal;
-    sf::Sprite hovered;
-    sf::Sprite clicked;
-    sf::Sprite& currentSprite;
+    TexturePtr normal;
+    TexturePtr hovered;
+    TexturePtr clicked;
+    sf::Sprite sprite;
     ButtonState state;
 
 public:
@@ -25,12 +26,14 @@ private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
-    Button();
+    Button() = default;
     Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
-    void create(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
     void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
     void setState(ButtonState clicked);
     ButtonState getState() const;
     sf::Sprite* getCurrentSprite();
+
+    // Inherited via IGuiElement
+    void handleEvent(sf::Event& event) override;
 };

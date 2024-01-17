@@ -36,7 +36,10 @@ private:
 public:
 	AssetManager() = default;
 
-	template<typename T> inline std::shared_ptr<T> Load(std::string assetPath) { throw std::exception("Not Implemented"); } //Generic. Throws exception
+	template<typename T> inline std::shared_ptr<T> Load(std::string assetPath) { 
+		throw std::exception("AssetManager cannot load type \"" + typeid(T).name() + "\"");
+	}
+
 	template<> inline SoundBufferPtr Load<sf::SoundBuffer>(std::string assetPath) {
 		return soundCache.Load(assetPath);
 	}
