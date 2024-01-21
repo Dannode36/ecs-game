@@ -50,6 +50,10 @@ void Input::UpdateMouseState(const sf::Event& mbEvent) {
         mouseButtonStates[mbEvent.mouseButton.button].pressed = false;
         mouseButtonStates[mbEvent.mouseButton.button].up = true;
     }
+
+    if (mbEvent.type == sf::Event::MouseMoved) {
+        mbEvent.mouseMove.
+    }
 }
 bool Input::GetMouseButton(MouseButton mouseButton) {
     return mouseButtonStates[mouseButton].pressed;
@@ -59,4 +63,9 @@ bool Input::GetMouseButtonUp(MouseButton mouseButton) {
 }
 bool Input::GetMouseButtonDown(MouseButton mouseButton) {
     return mouseButtonStates[mouseButton].down;
+}
+
+sf::Vector2f Input::GetMousePosition(sf::View view)
+{
+    return sf::Mouse::;
 }

@@ -15,21 +15,6 @@ Checkbox::Checkbox(TexturePtr normal, TexturePtr hover, TexturePtr checkmark, sf
     checkmarkSprite.setTexture(*checkmark);
     checkmarkSprite.setPosition(position);
 }
-
-void Checkbox::update(sf::Vector2f mousePos) {
-
-    if (sprite.getGlobalBounds().contains(mousePos)) {
-        if (Input::GetMouseButtonDown(MouseButton::Left)) {
-            setState(!checked, true);
-        }
-        else {
-            setState(checked, true);
-        }
-    }
-    else {
-        setState(checked, false);
-    }
-}
 void Checkbox::setState(bool checked, bool hovered) {
     if (hovered) {
         sprite.setTexture(*hover);
@@ -48,9 +33,25 @@ void Checkbox::setState(bool checked, bool hovered) {
     this->checked = checked;
     this->hovered = hovered;
 }
-void Checkbox::handleEvent(sf::Event& event) {
 
+void Checkbox::update(sf::Vector2f mousePos) {
+
+    if (sprite.getGlobalBounds().contains(mousePos)) {
+        if (Input::GetMouseButtonDown(MouseButton::Left)) {
+            setState(!checked, true);
+        }
+        else {
+            setState(checked, true);
+        }
+    }
+    else {
+        setState(checked, false);
+    }
 }
+void Checkbox::handleEvent(sf::Event& event) {
+    update();
+}
+
 void Checkbox::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite);
     if (checked) {

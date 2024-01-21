@@ -19,12 +19,12 @@ public:
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
 
 public:
     Checkbox() = default;
     Checkbox(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
-    void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
     void setState(bool checked, bool hovered);
 
     // Inherited via IGuiElement

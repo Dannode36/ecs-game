@@ -23,6 +23,14 @@ public:
 		elements.clear();
 	}
 
+	inline void handleWindowEvent(sf::Event& event) {
+		if (event.type > 3) { //Is a user input event (excludes window events)
+			for (auto& pair : elements) {
+				pair.second->handleEvent(event);
+			}
+		}
+	}
+
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 };

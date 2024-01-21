@@ -1,6 +1,7 @@
 #pragma once
 #include "managers/AssetManager.h"
 #include "managers/StateManager.h"
+#include <ui/GUI.h>
 
 enum StatusType;
 
@@ -12,7 +13,9 @@ public:
 
 	bool running{ true };
 	sf::RenderWindow window;
+
 	sf::View uiView;
+	GUI gui;
 
 	AssetManager assetManager{};
 	StateManager stateManager{};
