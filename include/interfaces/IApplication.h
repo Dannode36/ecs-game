@@ -17,6 +17,6 @@ public:
 	sf::View uiView;
 	GUI gui;
 
-	AssetManager assetManager{};
 	StateManager stateManager{};
+	AssetManager assetManager{};
 };

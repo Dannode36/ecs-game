@@ -58,7 +58,7 @@ void MainMenuState::HandleEvent(sf::Event& event) {
 void MainMenuState::Update(sf::Time dt) {
     sf::Vector2f mouseWorldPos = app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window));
     button.update(mouseWorldPos);
-    checkbox.update(mouseWorldPos);
+    //checkbox.update(mouseWorldPos);
 }
 
 void MainMenuState::Draw(sf::RenderWindow& window) {

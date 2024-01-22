@@ -22,14 +22,13 @@ StateManager::~StateManager() {
         state->Cleanup();
 
         m_Stack.pop_back();
-        state.reset();
     }
 }
 
 void StateManager::RegisterApp(IApplication& app) {
-    assert(NULL == m_App.get() && "StateManager::RegisterApp() app pointer was already registered");
+    assert(NULL == m_App && "StateManager::RegisterApp() app pointer was already registered");
 
-    m_App = std::shared_ptr<IApplication>(&app);
+    m_App = &app;
 }
 
 bool StateManager::IsEmpty() {

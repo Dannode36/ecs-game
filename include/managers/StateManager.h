@@ -8,7 +8,7 @@ class StateManager
 {
 private:
     /// Pointer to the App class for error handling and logging
-    std::shared_ptr<IApplication> m_App;
+    IApplication* m_App;
     /// Stack to store the current and previously active states
     std::vector<std::shared_ptr<IState>>  m_Stack;
 
