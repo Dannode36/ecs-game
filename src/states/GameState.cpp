@@ -52,12 +52,15 @@ void GameState::InitECS()
 }
 
 void GameState::Load() {
+    sf::Clock timer;
     IState::Load();
 
     view.reset(sf::FloatRect(0, 0, 640, 360));
     app.window.setView(view);
 
+    timer.restart();
     InitECS();
+
     playerTexture = app.assetManager.Load<sf::Texture>("assets/player.png");
     enemySystem->Init(playerTexture);
 
@@ -103,11 +106,11 @@ void GameState::Load() {
             app.stateManager.DropActiveState();
         });
 
-    wind = app.assetManager.Load<sf::Music>("assets/wind.ogg");
+    /*wind = app.assetManager.Load<sf::Music>("assets/wind.ogg");
     wind->setLoop(true);
     wind->setRelativeToListener(true);
     wind->setVolume(36);
-    wind->play();
+    wind->play();*/
 
     fade.setPosition(sf::Vector2f(0, 0));
     fade.setFillColor(sf::Color(0, 0, 0, 0));
@@ -116,14 +119,14 @@ void GameState::Load() {
 void GameState::Reload() {
     //view.reset(sf::FloatRect(0, 0, 640, 360));
     app.window.setView(view);
-    wind->stop();
-    wind->play();
+    /*wind->stop();
+    wind->play();*/
 }
 
 void GameState::Pause() {
     IState::Pause();
     if (IsLoaded()) {
-        wind->stop();
+        //wind->stop();
     }
 }
 

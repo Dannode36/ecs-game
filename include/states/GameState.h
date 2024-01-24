@@ -21,7 +21,7 @@ private:
     sf::View view;
 
     //ECS
-    Entity player;
+    Entity player = -1;
     std::vector<Entity> entities;
     std::shared_ptr<PhysicsSystem> physicsSystem;
     std::shared_ptr<RenderSystem> renderSystem;
@@ -32,9 +32,12 @@ private:
     Button button;
     Button button2;
 
+    //eventually
+    //GUI gui;
+
     sf::RectangleShape fade;
-    bool fadingScreen{ false };
-    bool fadingIn{ true };
+    bool fadingScreen = false;
+    bool fadingIn = true;
     int startAlpha = 255;
     int endAlpha = 0;
     int targetTime = 2500;

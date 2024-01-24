@@ -15,7 +15,9 @@ class ComponentArray : public IComponentArray
 public:
 	void InsertData(Entity entity, T component)
 	{
-		//assert(mEntityToIndexMap.find(entity) == mEntityToIndexMap.end() && "Component added to same entity more than once.");
+		#ifdef ECS_ASSERT
+			assert(mEntityToIndexMap.find(entity) == mEntityToIndexMap.end() && "Component added to same entity more than once.");
+		#endif // ECS_ASSERT
 
 		// Put new entry at end and update the maps
 		size_t newIndex = mSize;
@@ -27,7 +29,9 @@ public:
 
 	void RemoveData(Entity entity)
 	{
-		//assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Removing non-existent component.");
+		#ifdef ECS_ASSERT
+			assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Removing non-existent component.");
+		#endif // ECS_ASSERT
 
 		// Copy element at end into deleted element's place to maintain density
 		size_t indexOfRemovedEntity = mEntityToIndexMap[entity];
@@ -47,7 +51,9 @@ public:
 
 	T& GetData(Entity entity)
 	{
-		//assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Retrieving non-existent component.");
+		#ifdef ECS_ASSERT
+			assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end() && "Retrieving non-existent component.");
+		#endif // ECS_ASSERT
 
 		// Return a reference to the entity's component
 		return mComponentArray[mEntityToIndexMap[entity]];
