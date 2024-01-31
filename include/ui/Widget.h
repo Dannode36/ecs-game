@@ -3,10 +3,11 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include "util/Event.h"
 
-class IGuiElement : public sf::Drawable
+class Widget : public sf::Drawable
 {
 public:
 	Event<bool> clickEvent;
 	Event<bool> hoverEvent;
-	virtual void handleEvent(sf::Event& event) = 0;
+
+	virtual void leftMousePressed(sf::Vector2f mousePos) = 0;
 };

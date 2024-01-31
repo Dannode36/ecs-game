@@ -11,7 +11,7 @@ enum ButtonState {
     Buton_Pressed
 };
 
-class Button : public IGuiElement {
+class Button : public IWidget {
 private:
     TexturePtr normal;
     TexturePtr hovered;
@@ -34,6 +34,6 @@ public:
     ButtonState getState() const;
     sf::Sprite* getCurrentSprite();
 
-    // Inherited via IGuiElement
+    // Inherited via Widget
     void handleEvent(sf::Event& event) override;
 };

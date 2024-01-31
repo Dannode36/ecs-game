@@ -4,7 +4,7 @@
 #include "types.h"
 #include "GuiElement.h"
 
-class Checkbox : public IGuiElement {
+class Checkbox : public IWidget {
 private:
     TexturePtr normal;
     TexturePtr hover;
@@ -27,6 +27,6 @@ public:
 
     void setState(bool checked, bool hovered);
 
-    // Inherited via IGuiElement
+    // Inherited via Widget
     void handleEvent(sf::Event& event) override;
 };

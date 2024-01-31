@@ -172,7 +172,7 @@
     <ClInclude Include="include\ecs\systems\EnemySystem.h" />
     <ClInclude Include="include\ecs\components\Enemy.h" />
     <ClInclude Include="include\ecs\components\Projectile.h" />
-    <ClInclude Include="include\ui\GuiElement.h" />
+    <ClInclude Include="include\ui\Widget.h" />
     <ClInclude Include="include\ui\GUI.h" />
     <ClInclude Include="include\ui\Checkbox.h" />
     <ClInclude Include="include\interfaces\IApplication.h" />

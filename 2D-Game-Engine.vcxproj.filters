@@ -179,7 +179,7 @@
     <ClInclude Include="include\ui\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ui\GuiElement.h">
+    <ClInclude Include="include\ui\Widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ecs\components\Enemy.h">

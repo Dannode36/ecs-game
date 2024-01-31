@@ -6,7 +6,7 @@
 class GUI : sf::Drawable
 {
 private:
-	std::map<std::string, std::unique_ptr<IGuiElement>> elements;
+	std::map<std::string, std::unique_ptr<IWidget>> elements;
 
 public:
 	template<typename T>
