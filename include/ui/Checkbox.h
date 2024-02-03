@@ -2,9 +2,9 @@
 #include "SFML/Graphics.hpp"
 #include "util/Event.h"
 #include "types.h"
-#include "GuiElement.h"
+#include "Widget.h"
 
-class Checkbox : public IWidget {
+class Checkbox : public Widget {
 private:
     TexturePtr normal;
     TexturePtr hover;

@@ -1,12 +1,12 @@
 #pragma once
-#include "ui/GuiElement.h"
+#include "ui/Widget.h"
 #include <map>
 #include "Button.h"
 
 class GUI : sf::Drawable
 {
 private:
-	std::map<std::string, std::unique_ptr<IWidget>> elements;
+	std::map<std::string, std::unique_ptr<Widget>> elements;
 
 public:
 	template<typename T>

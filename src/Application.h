@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 //Do not change order
 #include "imgui.h" // necessary for ImGui::*, imgui-SFML.h doesn't include imgui.h
 #include "imgui-SFML.h" // for ImGui::SFML::* functions and SFML-specific overloads

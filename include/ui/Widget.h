@@ -9,5 +9,5 @@ public:
 	Event<bool> clickEvent;
 	Event<bool> hoverEvent;
 
-	virtual void leftMousePressed(sf::Vector2f mousePos) = 0;
+	virtual void handleEvent(sf::Event& mousePos) = 0;
 };

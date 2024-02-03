@@ -1,7 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "util/Event.h"
-#include "ui/GuiElement.h"
+#include "ui/Widget.h"
 #include "types.h"
 
 enum ButtonState {
@@ -11,7 +11,7 @@ enum ButtonState {
     Buton_Pressed
 };
 
-class Button : public IWidget {
+class Button : public Widget {
 private:
     TexturePtr normal;
     TexturePtr hovered;

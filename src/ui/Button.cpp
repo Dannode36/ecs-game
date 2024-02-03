@@ -56,32 +56,30 @@ sf::Sprite* Button::getCurrentSprite() {
     return &sprite;
 }
 void Button::handleEvent(sf::Event& event) {
-    switch (event.type)
-    {
-    case sf::Event::MouseMoved:
-        break;
-    case sf::Event::MouseButtonPressed:
-        break;
-    case sf::Event::MouseButtonPressed:
-        break;
-    default:
-        break;
-    }
-    if (sprite.getGlobalBounds().contains(mousePos)) {
-        if (state == Buton_Pressed && Input::GetMouseButton(MouseButton::Left)) {
-            return; //Do nuthin
-        }
-        else if (Input::GetMouseButtonDown(MouseButton::Left))
-        {
-            setState(Buton_Pressed);
-        }
-        else {
-            setState(Button_Hovered);
-        }
-    }
-    else {
-        setState(Button_Normal);
-    }
+    //switch (event.type)
+    //{
+    //case sf::Event::MouseMoved:
+    //    break;
+    //case sf::Event::MouseButtonPressed:
+    //    break;
+    //default:
+    //    break;
+    //}
+    //if (sprite.getGlobalBounds().contains(mousePos)) {
+    //    if (state == Buton_Pressed && Input::GetMouseButton(MouseButton::Left)) {
+    //        return; //Do nuthin
+    //    }
+    //    else if (Input::GetMouseButtonDown(MouseButton::Left))
+    //    {
+    //        setState(Buton_Pressed);
+    //    }
+    //    else {
+    //        setState(Button_Hovered);
+    //    }
+    //}
+    //else {
+    //    setState(Button_Normal);
+    //}
 }
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite);
