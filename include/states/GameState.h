@@ -27,6 +27,7 @@ private:
     std::shared_ptr<RenderSystem> renderSystem;
     std::shared_ptr<MovementSystem> movementSystem;
     std::shared_ptr<EnemySystem> enemySystem;
+    std::future<void> f;
 
     //UI
     Button button;
