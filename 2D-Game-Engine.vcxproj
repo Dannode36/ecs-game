@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
     <ClCompile Include="src\ui\GuiElement.cpp" />
     <ClCompile Include="src\ui\GUI.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\managers\AudioManager.h" />
     <ClInclude Include="include\ecs\systems\EnemySystem.h" />
     <ClInclude Include="include\ecs\components\Enemy.h" />
     <ClInclude Include="include\ecs\components\Projectile.h" />
