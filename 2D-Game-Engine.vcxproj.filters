@@ -70,6 +70,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\managers\AudioManager.cpp">
+    <ClCompile Include="src\ecs\Systems\CameraSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -195,6 +196,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\managers\AudioManager.h">
+    <ClInclude Include="include\ecs\systems\CameraSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ecs\components\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -224,6 +229,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\checkbox_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\Textures-16.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

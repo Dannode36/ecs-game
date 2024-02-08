@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\managers\AudioManager.cpp" />
+    <ClCompile Include="src\ecs\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
     <ClCompile Include="src\ui\GuiElement.cpp" />
     <ClCompile Include="src\ui\GUI.cpp" />
@@ -174,6 +175,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\managers\AudioManager.h" />
+    <ClInclude Include="include\ecs\components\Camera.h" />
+    <ClInclude Include="include\ecs\systems\CameraSystem.h" />
     <ClInclude Include="include\ecs\systems\EnemySystem.h" />
     <ClInclude Include="include\ecs\components\Enemy.h" />
     <ClInclude Include="include\ecs\components\Projectile.h" />
@@ -224,6 +227,7 @@
     <None Include="vcpkg_installed\x64-windows\x64-windows\debug\bin\fmtd.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\Downloads\Textures-16.png" />
     <Image Include="assets\button_hovered.png" />
     <Image Include="assets\button_normal.png" />
     <Image Include="assets\button_pressed.png" />

@@ -20,6 +20,7 @@ void GameState::InitECS()
 {
     ecs.Init();
     ecs.RegisterComponent<GameObject>();
+    ecs.RegisterComponent<Camera>();
     ecs.RegisterComponent<Collider>();
     ecs.RegisterComponent<Character>();
     ecs.RegisterComponent<MovementController>();
@@ -48,6 +49,11 @@ void GameState::InitECS()
     enemySignature.set(ecs.GetComponentType<Enemy>());
     ecs.SetSystemSignature<EnemySystem>(enemySignature);
 
+    cameraSystem = ecs.RegisterSystem<CameraSystem>();
+    Signature cameraSignature;
+    cameraSignature.set(ecs.GetComponentType<Camera>());
+    ecs.SetSystemSignature<CameraSystem>(cameraSignature);
+
     entities = std::vector<Entity>(MAX_ENTITIES);
 }
 
@@ -56,10 +62,11 @@ void GameState::Load() {
     IState::Load();
 
     view.reset(sf::FloatRect(0, 0, 640, 360));
-    app.window.setView(view);
-
     timer.restart();
     InitECS();
+
+    backgroundTexture = app.assetManager.Load<sf::Texture>("assets/Textures-16.png");
+    background.setTexture(*backgroundTexture);
 
     playerTexture = app.assetManager.Load<sf::Texture>("assets/player.png");
     enemySystem->Init(playerTexture);
@@ -71,13 +78,18 @@ void GameState::Load() {
     ecs.AddComponent(entities[0], player);
     ecs.AddComponent(entities[0], Collider{ sf::Vector2f(), 40.0f });
     ecs.AddComponent(entities[0], MovementController{ 40.0f });
+    this->player = &ecs.GetComponent<GameObject>(entities[0]); //Get a reference back to the player for future use
 
     entities[1] = ecs.CreateEntity();
+    Camera camera(view, 2.f);
+    ecs.AddComponent(entities[1], camera);
+
+    entities[2] = ecs.CreateEntity();
     GameObject enemy;
     enemy.sprite.setTexture(*playerTexture);
     enemy.sprite.setColor(sf::Color(255, 100, 100));
-    ecs.AddComponent(entities[1], enemy);
-    ecs.AddComponent(entities[1], Collider{ sf::Vector2f(), 40.0f });
+    ecs.AddComponent(entities[2], enemy);
+    ecs.AddComponent(entities[2], Collider{ sf::Vector2f(), 40.0f });
 
     enemySystem->Init(playerTexture);
 
@@ -106,25 +118,13 @@ void GameState::Load() {
             app.stateManager.DropActiveState();
         });
 
-    auto clock = sf::Clock();
     f = std::async(std::launch::async, [&]() {
-        for (int i = 0; i < INT32_MAX; i++) {
-
-        }
         wind = app.assetManager.LoadAsync<sf::Music>("assets/wind.ogg").get();
         wind->setLoop(true);
         wind->setRelativeToListener(true);
         wind->setVolume(36);
         wind->play();
     });
-
-    /*wind = app.assetManager.Load<sf::Music>("assets/wind.ogg");
-    wind->setLoop(true);
-    wind->setRelativeToListener(true);
-    wind->setVolume(36);
-    wind->play();*/
-
-    fmt::print("Music Loading took {}ms\n", clock.getElapsedTime().asMilliseconds());
 
     fade.setPosition(sf::Vector2f(0, 0));
     fade.setFillColor(sf::Color(0, 0, 0, 0));
@@ -179,14 +179,19 @@ void GameState::Update(sf::Time dt) {
     movementSystem->Update(dt);
     enemySystem->Update(dt, entities[0]);
 
+    //Update last
+    cameraSystem->Update(dt, player->sprite.getPosition());
+
     auto mouseGlobalPos = app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window));
     button.update(mouseGlobalPos);
     button2.update(mouseGlobalPos);
 }
 
 void GameState::Draw(sf::RenderWindow& window) {
-    //Draw Debug UI
+    app.window.setView(view);
 
+
+    //Draw Debug UI
     if (ImGui::Begin("Debug")) {
         ImGui::Checkbox("Fade Screen", &fadingScreen);
         ImGui::Checkbox("Fade In", &fadingIn);
@@ -195,6 +200,8 @@ void GameState::Draw(sf::RenderWindow& window) {
 
     //Draw Game
     window.clear(sf::Color::Black);
+    window.draw(background);
+
     //window.setView(window.getDefaultView());
     renderSystem->DrawEntities(window);
 

@@ -13,6 +13,7 @@
 #include <ui/Button.h>
 #include <ecs/ECS.h>
 #include <ecs/systems/EnemySystem.h>
+#include <ecs/systems/CameraSystem.h>
 
 class GameState : public IState
 {
@@ -21,18 +22,20 @@ private:
     sf::View view;
 
     //ECS
-    Entity player = -1;
     std::vector<Entity> entities;
     std::shared_ptr<PhysicsSystem> physicsSystem;
     std::shared_ptr<RenderSystem> renderSystem;
     std::shared_ptr<MovementSystem> movementSystem;
     std::shared_ptr<EnemySystem> enemySystem;
+    std::shared_ptr<CameraSystem> cameraSystem;
     std::future<void> f;
 
+    GameObject* player;
     //UI
     Button button;
     Button button2;
 
+    sf::Sprite background;
     //eventually
     //GUI gui;
 
@@ -47,6 +50,7 @@ private:
     //Assets
     MusicPtr wind;
     TexturePtr playerTexture;
+    TexturePtr backgroundTexture;
 public:
     GameState(const std::string stateID, IApplication& app);
     ~GameState();
