@@ -7,14 +7,9 @@
 #include <future>
 #include <iterator>
 
-template<typename T>
-struct AssetPtrDeleter {
-	std::map<std::string, std::weak_ptr<T>>& cache;
-	std::map<std::string, std::weak_ptr<T>>::iterator it;
-
-	void operator()() {
-		cache.erase(it);
-	}
+enum CacheType {
+	Weak,
+	Persist
 };
 
 //Generic asset cache
@@ -25,29 +20,7 @@ public:
 	AssetCache(const std::function<std::shared_ptr<T>(std::string)>& loadFunc)
 		: loadFromDisk(loadFunc), mutex(), cache() { }
 
-	/*void Prepare(std::string assetPath) {
-		std::lock_guard<std::mutex> lock_guard(*mutex);
-
-		//If asset doesn't exist in cache or the ptr is invalid, load it
-		if (cache.find(assetPath) == cache.end() || !cache[assetPath].expired()) {
-			cache[assetPath] = loadFromDisk(assetPath);
-		}
-	}
-	std::future<void> PrepareAsync(std::string assetPath) {
-		while(!mutex->try_lock()) { 
-			//Wait for mutex to unlock 
-		}
-
-		return std::async([&]() {
-			//If asset doesn't exist in cache or the ptr is invalid, load it
-			if (cache.find(assetPath) == cache.end() || !cache[assetPath].expired()) {
-				cache[assetPath] = loadFromDisk(assetPath);
-				mutex->unlock();
-			}
-		});
-	}*/
-	
-	std::shared_ptr<T> Load(std::string assetPath) {
+	std::shared_ptr<T> Load(std::string assetPath, CacheType cacheType = Weak) {
 		std::lock_guard<std::mutex> lock_guard(mutex);
 		//TODO: Check if the path is valid
 		//If asset exists in cache and the ptr is valid return it, otherwise load it
@@ -57,6 +30,9 @@ public:
 		else {
 			std::shared_ptr<T> asset(loadFromDisk(assetPath));
 			cache[assetPath] = asset;
+			if (cacheType == Persist) {
+				persistence_cache.push_back(asset);
+			}
 			return asset;
 		}
 	}
@@ -73,19 +49,15 @@ public:
 			else {
 				std::shared_ptr<T> asset = loadFromDisk(assetPath);
 				cache[assetPath] = asset;
+				if (cacheType == Persist) {
+					persistence_cache.push_back(asset);
+				}
 
 				mutex.unlock();
 				return std::shared_ptr<T>(asset);
 			}
 		});
 	}
-
-	//maybe (called from custom deleter somehow
-	/*bool RemoveAsset(std::map<std::string, std::weak_ptr<T>>::iterator it) {
-		if (it->second.expired()) {
-			cache.erase(it);
-		}
-	}*/
 
 	size_t validAssetCount() {
 		size_t i = 0;
@@ -97,21 +69,8 @@ public:
 		return i;
 	}
 private:
-	inline std::shared_ptr<T> internal_Load(std::string assetPath) {
-		//TODO: Check if the path is valid
-		//If asset exists in cache and the ptr is valid return it, otherwise load it
-		if (cache.find(assetPath) != cache.end() && !cache[assetPath].expired()) {
-			std::shared_ptr<T> asset(cache[assetPath]);
-			return asset;
-		}
-		else {
-			std::shared_ptr<T> asset = loadFromDisk(assetPath);
-			cache[assetPath] = asset;
-			return asset;
-		}
-	}
-
 	std::function<std::shared_ptr<T>(std::string)> loadFromDisk; //Function used to load new assets
 	std::map<std::string, std::weak_ptr<T>> cache;
+	std::vector<std::shared_ptr<T>> persistence_cache;
 	std::mutex mutex;
 };

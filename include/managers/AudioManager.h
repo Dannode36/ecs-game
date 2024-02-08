@@ -29,8 +29,9 @@ class AudioManager
 	{
 		std::async(std::launch::async, 
 			[=]() {
-				auto future = m_assetMgr->LoadAsync<sf::Sound>(AUDIO_PATH + soundId);
-				auto sound = future.get();
+				auto future = m_assetMgr->LoadAsync<sf::SoundBuffer>(AUDIO_PATH + soundId);
+				auto soundBuf = future.get();
+				auto sound = std::make_shared<sf::Sound>(soundBuf);
 				//Make a copy or somthing here
 				sound_cache.push_back(sound);
 
