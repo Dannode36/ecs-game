@@ -30,9 +30,9 @@ public:
 		else {
 			std::shared_ptr<T> asset(loadFromDisk(assetPath));
 			cache[assetPath] = asset;
-			if (cacheType == Persist) {
+			/*if (cacheType == Persist) {
 				persistence_cache.push_back(asset);
-			}
+			}*/
 			return asset;
 		}
 	}
@@ -49,9 +49,9 @@ public:
 			else {
 				std::shared_ptr<T> asset = loadFromDisk(assetPath);
 				cache[assetPath] = asset;
-				if (cacheType == Persist) {
+				/*if (cacheType == Persist) {
 					persistence_cache.push_back(asset);
-				}
+				}*/
 
 				mutex.unlock();
 				return std::shared_ptr<T>(asset);

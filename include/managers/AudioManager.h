@@ -8,9 +8,8 @@
 
 #define AUDIO_PATH std::string("assets/")
 
-class AudioManager
+class MusicManager
 {
-	std::vector<std::shared_ptr<sf::Sound>> sound_cache;
 	std::vector<std::shared_ptr<sf::Music>> music_cache;
 
 	AssetManager* m_assetMgr;
@@ -27,23 +26,23 @@ class AudioManager
 		bool relative = false,
 		sf::Vector3f pos = sf::Vector3f()) 
 	{
-		std::async(std::launch::async, 
-			[=]() {
-				auto future = m_assetMgr->LoadAsync<sf::SoundBuffer>(AUDIO_PATH + soundId);
-				auto soundBuf = future.get();
-				auto sound = std::make_shared<sf::Sound>(soundBuf);
-				//Make a copy or somthing here
-				sound_cache.push_back(sound);
+		//std::async(std::launch::async, 
+		//	[=]() {
+		//		auto future = m_assetMgr->LoadAsync<sf::SoundBuffer>(AUDIO_PATH + soundId);
+		//		auto soundBuf = future.get();
+		//		auto sound = std::make_shared<sf::Sound>(soundBuf);
+		//		//Make a copy or somthing here
+		//		sound_cache.push_back(sound);
 
-				sound->setVolume(volume);
-				sound->setPitch(volume);
-				sound->setLoop(loop);
-				sound->setRelativeToListener(relative);
-				if (!relative) {
-					sound->setPosition(pos);
-				}
+		//		sound->setVolume(volume);
+		//		sound->setPitch(volume);
+		//		sound->setLoop(loop);
+		//		sound->setRelativeToListener(relative);
+		//		if (!relative) {
+		//			sound->setPosition(pos);
+		//		}
 
-				sound->play();
-			});
+		//		sound->play();
+		//	});
 	}
 };
