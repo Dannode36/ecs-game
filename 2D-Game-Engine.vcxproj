@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\RenderMap.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ecs\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
@@ -172,8 +173,10 @@
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\game\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\game\Tile.h" />
     <ClInclude Include="include\managers\AudioManager.h" />
     <ClInclude Include="include\ecs\components\Camera.h" />
     <ClInclude Include="include\ecs\systems\CameraSystem.h" />
@@ -199,6 +202,7 @@
     <ClInclude Include="include\AssetCache.h" />
     <ClInclude Include="include\managers\AssetManager.h" />
     <ClInclude Include="include\rapidxml.hpp" />
+    <ClInclude Include="include\game\RenderMap.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="include\ecs\components\Character.h" />
     <ClInclude Include="include\ecs\components\GameObject.h" />
@@ -217,6 +221,7 @@
     <ClInclude Include="include\mathf.h" />
     <ClInclude Include="include\util\Event.h" />
     <ClInclude Include="include\managers\StateManager.h" />
+    <ClInclude Include="include\game\Tilemap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Wind.ogg">
@@ -227,7 +232,6 @@
     <None Include="vcpkg_installed\x64-windows\x64-windows\debug\bin\fmtd.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\Textures-16.png" />
     <Image Include="assets\button_hovered.png" />
     <Image Include="assets\button_normal.png" />
     <Image Include="assets\button_pressed.png" />
