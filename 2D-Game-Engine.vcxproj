@@ -221,7 +221,7 @@
     <ClInclude Include="include\mathf.h" />
     <ClInclude Include="include\util\Event.h" />
     <ClInclude Include="include\managers\StateManager.h" />
-    <ClInclude Include="include\game\Tilemap.h" />
+    <ClInclude Include="include\game\MapRenderPipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Wind.ogg">
