@@ -202,7 +202,7 @@
     <ClInclude Include="include\AssetCache.h" />
     <ClInclude Include="include\managers\AssetManager.h" />
     <ClInclude Include="include\rapidxml.hpp" />
-    <ClInclude Include="include\game\RenderMap.h" />
+    <ClInclude Include="include\game\TileLayer.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="include\ecs\components\Character.h" />
     <ClInclude Include="include\ecs\components\GameObject.h" />

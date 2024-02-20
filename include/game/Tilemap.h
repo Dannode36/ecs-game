@@ -3,12 +3,11 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
-#include "RenderMap.h"
+#include "TileLayer.h"
 
 class TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
-
     enum Layer
     {
         Back = 0,       //Permanent terrain features (Tile layer

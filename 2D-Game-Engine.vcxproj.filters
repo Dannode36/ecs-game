@@ -218,7 +218,7 @@
     <ClInclude Include="include\game\Tilemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\RenderMap.h">
+    <ClInclude Include="include\game\TileLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

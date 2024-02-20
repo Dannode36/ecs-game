@@ -2,6 +2,10 @@
 #include <cmath>
 #include "SFML/System/Vector2.hpp"
 
+//Constants--------------------------------------------------------------------
+constexpr double k_g = 9.81;
+constexpr double k_pi = 3.1415926535897932384626433832795028841971693993751058209;
+
 //General Math-----------------------------------------------------------------
 
 template <typename T>
@@ -35,7 +39,7 @@ static double distance(sf::Vector2<T> a, sf::Vector2<T> b) {
 
 template <typename T>
 static double angle(sf::Vector2<T> a, sf::Vector2<T> b) {
-	return atan2(b.x - a.x, b.y - a.y) * (180 / Constants::PI);
+	return atan2(b.x - a.x, b.y - a.y) * (180 / k_pi);
 }
 
 //MISC-------------------------------------------------------------------------
