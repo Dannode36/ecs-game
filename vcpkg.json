@@ -3,7 +3,6 @@
     "imgui",
     "imgui-sfml",
     "sfml",
-    "fmt",
-    "tileson"
+    "fmt"
   ]
 }
