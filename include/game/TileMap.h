@@ -5,7 +5,7 @@
 #include "Tile.h"
 #include "TileLayer.h"
 
-class MapRenderPipeline : public sf::Drawable, public sf::Transformable
+class TileMap : public sf::Drawable, public sf::Transformable
 {
 public:
     enum Layer

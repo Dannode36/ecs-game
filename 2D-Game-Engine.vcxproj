@@ -152,7 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\RenderMap.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ecs\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
@@ -201,8 +200,9 @@
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\AssetCache.h" />
     <ClInclude Include="include\managers\AssetManager.h" />
-    <ClInclude Include="include\rapidxml.hpp" />
     <ClInclude Include="include\game\TileLayer.h" />
+    <ClInclude Include="include\vendor\rapidxml.hpp" />
+    <ClInclude Include="include\vendor\tileson.hpp" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="include\ecs\components\Character.h" />
     <ClInclude Include="include\ecs\components\GameObject.h" />
@@ -221,7 +221,7 @@
     <ClInclude Include="include\mathf.h" />
     <ClInclude Include="include\util\Event.h" />
     <ClInclude Include="include\managers\StateManager.h" />
-    <ClInclude Include="include\game\MapRenderPipeline.h" />
+    <ClInclude Include="include\game\TileMap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Wind.ogg">
