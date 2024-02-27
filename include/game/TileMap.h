@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
 #include "TileLayer.h"
+#include <set>
 
 class TileMap : public sf::Drawable, public sf::Transformable
 {
@@ -35,6 +36,15 @@ private:
 
         // draw the vertex array
         target.draw(m_vertices, states);
+
+        for (auto& layer : m_layers)
+        {
+            layer.sort();
+            for (auto& drawable : layer)
+            {
+                drawable
+            }
+        }
     }
 
     sf::VertexArray m_vertices;
@@ -42,5 +52,8 @@ private:
 
     sf::Vector2u tileSizePixels;
     sf::Vector2u mapSizeTiles;
-    std::vector<TileLayer> m_layers; //Higher index -> drawn last
+    std::vector<Tile> m_tiles;
+
+    std::vector<ObjectLayer> m_objectLayers[Layer::Count]; //Higher index -> drawn last
+    std::vector<TileLayer> m_tileLayers[Layer::Count]; //Higher index -> drawn last
 };
