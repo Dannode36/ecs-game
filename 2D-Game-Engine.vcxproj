@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\GameObject.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ecs\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="src\game\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\game\GameObject.h" />
     <ClInclude Include="include\game\ObjectLayer.h" />
     <ClInclude Include="include\game\Tile.h" />
     <ClInclude Include="include\game\TileMaps.h" />

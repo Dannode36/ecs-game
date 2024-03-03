@@ -5,8 +5,9 @@
 #include "Tile.h"
 #include "TileLayer.h"
 #include <set>
+#include "GameObject.h"
 
-class TileMap : public sf::Drawable, public sf::Transformable
+class TileMap : public sf::Drawable
 {
 public:
     enum Layer
@@ -28,32 +29,40 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        // apply the transform
-        states.transform *= getTransform();
-
-        // apply the tileset texture
-        states.texture = &m_tileset;
-
-        // draw the vertex array
-        target.draw(m_vertices, states);
-
-        for (auto& layer : m_layers)
+        //Draw tile layers
+        for (auto& layer : m_tileLayers)
         {
-            layer.sort();
-            for (auto& drawable : layer)
-            {
-                drawable
+            target.draw(layer);
+        }
+
+        std::vector<const GameObject*> objectsInFront;
+
+        //Draw objects behind player
+        float playerY = player.getPosition().y;
+        for (auto& object : m_objects)
+        {
+            if (object.getPosition().y < playerY) {
+                target.draw(object);
             }
+            else {
+                objectsInFront.push_back(&object);
+            }
+        }
+
+        //Draw player
+        target.draw(player);
+
+        //Draw objects infront of player
+        for (auto& object : objectsInFront)
+        {
+            target.draw(*object);
         }
     }
 
-    sf::VertexArray m_vertices;
-    sf::Texture m_tileset;
-
     sf::Vector2u tileSizePixels;
     sf::Vector2u mapSizeTiles;
-    std::vector<Tile> m_tiles;
 
-    std::vector<ObjectLayer> m_objectLayers[Layer::Count]; //Higher index -> drawn last
-    std::vector<TileLayer> m_tileLayers[Layer::Count]; //Higher index -> drawn last
+    GameObject player;
+    std::vector<GameObject> m_objects;
+    TileLayer m_tileLayers[Layer::Count]; //Higher index -> drawn last
 };
