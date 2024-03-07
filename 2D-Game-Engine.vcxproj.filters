@@ -227,9 +227,6 @@
     <ClInclude Include="include\game\ObjectLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\TileMaps.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\game\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>

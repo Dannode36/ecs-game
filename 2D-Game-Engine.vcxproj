@@ -179,7 +179,6 @@
     <ClInclude Include="include\game\GameObject.h" />
     <ClInclude Include="include\game\ObjectLayer.h" />
     <ClInclude Include="include\game\Tile.h" />
-    <ClInclude Include="include\game\TileMaps.h" />
     <ClInclude Include="include\managers\AudioManager.h" />
     <ClInclude Include="include\ecs\components\Camera.h" />
     <ClInclude Include="include\ecs\systems\CameraSystem.h" />

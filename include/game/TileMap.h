@@ -6,6 +6,7 @@
 #include "TileLayer.h"
 #include <set>
 #include "GameObject.h"
+#include "ObjectLayer.h"
 
 class TileMap : public sf::Drawable
 {
@@ -35,27 +36,9 @@ private:
             target.draw(layer);
         }
 
-        std::vector<const GameObject*> objectsInFront;
-
-        //Draw objects behind player
-        float playerY = player.getPosition().y;
-        for (auto& object : m_objects)
-        {
-            if (object.getPosition().y < playerY) {
-                target.draw(object);
-            }
-            else {
-                objectsInFront.push_back(&object);
-            }
-        }
-
-        //Draw player
-        target.draw(player);
-
-        //Draw objects infront of player
-        for (auto& object : objectsInFront)
-        {
-            target.draw(*object);
+        for (int i = 0; i < Layer::Count; i++) {
+            target.draw(m_tileLayers[i]);
+            target.draw(m_objectLayers[i]);
         }
     }
 
@@ -63,6 +46,6 @@ private:
     sf::Vector2u mapSizeTiles;
 
     GameObject player;
-    std::vector<GameObject> m_objects;
     TileLayer m_tileLayers[Layer::Count]; //Higher index -> drawn last
+    ObjectLayer m_objectLayers[Layer::Count]; //Higher index -> drawn last
 };
