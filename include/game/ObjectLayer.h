@@ -8,19 +8,35 @@
 class ObjectLayer : public sf::Drawable, public sf::Transformable
 {
 public:
-    bool load();
+    //bool load();
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-        // apply the transform
-        states.transform *= getTransform();
+        if (!render) { return; }
 
-        // apply the tileset texture
-        states.texture = &m_tileset;
+        //Sort vector with smallest y first
+        std::vector<GameObject*> sortedObjects(m_objects);
 
-        // draw the vertex array
-        target.draw(m_vertices, states);
+        std::sort(sortedObjects.begin(), sortedObjects.end(),
+            [](GameObject* a, GameObject* b) -> bool {
+                return a->getPosition().y < b->getPosition().y;
+            }
+        );
+
+        //Draw
+        for (auto& object : m_objects) {
+            target.draw(*object);
+        }
     }
 
-    std::vector<GameObject> m_objects;
+    void sortObjects() {
+        std::sort(m_objects.begin(), m_objects.end(),
+            [](GameObject* a, GameObject* b) -> bool {
+                return a->getPosition().y < b->getPosition().y;
+            }
+        );
+    }
+
+    bool render;
+    std::vector<GameObject*> m_objects;
 };
