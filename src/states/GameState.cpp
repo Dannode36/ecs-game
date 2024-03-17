@@ -203,7 +203,9 @@ void GameState::Draw(sf::RenderWindow& window) {
     window.draw(background);
 
     //window.setView(window.getDefaultView());
-    renderSystem->DrawEntities(window);
+    //renderSystem->DrawEntities(window);
+    tileMap.sortObjectLayers();
+    window.draw(tileMap);
 
     //Draw Game UI
     //window.setView(app.uiView);

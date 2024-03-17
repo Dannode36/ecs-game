@@ -13,9 +13,9 @@ class TileMap : public sf::Drawable
 public:
     enum Layer
     {
-        Back = 0,       //Reserved for permanent features TileLayer
+        Back = 0,       //Reserved for permanent features
         Buildings,      //Tiles will act like a wall unless "Passable"
-        Flooring,       //Tiles editable by the player
+        Dynamic,        //Tiles editable by the player
         Front,          //Objects drawn on top if the player is north of them and behind if the player is south of them
         AlwaysFront,    //Objects always drawn top
 
@@ -23,13 +23,17 @@ public:
     };
 
     bool load(const std::string& map) {
-        
+
+    }
+
+    void sortObjectLayers() {
+        for (int i = 0; i < Layer::Count; i++) {
+            m_objectLayers[i].sort();
+        }
     }
 
 private:
-
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-    {
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
         //Draw tile layers
         for (auto& layer : m_tileLayers)
         {

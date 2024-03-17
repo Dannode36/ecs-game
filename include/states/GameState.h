@@ -14,12 +14,16 @@
 #include <ecs/ECS.h>
 #include <ecs/systems/EnemySystem.h>
 #include <ecs/systems/CameraSystem.h>
+#include <game/TileMap.h>
 
 class GameState : public IState
 {
 private:
     //Rendering
     sf::View view;
+
+    //Game Data
+    TileMap tileMap;
 
     //ECS
     std::vector<Entity> entities;
