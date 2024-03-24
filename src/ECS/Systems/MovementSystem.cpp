@@ -24,6 +24,7 @@ void MovementSystem::Update(const sf::Time& dt)
             move.x += 1;
         }
 
+#ifdef DEBUG_INFO
         if (Input::GetKeyDown(KeyCode::W)) {
             printf("W pressed\n");
         }
@@ -49,7 +50,8 @@ void MovementSystem::Update(const sf::Time& dt)
         if (Input::GetKeyUp(KeyCode::D)) {
             printf("D Released\n");
         }
+#endif // DEBUG_INFO
 
-        object.sprite.move(normalize(move) * movementData.speed * -static_cast<float>(Input::controlsInverted * 2 - 1) * dt.asSeconds());
+        object.move(normalize(move) * movementData.speed * -static_cast<float>(Input::controlsInverted * 2 - 1) * dt.asSeconds());
     }
 }

@@ -28,7 +28,6 @@ private:
     //ECS
     std::vector<Entity> entities;
     std::shared_ptr<PhysicsSystem> physicsSystem;
-    std::shared_ptr<RenderSystem> renderSystem;
     std::shared_ptr<MovementSystem> movementSystem;
     std::shared_ptr<EnemySystem> enemySystem;
     std::shared_ptr<CameraSystem> cameraSystem;

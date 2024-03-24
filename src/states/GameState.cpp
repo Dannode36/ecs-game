@@ -27,15 +27,10 @@ void GameState::InitECS()
     ecs.RegisterComponent<Enemy>();
     ecs.RegisterComponent<Projectile>();
 
-    renderSystem = ecs.RegisterSystem<RenderSystem>();
-    Signature renderSignature;
-    renderSignature.set(ecs.GetComponentType<GameObject>());
-    ecs.SetSystemSignature<RenderSystem>(renderSignature);
-
     physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
     Signature physicsSignature;
     physicsSignature.set(ecs.GetComponentType<Collider>());
-    ecs.SetSystemSignature<PhysicsSystem>(renderSignature);
+    ecs.SetSystemSignature<PhysicsSystem>(physicsSignature);
 
     movementSystem = ecs.RegisterSystem<MovementSystem>();
     Signature movementSignature;

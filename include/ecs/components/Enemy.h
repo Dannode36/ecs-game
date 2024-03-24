@@ -1,7 +1,7 @@
 #pragma once
 #include <ecs/Types.h>
 
-Component Enemy {
+COMPONENT Enemy {
 	float speed;
 	int health;
 };

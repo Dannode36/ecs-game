@@ -5,7 +5,6 @@
 
 //Includes for easy of use
 #include "systems/PhysicsSystem.h"
-#include "systems/RenderSystem.h"
 #include "systems/MovementSystem.h"
 
 class ECS
@@ -34,7 +33,7 @@ public:
         mSystemManager->EntityDestroyed(entity);
     }
 
-    // Component methods
+    // COMPONENT methods
     template<typename T>
     void RegisterComponent()
     {

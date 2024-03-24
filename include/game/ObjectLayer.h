@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <string>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics.hpp>

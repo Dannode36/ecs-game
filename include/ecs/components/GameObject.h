@@ -2,7 +2,6 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include "../Types.h"
 
-Component GameObject {
-	sf::Sprite sprite;
+COMPONENT GameObject : public sf::Sprite {
 	bool active{ true };
 };

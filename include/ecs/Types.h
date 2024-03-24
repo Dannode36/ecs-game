@@ -6,7 +6,7 @@
 #include <iostream>
 #include "CONSTANTS.h"
 
-#define Component struct
+#define COMPONENT struct
 
 using Entity = uint16_t;
 const Entity MAX_ENTITIES = 256;

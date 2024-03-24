@@ -29,7 +29,7 @@ public:
 	{
 		const char* typeName = typeid(T).name();
 
-		//assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "Component not registered before use.");
+		//assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "COMPONENT not registered before use.");
 
 		// Return this component's type - used for creating signatures
 		return mComponentTypes[typeName];
@@ -84,7 +84,7 @@ private:
 	{
 		const char* typeName = typeid(T).name();
 
-		//assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "Component not registered before use.");
+		//assert(mComponentTypes.find(typeName) != mComponentTypes.end() && "COMPONENT not registered before use.");
 
 		return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[typeName]);
 	}

@@ -5,7 +5,7 @@
 #include "Tile.h"
 #include "TileLayer.h"
 #include <set>
-#include "GameObject.h"
+#include "ecs/Components.h"
 #include "ObjectLayer.h"
 
 class TileMap : public sf::Drawable

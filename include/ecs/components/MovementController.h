@@ -1,7 +1,7 @@
 #pragma once
 #include "../Types.h"
 
-Component MovementController
+COMPONENT MovementController
 {
 	float speed;
 };

@@ -50,8 +50,8 @@ void PhysicsSystem::Update(double dt) {
 				auto& collider2 = ecs.GetComponent<Collider>(entity);
 				auto& object2 = ecs.GetComponent<GameObject>(entity);
 
-				collider.bounds.center = object.sprite.getPosition() + collider.offset;
-				collider2.bounds.center = object2.sprite.getPosition() + collider2.offset;
+				collider.bounds.center = object.getPosition() + collider.offset;
+				collider2.bounds.center = object2.getPosition() + collider2.offset;
 
 				if (collider.bounds.Intersects(ecs.GetComponent<Collider>(entity2).bounds)) {
 					//printf("Collision Detected\n");

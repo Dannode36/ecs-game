@@ -19,11 +19,11 @@ void EnemySystem::Update(sf::Time& dt, Entity player) {
 		auto& enemyData = ecs.GetComponent<Enemy>(enemy);
 
 		//Move towards the player
-		sf::Vector2f directionToPlayer = playerObject.sprite.getPosition() - gameObject.sprite.getPosition();
-		gameObject.sprite.move(normalize(directionToPlayer) * enemyData.speed * dt.asSeconds());
+		sf::Vector2f directionToPlayer = playerObject.getPosition() - gameObject.getPosition();
+		gameObject.move(normalize(directionToPlayer) * enemyData.speed * dt.asSeconds());
 
 		//Check if collided with player yet
-		if (playerObject.sprite.getGlobalBounds().intersects(gameObject.sprite.getGlobalBounds())) {
+		if (playerObject.getGlobalBounds().intersects(gameObject.getGlobalBounds())) {
 			playerData.health -= 1;
 		}
 	}
@@ -60,7 +60,7 @@ void EnemySystem::StartWave() {
 void EnemySystem::SpawnEnemy(Enemy enemyData) {
 	Entity enemy = ecs.CreateEntity();
 	GameObject enemyObject;
-	enemyObject.sprite.setTexture(*enemyTexture);
+	enemyObject.setTexture(*enemyTexture);
 	ecs.AddComponent(enemy, enemyObject);
 	ecs.AddComponent(enemy, enemyData);
 }

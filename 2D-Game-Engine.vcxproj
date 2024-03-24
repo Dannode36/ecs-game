@@ -152,7 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\GameObject.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ecs\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
@@ -171,12 +170,10 @@
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp" />
-    <ClCompile Include="src\ECS\Systems\RenderSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\game\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\game\GameObject.h" />
     <ClInclude Include="include\game\ObjectLayer.h" />
     <ClInclude Include="include\game\Tile.h" />
     <ClInclude Include="include\managers\AudioManager.h" />
@@ -217,7 +214,6 @@
     <ClInclude Include="include\ecs\EntityManager.h" />
     <ClInclude Include="include\ecs\ecsmathf.h" />
     <ClInclude Include="include\ecs\systems\PhysicsSystem.h" />
-    <ClInclude Include="include\ecs\systems\RenderSystem.h" />
     <ClInclude Include="include\ecs\systems\System.h" />
     <ClInclude Include="include\ecs\SystemManager.h" />
     <ClInclude Include="include\ecs\Types.h" />

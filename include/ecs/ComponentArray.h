@@ -16,7 +16,7 @@ public:
 	void InsertData(Entity entity, T component)
 	{
 		#ifdef ECS_ASSERT
-			assert(mEntityToIndexMap.find(entity) == mEntityToIndexMap.end() && "Component added to same entity more than once.");
+			assert(mEntityToIndexMap.find(entity) == mEntityToIndexMap.end() && "COMPONENT added to same entity more than once.");
 		#endif // ECS_ASSERT
 
 		// Put new entry at end and update the maps

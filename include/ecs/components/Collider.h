@@ -19,7 +19,7 @@ struct AABB {
 	}
 };
 
-Component Collider {
+COMPONENT Collider {
 	sf::Vector2f offset;
 	float bounciness;
 	AABB bounds;
