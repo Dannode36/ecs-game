@@ -73,8 +73,8 @@ void GameState::Load() {
 
     entities[0] = ecs.CreateEntity();
     GameObject player;
-    player.sprite.setTexture(*playerTexture);
-    player.sprite.setColor(sf::Color(100, 255, 100));
+    player.setTexture(*playerTexture);
+    player.setColor(sf::Color(100, 255, 100));
     ecs.AddComponent(entities[0], player);
     ecs.AddComponent(entities[0], Collider{ sf::Vector2f(), 40.0f });
     ecs.AddComponent(entities[0], MovementController{ 40.0f });
@@ -86,8 +86,8 @@ void GameState::Load() {
 
     entities[2] = ecs.CreateEntity();
     GameObject enemy;
-    enemy.sprite.setTexture(*playerTexture);
-    enemy.sprite.setColor(sf::Color(255, 100, 100));
+    enemy.setTexture(*playerTexture);
+    enemy.setColor(sf::Color(255, 100, 100));
     ecs.AddComponent(entities[2], enemy);
     ecs.AddComponent(entities[2], Collider{ sf::Vector2f(), 40.0f });
 
@@ -180,7 +180,7 @@ void GameState::Update(sf::Time dt) {
     enemySystem->Update(dt, entities[0]);
 
     //Update last
-    cameraSystem->Update(dt, player->sprite.getPosition());
+    cameraSystem->Update(dt, player->getPosition());
 
     auto mouseGlobalPos = app.window.mapPixelToCoords(sf::Mouse::getPosition(app.window));
     button.update(mouseGlobalPos);
