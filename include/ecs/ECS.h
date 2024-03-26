@@ -3,7 +3,7 @@
 #include "SystemManager.h"
 #include "EntityManager.h"
 
-//Includes for easy of use
+//Includes for ease of use
 #include "systems/PhysicsSystem.h"
 #include "systems/MovementSystem.h"
 

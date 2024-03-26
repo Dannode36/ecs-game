@@ -18,8 +18,8 @@ public:
     }
 
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-    {
+    //A call must be made to sort() prior to drawing for correct draw order
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
         for (auto& object : m_objects) {
             target.draw(*object);
         }

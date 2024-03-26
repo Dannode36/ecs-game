@@ -5,7 +5,6 @@
 #include "Tile.h"
 
 #pragma warning(disable : 4244)
-
 class TileLayer : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -63,5 +62,4 @@ private:
     sf::VertexArray m_vertices;
     sf::Texture m_tileset;
 };
-
 #pragma warning(default : 4244)

@@ -6,6 +6,7 @@
 
 StatusType Application::Start()
 {
+#if DEBUG_LEVEL >= DEBUG_VERBOSE
     fmt::print("----Available Video Modes ->----\n");
     int i = 0;
     for (auto& videoMode : sf::VideoMode::getFullscreenModes()) {
@@ -13,6 +14,7 @@ StatusType Application::Start()
         i++;
     }
     fmt::print("--------------------------------\n");
+#endif // DEBUG_INFO
 
     window.create(sf::VideoMode(1280, 800), "ECS Game");
     //window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
