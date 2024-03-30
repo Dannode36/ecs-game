@@ -3,15 +3,20 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
+#include <tileson.hpp>
 
 #pragma warning(disable : 4244)
 class TileLayer : public sf::Drawable, public sf::Transformable
 {
 public:
-    bool load(const std::string& tileset, const Tile* tiles, sf::Vector2u tileSize, size_t width, size_t height)
+    bool load(tson::Layer* tsonLayer)
     {
+        if (tsonLayer == nullptr || tsonLayer->getType() != tson::LayerType::TileLayer) {
+            return false;
+        }
+
         // load the tileset texture
-        if (!m_tileset.loadFromFile(tileset))
+        if (!m_tileset.loadFromFile(tsonLayer->getMap()->getTileset()))
             return false;
 
         // resize the vertex array to fit the level size

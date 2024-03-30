@@ -3,11 +3,18 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
+#include <tileson.hpp>
 
 class ObjectLayer : public sf::Drawable, public sf::Transformable
 {
 public:
-    //bool load();
+    bool load(tson::Layer* tsonLayer) {
+        if (tsonLayer == nullptr || tsonLayer->getType() != tson::LayerType::ObjectGroup) {
+            return false;
+        }
+
+        //create gameobjects
+    }
     ObjectLayer& sort() {
         std::sort(m_objects.begin(), m_objects.end(),
             [](GameObject* a, GameObject* b) -> bool {

@@ -26,7 +26,7 @@ public:
 
     const std::string layerNames[Layer::Count]
     {
-        "Back", "Buildings", "Dynamic", "Front", "Always Front"
+        "Back", "Building", "Dynamic", "Front", "Always Front"
     };
 
     bool load(const std::string& path) {
@@ -38,8 +38,8 @@ public:
         {
             //Load layers
             for (int i = 0; i < Layer::Count; i++) {
-                m_objectLayers[i].load(map->getLayer(layerNames[i]));
-                m_tileLayers[i].load(map->getLayer(layerNames[i]));
+                m_objectLayers[i].load(map->getLayer(layerNames[i] + " Objects"));
+                m_tileLayers[i].load(map->getLayer(layerNames[i] + " Tiles"));
             }
             //Gets the layer called "Object Layer" from the "ultimate_demo.json map
             tson::Layer* objectLayer = map->getLayer("Object Layer"); //This is an Object Layer
