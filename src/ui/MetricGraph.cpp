@@ -27,6 +27,6 @@ void MetricGraph::Render(std::string label, float value)
 
 	ImGui::Text((label + ": %f | max %f |").c_str(), value, max);
 	
-	float histogramMax = fmaxf(avg * 2.71, max);
+	float histogramMax = fmaxf(avg * 2.71f, max); //magic number lmfao (almost e)
 	ImGui::PlotHistogram(label.c_str(), &frames[0], (int)frames.size(), 0, NULL, graphMin, histogramMax, ImVec2(300, 100));
 }

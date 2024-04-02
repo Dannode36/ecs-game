@@ -142,7 +142,7 @@ public:
         }
         else {
 #if DEBUG_LEVEL >= DEBUG_CRITICAL
-            fmt::print("Tilemap failed to load:\n-->Path: {0}\n-->Tileson Status: {1}", path, map->getStatus());
+            fmt::print("Tilemap failed to load:\n-->Path: {0}\n-->Tileson Status: {1}", path, (int)map->getStatus());
 #endif
             return false;
         }
