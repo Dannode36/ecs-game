@@ -75,10 +75,10 @@ private:
 	// has a unique spot.
 	std::array<T, MAX_ENTITIES> mComponentArray;
 
-	// Map from an entity ID to an array index.
+	// TileMap from an entity ID to an array index.
 	std::unordered_map<Entity, size_t> mEntityToIndexMap;
 
-	// Map from an array index to an entity ID.
+	// TileMap from an array index to an entity ID.
 	std::unordered_map<size_t, Entity> mIndexToEntityMap;
 
 	// Total size of valid entries in the array.

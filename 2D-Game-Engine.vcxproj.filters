@@ -218,7 +218,7 @@
     <ClInclude Include="include\game\ObjectLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\Animation.h">
+    <ClInclude Include="include\game\TileAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\game\Frame.h">

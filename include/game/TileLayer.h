@@ -6,7 +6,7 @@
 #include "PropertyCollection.h"
 #include <vendor/tileson.hpp>
 
-class Map;
+class TileMap;
 
 class TileLayer : public sf::Drawable, public sf::Transformable
 {
@@ -18,6 +18,30 @@ public:
 			return false;
 		}
 
+		//Copy tile data
+		m_data = tsonTileLayer->getData();
+		m_id = tsonTileLayer->getId();
+		m_name = tsonTileLayer->getName();
+		m_opacity = tsonTileLayer->getOpacity();
+
+		//Gets a little bit iffy
+		for (auto& prop : tsonTileLayer->getProperties().getProperties())
+		{
+			m_properties.add(prop.second);
+		}
+
+		m_size.x = tsonTileLayer->getSize().x;
+		m_size.y = tsonTileLayer->getSize().y;
+
+		m_visible = tsonTileLayer->isVisible();
+
+		m_parallax.x = tsonTileLayer->getParallax().x;
+		m_parallax.y = tsonTileLayer->getParallax().y;
+
+
+		//This is where stuff gets weird
+		
+		
 		//// load the tileset texture
 		//if (!m_tileset.loadFromFile(tsonTileLayer->getMap()->getTileset()))
 		//    return false;
@@ -78,7 +102,7 @@ public:
 	inline Tile* getTileData(const sf::Vector2i& pos);
 
 	[[nodiscard]] inline const sf::Color& getTintColor() const;
-	inline Map* getMap() const;
+	inline TileMap* getMap() const;
 
 	//MAY SUPPORT IN FUTURE VERSIONS
 	//[[nodiscard]] inline bool hasRepeatX() const;
@@ -96,26 +120,24 @@ public:
 	//[[nodiscard]] inline const std::set<uint32_t>& getUniqueFlaggedTiles() const;
 	//inline void resolveFlaggedTiles();
 private:
-	std::vector<uint32_t>                          m_data;						/*! 'data': Array of unsigned int (GIDs)
+	std::vector<uint32_t> m_data;						/*! 'data': Array of unsigned int (GIDs)
 																				 *   data. tileTileLayer only. */
-	/*CONFIRM USE CASE*/ int                                            m_id{};						/*! 'id': Incremental id - unique across all TileLayers */
-	std::string                                    m_name;						/*! 'name': Name assigned to this TileLayer */
+	/*CONFIRM USE CASE*/ int  m_id{};					/*! 'id': Incremental id - unique across all TileLayers */
+	std::string  m_name;								/*! 'name': Name assigned to this TileLayer */
 
-	float                                          m_opacity{};					/*! 'opacity': Value between 0 and 1 */
-	PropertyCollection							   m_properties; 				/*! 'properties': A list of properties (name, value, type). */
-	sf::Vector2i                                   m_size;						/*! x = 'width': (Column count. Same as map width for fixed-size maps.)
+	float  m_opacity{};									/*! 'opacity': Value between 0 and 1 */
+	PropertyCollection m_properties; 					/*! 'properties': A list of properties (name, value, type). */
+	sf::Vector2i  m_size;								/*! x = 'width': (Column count. Same as map width for fixed-size maps.)
 																					  y = 'height': Row count. Same as map height for fixed-size maps. */
-	bool                                           m_visible{};					/*! 'visible': Whether TileLayer is shown or hidden in editor */
-	sf::Vector2f                                   m_parallax{ 1.f, 1.f };		/*! Tiled v1.5: parallax factor for this TileLayer. Defaults to 1.
+	bool m_visible{};									/*! 'visible': Whether TileLayer is shown or hidden in editor */
+	sf::Vector2f m_parallax{ 1.f, 1.f };				/*! Tiled v1.5: parallax factor for this TileLayer. Defaults to 1.
 																				  x = 'parallaxx', y = 'parallaxy'*/
+	//std::map<uint32_t, Tile*>* m_tileMap;
+	std::map<std::tuple<int, int>, Tile*> m_tileData;	/*! Key: Tuple of x and y pos in tile units. */
 
-	std::map<uint32_t, Tile*>* m_tileMap;
-	std::map<std::tuple<int, int>, Tile*>		   m_tileData;					/*! Key: Tuple of x and y pos in tile units. */
-
-	//v1.2.0-stuff
-	sf::Color                                      m_tintColor;					/*! 'tintcolor': Hex-formatted color (#RRGGBB or #AARRGGBB) that is multiplied with
+	sf::Color m_tintColor;								/*! 'tintcolor': Hex-formatted color (#RRGGBB or #AARRGGBB) that is multiplied with
 																				 *        any graphics drawn by this TileLayer or any child TileLayers (optional). */
-	Map* m_map;																/*! The map who owns this TileLayer */
+	TileMap* m_map;											/*! The map who owns this TileLayer */
 
 	//MAY SUPPORT IN FUTURE VERSIONS
 	//std::vector<Chunk>						   m_chunks; 					/* Array of chunks. */
@@ -125,8 +147,7 @@ private:
 
 	//std::vector<TileLayer>                       m_TileLayers; 				/*Array of TileLayers (TileLayer hierarchy). */
 	
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		// apply the transform
 		states.transform *= getTransform();
 
@@ -213,7 +234,7 @@ void TileLayer::assignTileMap(std::map<uint32_t, Tile*>* tileMap) {
 
 /*!
  * Get tile data as some kind of map with x and y position with pointers to existing tiles.
- * Map only contains tiles that are not empty. x and y position is in tile units.
+ * TileMap only contains tiles that are not empty. x and y position is in tile units.
  *
  * Example of getting tile from the returned map:
  *
@@ -228,7 +249,7 @@ const std::map<std::tuple<int, int>, Tile*>& TileLayer::getTileData() const {
 /*!
  * A safe way to get tile data
  * Get tile data as some kind of map with x and y position with pointers to existing tiles.
- * Map only contains tiles that are not empty. x and y position is in tile units.
+ * TileMap only contains tiles that are not empty. x and y position is in tile units.
  *
  * Example of getting tile:
  * Tile *tile = TileLayer->getTileData(0, 4)
@@ -244,7 +265,7 @@ Tile* TileLayer::getTileData(int x, int y) {
 /*!
  * A safe way to get tile data
  * Get tile data as some kind of map with x and y position with pointers to existing tiles.
- * Map only contains tiles that are not empty. x and y position is in tile units.
+ * TileMap only contains tiles that are not empty. x and y position is in tile units.
  *
  * Example of getting tile:
  * Tile *tile = TileLayer->getTileData(0, 4)
@@ -258,10 +279,10 @@ Tile* TileLayer::getTileData(const sf::Vector2i& pos) {
 }
 
 /*!
- * Used for getting the Map who is the parent of this TileLayer.
- * @return a pointer to the Map where this TileLayer is contained.
+ * Used for getting the TileMap who is the parent of this TileLayer.
+ * @return a pointer to the TileMap where this TileLayer is contained.
  */
-Map* TileLayer::getMap() const {
+TileMap* TileLayer::getMap() const {
 	return m_map;
 }
 

@@ -2,11 +2,11 @@
 #include <vector>
 #include "Frame.h"
 
-class Animation
+class TileAnimation
 {
 public:
-	inline Animation() = default;
-	inline Animation(const std::vector<Frame>& frames) : m_frames{ frames } {};
+	inline TileAnimation() = default;
+	inline TileAnimation(const std::vector<Frame>& frames) : m_frames{ frames } {};
 
 	inline void update(float timeDeltaMs);
 	inline void reset();
@@ -31,14 +31,14 @@ private:
 	float m_timeDelta{ 0 };
 };
 
-const std::vector<Frame>& Animation::getFrames() const {
+const std::vector<Frame>& TileAnimation::getFrames() const {
 	return m_frames;
 }
 
 /*!
  * Resets the current frame and time delta to 0.
  */
-void Animation::reset() {
+void TileAnimation::reset() {
 	m_currentFrame = 0;
 	m_timeDelta = 0.f;
 }
@@ -47,11 +47,11 @@ void Animation::reset() {
  * Gets the current frame or nullptr if no frame is found.
  * @return
  */
-const Frame* Animation::getCurrentFrame() const {
+const Frame* TileAnimation::getCurrentFrame() const {
 	return (m_frames.size() == 0 || m_currentFrame >= m_frames.size()) ? nullptr : &m_frames.at(m_currentFrame);
 }
 
-size_t Animation::size() const {
+size_t TileAnimation::size() const {
 	return m_frames.size();
 }
 
@@ -59,7 +59,7 @@ size_t Animation::size() const {
  * Update animation based on the fra
  * @param timedeltaMs Time in milliseconds
  */
-void Animation::update(float timeDeltaMs) {
+void TileAnimation::update(float timeDeltaMs) {
 	const Frame* frame = getCurrentFrame();
 	if (frame != nullptr)
 	{
@@ -72,31 +72,31 @@ void Animation::update(float timeDeltaMs) {
 	}
 }
 
-int Animation::nextFrame() {
+int TileAnimation::nextFrame() {
 	return (m_currentFrame + 1 >= m_frames.size()) ? 0 : m_currentFrame + 1;
 }
 
-float Animation::getTimeDelta() const {
+float TileAnimation::getTimeDelta() const {
 	return m_timeDelta;
 }
 
-uint32_t Animation::getCurrentFrameNumber() const {
+uint32_t TileAnimation::getCurrentFrameNumber() const {
 	return m_currentFrame;
 }
 
-uint32_t Animation::getCurrentTileId() const {
+uint32_t TileAnimation::getCurrentTileId() const {
 	return (getCurrentFrame() != nullptr) ? getCurrentFrame()->getTileId() : 0;
 }
 
-void Animation::setFrames(const std::vector<Frame>& frames) {
+void TileAnimation::setFrames(const std::vector<Frame>& frames) {
 	m_frames = frames;
 }
 
-void Animation::setCurrentFrame(uint32_t currentFrame) {
+void TileAnimation::setCurrentFrame(uint32_t currentFrame) {
 	m_currentFrame = currentFrame;
 }
 
-void Animation::setTimeDelta(float timeDelta) {
+void TileAnimation::setTimeDelta(float timeDelta) {
 	m_timeDelta = timeDelta;
 }
 
@@ -104,6 +104,6 @@ void Animation::setTimeDelta(float timeDelta) {
  * True if any frames exists, false otherwise
  * @return
  */
-bool Animation::any() const {
+bool TileAnimation::any() const {
 	return m_frames.size() > 0;
 }

@@ -1581,7 +1581,7 @@ namespace tson
 /*** End of inlined file: MemoryStream.hpp ***/
 
 
-/*** Start of inlined file: Map.hpp ***/
+/*** Start of inlined file: TileMap.hpp ***/
 //
 // Created by robin on 22.03.2020.
 //
@@ -3263,7 +3263,7 @@ namespace tson
 	};
 
 	/*!
-	 * Map.hpp - ParseStatus
+	 * TileMap.hpp - ParseStatus
 	 */
 	enum class ParseStatus : uint8_t
 	{
@@ -4418,7 +4418,7 @@ namespace tson
 			inline void decompressData();                                                     /*! Defined in tileson_forward.hpp */
 			inline void queueFlaggedTile(size_t x, size_t y, uint32_t id);                    /*! Queue a flagged tile */
 
-			tson::Map *                                         m_map;                        /*! The map who owns this layer */
+			tson::Map*											m_map;                        /*! The map who owns this layer */
 			std::map<std::tuple<int, int>, tson::TileObject>    m_tileObjects;
 			std::set<uint32_t>                                  m_uniqueFlaggedTiles;
 			std::vector<tson::FlaggedTile>                      m_flaggedTiles;
@@ -4745,7 +4745,7 @@ void tson::Layer::assignTileMap(std::map<uint32_t, tson::Tile *> *tileMap)
 
 /*!
  * Get tile data as some kind of map with x and y position with pointers to existing tiles.
- * Map only contains tiles that are not empty. x and y position is in tile units.
+ * TileMap only contains tiles that are not empty. x and y position is in tile units.
  *
  * Example of getting tile from the returned map:
  *
@@ -4761,7 +4761,7 @@ const std::map<std::tuple<int, int>, tson::Tile *> &tson::Layer::getTileData() c
 /*!
  * A safe way to get tile data
  * Get tile data as some kind of map with x and y position with pointers to existing tiles.
- * Map only contains tiles that are not empty. x and y position is in tile units.
+ * TileMap only contains tiles that are not empty. x and y position is in tile units.
  *
  * Example of getting tile:
  * Tile *tile = layer->getTileData(0, 4)
@@ -4776,8 +4776,8 @@ tson::Tile *tson::Layer::getTileData(int x, int y)
 }
 
 /*!
- * Used for getting the tson::Map who is the parent of this Layer.
- * @return a pointer to the tson::Map where this layer is contained.
+ * Used for getting the tson::TileMap who is the parent of this Layer.
+ * @return a pointer to the tson::TileMap where this layer is contained.
  */
 tson::Map *tson::Layer::getMap() const
 {
@@ -5596,7 +5596,7 @@ uint32_t tson::Frame::getTileId() const
 /*** End of inlined file: Frame.hpp ***/
 
 
-/*** Start of inlined file: Animation.hpp ***/
+/*** Start of inlined file: TileAnimation.hpp ***/
 //
 // Created by robin on 21.05.2021.
 //
@@ -5728,7 +5728,7 @@ namespace tson
 
 #endif //TILESON_ANIMATION_HPP
 
-/*** End of inlined file: Animation.hpp ***/
+/*** End of inlined file: TileAnimation.hpp ***/
 
 namespace tson
 {
@@ -5959,8 +5959,8 @@ tson::Tileset *tson::Tile::getTileset() const
 }
 
 /*!
- * Used for getting the tson::Map who is the parent of this Tile.
- * @return a pointer to the tson::Map where this tile is contained.
+ * Used for getting the tson::TileMap who is the parent of this Tile.
+ * @return a pointer to the tson::TileMap where this tile is contained.
  */
 tson::Map *tson::Tile::getMap() const
 {
@@ -6672,8 +6672,8 @@ void tson::Tileset::generateMissingTiles()
 }
 
 /*!
- * Used for getting the tson::Map who is the parent of this Tileset.
- * @return a pointer to the tson::Map where this tileset is contained.
+ * Used for getting the tson::TileMap who is the parent of this Tileset.
+ * @return a pointer to the tson::TileMap where this tileset is contained.
  */
 tson::Map *tson::Tileset::getMap() const
 {
@@ -6887,7 +6887,7 @@ tson::Map::Map(tson::ParseStatus status, std::string description) : m_status {st
 
 /*!
  * Parses a json of a Tiled map.
- * @param json A json object with the format of Map
+ * @param json A json object with the format of TileMap
  * @param linkedFileParser A callback function that must return a IJson object when a linked file is found in the map
  * @return true if all mandatory fields was found. false otherwise.
  */
@@ -6898,7 +6898,7 @@ tson::Map::Map(IJson &json, tson::DecompressorContainer *decompressors, tson::Pr
 
 /*!
  * Parses a json of a Tiled map.
- * @param json A json object with the format of Map
+ * @param json A json object with the format of TileMap
  * @param linkedFileParser A callback function that must return a IJson object when a linked file is found in the map
  * @return true if all mandatory fields was found. false otherwise.
  */
@@ -7198,7 +7198,7 @@ const std::string &tson::Map::getType() const
  * 'version': The JSON format version
  * @return
  */
-//int tson::Map::getVersion() const
+//int tson::TileMap::getVersion() const
 //{
 //    return m_version;
 //}
@@ -7343,7 +7343,7 @@ const std::string &tson::Map::getClassType() const
 
 #endif //TILESON_MAP_HPP
 
-/*** End of inlined file: Map.hpp ***/
+/*** End of inlined file: TileMap.hpp ***/
 
 
 /*** Start of inlined file: TiledEnum.hpp ***/
@@ -8430,7 +8430,7 @@ tson::Tileson::Tileson(tson::Project *project, std::unique_ptr<tson::IJson> json
 /*!
  * Parses Tiled json map data by file
  * @param path path to file
- * @return parsed data as Map
+ * @return parsed data as TileMap
  */
 std::unique_ptr<tson::Map> tson::Tileson::parse(const fs::path &path, std::unique_ptr<IDecompressor<std::vector<uint8_t>, std::vector<uint8_t>>> decompressor)
 {
@@ -8463,7 +8463,7 @@ std::unique_ptr<tson::Map> tson::Tileson::parse(const fs::path &path, std::uniqu
  * Parses Tiled json map data by memory
  * @param data The data to parse
  * @param size The size of the data to parse
- * @return parsed data as Map
+ * @return parsed data as TileMap
  */
 std::unique_ptr<tson::Map> tson::Tileson::parse(const void *data, size_t size, std::unique_ptr<IDecompressor<std::vector<uint8_t>, std::vector<uint8_t>>> decompressor)
 {
@@ -8489,7 +8489,7 @@ std::unique_ptr<tson::Map> tson::Tileson::parse(const void *data, size_t size, s
 /*!
  * Common parsing functionality for doing the json parsing
  * @param json Tiled json to parse
- * @return parsed data as Map
+ * @return parsed data as TileMap
  */
 std::unique_ptr<tson::Map> tson::Tileson::parseJson()
 {
@@ -8640,7 +8640,7 @@ bool tson::Tile::parseId(IJson &json)
 }
 
 /*!
- * Uses tson::Tileset and tson::Map data to calculate related values for tson::Tile.
+ * Uses tson::Tileset and tson::TileMap data to calculate related values for tson::Tile.
  * Added in v1.2.0
  */
 void tson::Tile::performDataCalculations()

@@ -31,8 +31,7 @@ protected:
 };
 
 template<typename T>
-T PropertyCollection::getValue(const std::string& name)
-{
+T PropertyCollection::getValue(const std::string& name) {
 	static T defaultT;
 	return (m_properties.count(name) > 0) ? m_properties[name].getValue<T>() : defaultT;
 }
@@ -42,20 +41,17 @@ PropertyCollection::PropertyCollection(std::string id) : m_id{ std::move(id) }
 
 }
 
-Property* PropertyCollection::add(const Property& property)
-{
+Property* PropertyCollection::add(const Property& property) {
 	m_properties[property.getName()] = property;
 	return &m_properties[property.getName()];
 }
 
-Property* PropertyCollection::add(const std::string& name, const std::any& value, Type type)
-{
+Property* PropertyCollection::add(const std::string& name, const std::any& value, Type type) {
 	m_properties[name] = { name, value, type };
 	return &m_properties[name];
 }
 
-void PropertyCollection::remove(const std::string& name)
-{
+void PropertyCollection::remove(const std::string& name) {
 	m_properties.erase(name);
 }
 
@@ -65,8 +61,7 @@ void PropertyCollection::remove(const std::string& name)
  * @param name
  * @param value
  */
-void PropertyCollection::setValue(const std::string& name, const std::any& value)
-{
+void PropertyCollection::setValue(const std::string& name, const std::any& value) {
 	if (m_properties.count(name) > 0)
 		m_properties[name].setValue(value);
 }
@@ -76,28 +71,23 @@ void PropertyCollection::setValue(const std::string& name, const std::any& value
  * @param name
  * @param value
  */
-void PropertyCollection::setProperty(const std::string& name, const Property& value)
-{
+void PropertyCollection::setProperty(const std::string& name, const Property& value) {
 	m_properties[name] = value;
 }
 
-void PropertyCollection::setId(const std::string& id)
-{
+void PropertyCollection::setId(const std::string& id) {
 	m_id = id;
 }
 
-bool PropertyCollection::hasProperty(const std::string& name)
-{
+bool PropertyCollection::hasProperty(const std::string& name) {
 	return m_properties.count(name) > 0;
 }
 
-Property* PropertyCollection::getProperty(const std::string& name)
-{
+Property* PropertyCollection::getProperty(const std::string& name) {
 	return (m_properties.count(name) > 0) ? &m_properties[name] : nullptr;
 }
 
-std::map<std::string, Property>& PropertyCollection::getProperties()
-{
+std::map<std::string, Property>& PropertyCollection::getProperties() {
 	return m_properties;
 }
 
@@ -105,21 +95,19 @@ std::map<std::string, Property>& PropertyCollection::getProperties()
  * Gets vector of pointers to all the existing properties
  * @return
  */
-std::vector<Property*> PropertyCollection::get()
-{
+std::vector<Property*> PropertyCollection::get() {
 	std::vector<Property*> props;
-	for (auto& i : m_properties)
+	for (auto& i : m_properties) {
 		props.emplace_back(&i.second);
+	}
 
 	return props;
 }
 
-const std::string& PropertyCollection::getId() const
-{
+const std::string& PropertyCollection::getId() const {
 	return m_id;
 }
 
-size_t PropertyCollection::getSize() const
-{
+size_t PropertyCollection::getSize() const {
 	return m_properties.size();
 }

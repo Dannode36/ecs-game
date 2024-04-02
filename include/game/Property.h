@@ -1,6 +1,7 @@
 #pragma once
 #include <any>
 #include <string>
+#include "vendor/tileson.hpp"
 
 enum class Type : uint8_t
 {
@@ -20,6 +21,7 @@ class Property
 {
 public:
 	inline Property();
+	inline Property(tson::Property);
 	inline Property(std::string name, std::any value, Type type);
 
 	inline void setValue(const std::any& value);
@@ -67,13 +69,18 @@ Property::Property() : m_name{ "unnamed" }
 
 }
 
+inline Property::Property(tson::Property tsonProperty) {
+	m_name = tsonProperty.getName();
+	m_propertyType = tsonProperty.getPropertyType();
+	m_value = tsonProperty.getValue();
+}
+
 Property::Property(std::string name, std::any value, Type type) : m_type{ type }, m_name{ std::move(name) }, m_value{ std::move(value) }
 {
 
 }
 
-void Property::setValue(const std::any& value)
-{
+void Property::setValue(const std::any& value) {
 	m_value = value;
 }
 
@@ -83,23 +90,19 @@ void Property::setValue(const std::any& value)
  * This function is to make sure the value is added as string.
  * @param value
  */
-void Property::setStrValue(const std::string& value)
-{
+void Property::setStrValue(const std::string& value) {
 	m_value = value;
 }
 
-const std::any& Property::getValue() const
-{
+const std::any& Property::getValue() const {
 	return m_value;
 }
 
-void Property::setName(const std::string& name)
-{
+void Property::setName(const std::string& name) {
 	m_name = name;
 }
 
-const std::string& Property::getName() const
-{
+const std::string& Property::getName() const {
 	return m_name;
 }
 
@@ -109,9 +112,7 @@ const std::string& Property::getName() const
  * Check if int: getValueType() == typeid(int)
  * @return
  */
-
-const std::type_info& Property::getValueType() const
-{
+const std::type_info& Property::getValueType() const {
 	return m_value.type();
 }
 
@@ -123,18 +124,15 @@ const std::type_info& Property::getValueType() const
  * "b" = bool
  * @return
  */
-std::string Property::getValueTypeInfo()
-{
+std::string Property::getValueTypeInfo() {
 	return m_value.type().name();
 }
 
-Type Property::getType() const
-{
+Type Property::getType() const {
 	return m_type;
 }
 
-void Property::setTypeByString(const std::string& str)
-{
+void Property::setTypeByString(const std::string& str) {
 	if (str == "color")
 		m_type = Type::Color;
 	else if (str == "file")
@@ -155,7 +153,6 @@ void Property::setTypeByString(const std::string& str)
 		m_type = Type::Undefined;
 }
 
-const std::string& Property::getPropertyType() const
-{
+const std::string& Property::getPropertyType() const {
 	return m_propertyType;
 }

@@ -10,7 +10,7 @@
 #include <vendor/tileson.hpp>
 #include "fmt/format.h"
 
-class Map : public sf::Drawable
+class TileMap : public sf::Drawable
 {
 public:
     enum Layer
@@ -31,7 +31,7 @@ public:
 
     bool load(const std::string& path) {
         tson::Tileson t;
-        //std::unique_ptr<tson::Map> map = t.parse(fs::path(path));
+        //std::unique_ptr<tson::TileMap> map = t.parse(fs::path(path));
         std::unique_ptr<tson::Map> map = t.parse(fs::path("./path/to/map.json"));
 
         if (map->getStatus() == tson::ParseStatus::OK)

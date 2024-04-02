@@ -69,10 +69,10 @@ public:
 	}
 
 private:
-	// Map from type string pointer to a component type
+	// TileMap from type string pointer to a component type
 	std::unordered_map<const char*, ComponentType> mComponentTypes{};
 
-	// Map from type string pointer to a component array
+	// TileMap from type string pointer to a component array
 	std::unordered_map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays{};
 
 	// The component type to be assigned to the next registered component - starting at 0
