@@ -6,6 +6,8 @@
 #include "PropertyCollection.h"
 #include <vendor/tileson.hpp>
 
+class Map;
+
 class TileLayer : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -61,23 +63,22 @@ public:
 	[[nodiscard]] inline const sf::Vector2f& getParallax() const;
 
 	[[nodiscard]] inline bool isVisible() const;
-	[[nodiscard]] inline int getX() const;
-	[[nodiscard]] inline int getY() const;
 
 	[[nodiscard]] inline PropertyCollection& getProperties();
-	template <typename T> inline T get(const std::string& name);
 	inline Property* getProp(const std::string& name);
+	template <typename T> inline T get(const std::string& name) {
+		return m_properties.getValue<T>(name);
+	}
 
 	inline void assignTileMap(std::map<uint32_t, Tile*>* tileMap);
-	inline void createTileData(const sf::Vector2i& mapSize, bool isInfiniteMap);
+	inline void createTileData(const sf::Vector2i& mapSize);
 
 	[[nodiscard]] inline const std::map<std::tuple<int, int>, Tile*>& getTileData() const;
 	inline Tile* getTileData(int x, int y);
-	inline Tile* getTileData(sf::Vector2i pos);
+	inline Tile* getTileData(const sf::Vector2i& pos);
 
-	//v1.2.0-stuff
 	[[nodiscard]] inline const sf::Color& getTintColor() const;
-	[[nodiscard]] inline TileMap* getMap() const;
+	inline Map* getMap() const;
 
 	//MAY SUPPORT IN FUTURE VERSIONS
 	//[[nodiscard]] inline bool hasRepeatX() const;
@@ -105,8 +106,6 @@ private:
 	sf::Vector2i                                   m_size;						/*! x = 'width': (Column count. Same as map width for fixed-size maps.)
 																					  y = 'height': Row count. Same as map height for fixed-size maps. */
 	bool                                           m_visible{};					/*! 'visible': Whether TileLayer is shown or hidden in editor */
-	int                                            m_x{};						/*! 'x': Horizontal TileLayer offset in tiles. Always 0. */
-	int                                            m_y{};						/*! 'y': Vertical TileLayer offset in tiles. Always 0. */
 	sf::Vector2f                                   m_parallax{ 1.f, 1.f };		/*! Tiled v1.5: parallax factor for this TileLayer. Defaults to 1.
 																				  x = 'parallaxx', y = 'parallaxy'*/
 
@@ -116,7 +115,7 @@ private:
 	//v1.2.0-stuff
 	sf::Color                                      m_tintColor;					/*! 'tintcolor': Hex-formatted color (#RRGGBB or #AARRGGBB) that is multiplied with
 																				 *        any graphics drawn by this TileLayer or any child TileLayers (optional). */
-	TileMap* m_map;																/*! The map who owns this TileLayer */
+	Map* m_map;																/*! The map who owns this TileLayer */
 
 	//MAY SUPPORT IN FUTURE VERSIONS
 	//std::vector<Chunk>						   m_chunks; 					/* Array of chunks. */
@@ -126,11 +125,6 @@ private:
 
 	//std::vector<TileLayer>                       m_TileLayers; 				/*Array of TileLayers (TileLayer hierarchy). */
 	
-	template<typename T>
-	T get(const std::string& name) {
-		return m_properties.getValue<T>(name);
-	}
-
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		// apply the transform
@@ -146,10 +140,6 @@ private:
 	sf::Texture m_tileset;
 };
 #pragma warning(default : 4244)
-
-TileLayer::TileLayer(IJson& json, Map* map) {
-	parse(json, map);
-}
 
 /*!
  * @return Array of unsigned int (GIDs)
@@ -184,7 +174,7 @@ float TileLayer::getOpacity() const {
  * y = 'height': Row count. Same as map height for fixed-size maps.
  * @return width and height as a single size
  */
-const Vector2i& TileLayer::getSize() const {
+const sf::Vector2i& TileLayer::getSize() const {
 	return m_size;
 }
 
@@ -263,7 +253,7 @@ Tile* TileLayer::getTileData(int x, int y) {
  * @param y Y position in tile units
  * @return pointer to tile, if it exists. nullptr otherwise.
  */
-Tile* TileTileLayer::getTileData(const sf::Vector2i& pos) {
+Tile* TileLayer::getTileData(const sf::Vector2i& pos) {
 	return (m_tileData.count({ pos.x, pos.y }) > 0) ? m_tileData[{pos.x, pos.y}] : nullptr;
 }
 
@@ -271,41 +261,30 @@ Tile* TileTileLayer::getTileData(const sf::Vector2i& pos) {
  * Used for getting the Map who is the parent of this TileLayer.
  * @return a pointer to the Map where this TileLayer is contained.
  */
-TileMap* TileLayer::getMap() const {
+Map* TileLayer::getMap() const {
 	return m_map;
 }
 
 /*!
- *
- * This is only supported for non-infinite maps!
- *
  * @param mapSize The size of the map
- * @param isInfiniteMap Whether or not the current map is infinte.
  */
-void TileLayer::createTileData(const Vector2i& mapSize, bool isInfiniteMap) {
+void TileLayer::createTileData(const sf::Vector2i& mapSize) {
 	size_t x = 0;
 	size_t y = 0;
-	if (!isInfiniteMap) {
-		std::for_each(m_data.begin(), m_data.end(), [&](uint32_t tileId) {
-			if (static_cast<int>(x) == mapSize.x)
-			{
-				++y;
-				x = 0;
-			}
+	std::for_each(m_data.begin(), m_data.end(), [&](uint32_t tileId) {
+		if (static_cast<int>(x) == mapSize.x)
+		{
+			++y;
+			x = 0;
+		}
 
-			if (tileId > 0 && m_tileMap->count(tileId) > 0)
-			{
-				m_tileData[{static_cast<int>(x), static_cast<int>(y)}] = m_tileMap->at(tileId);
-				m_tileObjects[{static_cast<int>(x), static_cast<int>(y)}] = { {static_cast<int>(x), static_cast<int>(y)}, m_tileData[{static_cast<int>(x), static_cast<int>(y)}] };
-			}
-			else if (tileId > 0 && m_tileMap->count(tileId) == 0) //Tile with flip flags!
-			{
-				queueFlaggedTile(x, y, tileId);
-			}
-			x++;
-		});
-
-	}
+		if (tileId > 0 && m_tileMap->count(tileId) > 0)
+		{
+			m_tileData[{static_cast<int>(x), static_cast<int>(y)}] = m_tileMap->at(tileId);
+			//m_tileObjects[{static_cast<int>(x), static_cast<int>(y)}] = { {static_cast<int>(x), static_cast<int>(y)}, m_tileData[{static_cast<int>(x), static_cast<int>(y)}] };
+		}
+		x++;
+	});
 }
 
 /*!
@@ -313,7 +292,7 @@ void TileLayer::createTileData(const Vector2i& mapSize, bool isInfiniteMap) {
  *
  * @return tintcolor
  */
-const Colori& TileLayer::getTintColor() const {
+const sf::Color& TileLayer::getTintColor() const {
 	return m_tintColor;
 }
 
@@ -321,6 +300,6 @@ const Colori& TileLayer::getTintColor() const {
  * Gets the parallax factor for current TileLayer. Defaults to 1.
  * @return A vector with the x and y values of the parallax factor.
  */
-const Vector2f& TileLayer::getParallax() const {
+const sf::Vector2f& TileLayer::getParallax() const {
 	return m_parallax;
 }

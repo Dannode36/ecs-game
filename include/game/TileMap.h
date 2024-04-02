@@ -10,7 +10,7 @@
 #include <vendor/tileson.hpp>
 #include "fmt/format.h"
 
-class TileMap : public sf::Drawable
+class Map : public sf::Drawable
 {
 public:
     enum Layer
@@ -60,23 +60,6 @@ public:
                 }
 
                 tson::ObjectType objType = goomba->getObjectType();
-
-                /*!
-                 * tson::ObjectType is defined like this.
-                 * They are automatically detected based on what kind of object you have created
-                 * enum class Type : uint8_t
-                    {
-                        Undefined = 0,
-                        Object = 1,
-                        Ellipse = 2, //<-- Circle
-                        Rectangle = 3,
-                        Point = 4,
-                        Polygon = 5,
-                        Polyline = 6,
-                        Text = 7,
-                        Template = 8
-                    };
-                 */
 
                 if (objType == tson::ObjectType::Rectangle)
                 {

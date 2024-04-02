@@ -23,7 +23,7 @@ private:
     sf::View view;
 
     //Game Data
-    TileMap tileMap;
+    Map tileMap;
 
     //ECS
     std::vector<Entity> entities;

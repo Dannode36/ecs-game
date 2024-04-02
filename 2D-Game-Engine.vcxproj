@@ -174,7 +174,11 @@
     <ClCompile Include="src\game\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\game\Animation.h" />
+    <ClInclude Include="include\game\Frame.h" />
     <ClInclude Include="include\game\ObjectLayer.h" />
+    <ClInclude Include="include\game\Property.h" />
+    <ClInclude Include="include\game\PropertyCollection.h" />
     <ClInclude Include="include\game\Tile.h" />
     <ClInclude Include="include\managers\AudioManager.h" />
     <ClInclude Include="include\ecs\components\Camera.h" />
