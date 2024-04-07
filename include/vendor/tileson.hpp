@@ -5596,7 +5596,7 @@ uint32_t tson::Frame::getTileId() const
 /*** End of inlined file: Frame.hpp ***/
 
 
-/*** Start of inlined file: TileAnimation.hpp ***/
+/*** Start of inlined file: Animation.hpp ***/
 //
 // Created by robin on 21.05.2021.
 //
@@ -5728,7 +5728,7 @@ namespace tson
 
 #endif //TILESON_ANIMATION_HPP
 
-/*** End of inlined file: TileAnimation.hpp ***/
+/*** End of inlined file: Animation.hpp ***/
 
 namespace tson
 {

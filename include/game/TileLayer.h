@@ -5,6 +5,7 @@
 #include "Tile.h"
 #include "PropertyCollection.h"
 #include <vendor/tileson.hpp>
+#include <util/Logging.h>
 
 class TileMap;
 
@@ -12,19 +13,32 @@ class TileLayer : public sf::Drawable, public sf::Transformable
 {
 public:
 	inline TileLayer() = default;
-	bool load(tson::Layer* tsonTileLayer)
+	bool load(tson::Layer* tsonTileLayer, TileMap* caller)
 	{
 		if (tsonTileLayer == nullptr || tsonTileLayer->getType() != tson::LayerType::TileLayer) {
 			return false;
 		}
 
+		//Load name first so texture can be checked
+		m_name = tsonTileLayer->getName();
+
+		//Try loading textures first for a possible early return
+		std::filesystem::path texturePath = tsonTileLayer->getMap()->getTileset(m_name)->getImagePath();
+
+		if (!m_texture.loadFromFile(texturePath.string())) {
+			fmt::print("{} [ERROR]: {}", getTimeString(), ("Texture at \"" + texturePath.string() + "\" is not valid"));
+
+			return false; //No vaild texture found 
+		}
+
 		//Copy tile data
 		m_data = tsonTileLayer->getData();
 		m_id = tsonTileLayer->getId();
-		m_name = tsonTileLayer->getName();
 		m_opacity = tsonTileLayer->getOpacity();
 
-		//Gets a little bit iffy
+		/*	Gets a little bit iffy...
+			Must rebuild entire collection as tson::Property and Property
+			are different but luckily its easy to cast between them	*/
 		for (auto& prop : tsonTileLayer->getProperties().getProperties())
 		{
 			m_properties.add(prop.second);
@@ -38,7 +52,10 @@ public:
 		m_parallax.x = tsonTileLayer->getParallax().x;
 		m_parallax.y = tsonTileLayer->getParallax().y;
 
+		//m_tileData = tsonTileLayer->gett
+		
 
+		m_map = caller;
 		//This is where stuff gets weird
 		
 		
@@ -90,9 +107,7 @@ public:
 
 	[[nodiscard]] inline PropertyCollection& getProperties();
 	inline Property* getProp(const std::string& name);
-	template <typename T> inline T get(const std::string& name) {
-		return m_properties.getValue<T>(name);
-	}
+	template <typename T> inline T get(const std::string& name);
 
 	inline void assignTileMap(std::map<uint32_t, Tile*>* tileMap);
 	inline void createTileData(const sf::Vector2i& mapSize);
@@ -104,61 +119,43 @@ public:
 	[[nodiscard]] inline const sf::Color& getTintColor() const;
 	inline TileMap* getMap() const;
 
-	//MAY SUPPORT IN FUTURE VERSIONS
-	//[[nodiscard]] inline bool hasRepeatX() const;
-	//[[nodiscard]] inline bool hasRepeatY() const;
-
-	//[[nodiscard]] inline const std::string& getClassType() const;
-	//[[nodiscard]] inline TiledClass* getClass(); /*! Declared in tileson_forward.hpp */
-	// 
-	//[[nodiscard]] inline std::vector<Chunk>& getChunks();
-	//[[nodiscard]] inline std::vector<TileLayer>& getTileLayers();
-	//[[nodiscard]] inline std::vector<Object>& getObjects();
-
-	//[[nodiscard]] inline std::map<std::tuple<int, int>, TileObject>& getTileObjects();
-	//inline TileObject* getTileObject(int x, int y);
-	//[[nodiscard]] inline const std::set<uint32_t>& getUniqueFlaggedTiles() const;
-	//inline void resolveFlaggedTiles();
 private:
-	std::vector<uint32_t> m_data;						/*! 'data': Array of unsigned int (GIDs)
-																				 *   data. tileTileLayer only. */
-	/*CONFIRM USE CASE*/ int  m_id{};					/*! 'id': Incremental id - unique across all TileLayers */
-	std::string  m_name;								/*! 'name': Name assigned to this TileLayer */
+	std::vector<uint32_t> m_data;						/* 'data': Array of unsigned int (GIDs)
+															data. tileTileLayer only. */
+	int m_id{};											/* 'id': Incremental id - unique across all TileLayers */
+	std::string m_name;									/* 'name': Name assigned to this TileLayer */
 
-	float  m_opacity{};									/*! 'opacity': Value between 0 and 1 */
-	PropertyCollection m_properties; 					/*! 'properties': A list of properties (name, value, type). */
-	sf::Vector2i  m_size;								/*! x = 'width': (Column count. Same as map width for fixed-size maps.)
+	float m_opacity{};									/* 'opacity': Value between 0 and 1 */
+	PropertyCollection m_properties; 					/* 'properties': A list of properties (name, value, type). */
+	sf::Vector2i m_size;								/* x = 'width': (Column count. Same as map width for fixed-size maps.)
 																					  y = 'height': Row count. Same as map height for fixed-size maps. */
-	bool m_visible{};									/*! 'visible': Whether TileLayer is shown or hidden in editor */
-	sf::Vector2f m_parallax{ 1.f, 1.f };				/*! Tiled v1.5: parallax factor for this TileLayer. Defaults to 1.
+	bool m_visible{};									/* 'visible': Whether TileLayer is shown or hidden in editor */
+	sf::Vector2f m_parallax{ 1.f, 1.f };				/* Tiled v1.5: parallax factor for this TileLayer. Defaults to 1.
 																				  x = 'parallaxx', y = 'parallaxy'*/
 	//std::map<uint32_t, Tile*>* m_tileMap;
-	std::map<std::tuple<int, int>, Tile*> m_tileData;	/*! Key: Tuple of x and y pos in tile units. */
+	std::map<sf::Vector2i, Tile*> m_tileData;			/* Key: sf::Vector2i in tile units. */
 
-	sf::Color m_tintColor;								/*! 'tintcolor': Hex-formatted color (#RRGGBB or #AARRGGBB) that is multiplied with
-																				 *        any graphics drawn by this TileLayer or any child TileLayers (optional). */
-	TileMap* m_map;											/*! The map who owns this TileLayer */
+	sf::Color m_tintColor;								/* 'tintcolor': Hex-formatted color (#RRGGBB or #AARRGGBB) that is multiplied with
+															any graphics drawn by this TileLayer or any child TileLayers (optional). */
+	TileMap* m_map;										/* The map who owns this TileLayer */
 
 	//MAY SUPPORT IN FUTURE VERSIONS
-	//std::vector<Chunk>						   m_chunks; 					/* Array of chunks. */
-
 	//std::set<uint32_t>                           m_uniqueFlaggedTiles;
 	//std::vector<FlaggedTile>                     m_flaggedTiles;
 
-	//std::vector<TileLayer>                       m_TileLayers; 				/*Array of TileLayers (TileLayer hierarchy). */
-	
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		// apply the transform
 		states.transform *= getTransform();
 
 		// apply the tileset texture
-		states.texture = &m_tileset;
+		states.texture = &m_texture;
 
 		// draw the vertex array
-		target.draw(m_vertices, states);
+		target.draw(m_verticies, states);
 	}
-	sf::VertexArray m_vertices;
-	sf::Texture m_tileset;
+
+	sf::VertexArray m_verticies;
+	sf::Texture m_texture;
 };
 #pragma warning(default : 4244)
 
@@ -190,9 +187,7 @@ float TileLayer::getOpacity() const {
 	return m_opacity;
 }
 
-/*!
- * x = 'width': (Column count. Same as map width for fixed-size maps.)
- * y = 'height': Row count. Same as map height for fixed-size maps.
+/*
  * @return width and height as a single size
  */
 const sf::Vector2i& TileLayer::getSize() const {
@@ -211,6 +206,10 @@ bool TileLayer::isVisible() const {
  */
 PropertyCollection& TileLayer::getProperties() {
 	return m_properties;
+}
+template <typename T> 
+T get(const std::string& name) {
+	return m_properties.getValue<T>(name);
 }
 
 /*!

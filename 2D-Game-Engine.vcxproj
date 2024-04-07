@@ -174,7 +174,7 @@
     <ClCompile Include="src\game\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\game\TileAnimation.h" />
+    <ClInclude Include="include\game\Animation.h" />
     <ClInclude Include="include\game\Frame.h" />
     <ClInclude Include="include\game\ObjectLayer.h" />
     <ClInclude Include="include\game\Property.h" />
@@ -205,6 +205,8 @@
     <ClInclude Include="include\AssetCache.h" />
     <ClInclude Include="include\managers\AssetManager.h" />
     <ClInclude Include="include\game\TileLayer.h" />
+    <ClInclude Include="include\util\helpers_graphics.h" />
+    <ClInclude Include="include\util\Logging.h" />
     <ClInclude Include="include\vendor\rapidxml.hpp" />
     <ClInclude Include="include\vendor\tileson.hpp" />
     <ClInclude Include="src\Application.h" />

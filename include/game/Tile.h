@@ -3,7 +3,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <map>
 #include <string>
-#include "TileAnimation.h"
+#include "Animation.h"
 #include "PropertyCollection.h"
 #include "TileMap.h"
 #include "vendor/tileson.hpp"
@@ -23,7 +23,7 @@ public:
 	inline Tile(tson::Tile tsonTile);
 
 	//[[nodiscard]] inline const std::vector<Frame> &getAnimation() const;
-	[[nodiscard]] inline TileAnimation& getAnimation();
+	[[nodiscard]] inline Animation& getAnimation();
 	[[nodiscard]] inline PropertyCollection& getProperties();
 	[[nodiscard]] inline const std::vector<int>& getTerrain() const;
 
@@ -34,7 +34,7 @@ public:
 	//v1.2.0-stuff
 	inline void setProperties(const PropertyCollection& properties);
 
-	[[nodiscard]] inline Tileset* getTileset() const;
+	//[[nodiscard]] inline Tileset* getTileset() const;
 	[[nodiscard]] inline TileMap* getMap() const;
 
 	inline const sf::Vector2f getPosition(const std::tuple<int, int>& tileDataPos);
@@ -45,7 +45,7 @@ public:
 	inline bool hasFlipFlags(FlipFlags flags);
 	[[nodiscard]] inline uint32_t getGid() const;
 private:
-	TileAnimation m_animation{};
+	Animation m_animation{};
 	uint32_t m_textureIndex;
 	sf::Vector2u pos;
 	PropertyCollection  m_properties;
@@ -53,7 +53,7 @@ private:
 	std::string m_type;
 
 	uint32_t m_gid{};
-	Tileset* m_tileset;                          
+	//Tileset* m_tileset;                          
 	TileMap* m_map;                              
 	FlipFlags m_flipFlags = FlipFlags::None;
 };
@@ -61,7 +61,7 @@ private:
 Tile::Tile(tson::Tile tsonTile) {
 	m_textureIndex = tsonTile.getId();
 	m_gid = tsonTile.getGid();
-	m_tileset = tileset;
+	//m_tileset = tileset;
 	m_map = map;
 	manageFlipFlagsByIdThenRemoveFlags(m_gid);
 	performDataCalculations();

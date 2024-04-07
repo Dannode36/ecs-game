@@ -47,6 +47,20 @@ protected:
 	std::any m_value; //Using std::any to assign any type
 };
 
+Property::Property() : m_name{ "unnamed" }
+{
+}
+
+inline Property::Property(tson::Property tsonProperty) {
+	m_name = tsonProperty.getName();
+	m_propertyType = tsonProperty.getPropertyType();
+	m_value = tsonProperty.getValue();
+}
+
+Property::Property(std::string name, std::any value, Type type) : m_type{ type }, m_name{ std::move(name) }, m_value{ std::move(value) }
+{
+}
+
 template<typename T>
 T Property::getValue() const
 {
@@ -62,22 +76,6 @@ T Property::getValue() const
 		static T defaultValue;
 		return defaultValue;
 	}
-}
-
-Property::Property() : m_name{ "unnamed" }
-{
-
-}
-
-inline Property::Property(tson::Property tsonProperty) {
-	m_name = tsonProperty.getName();
-	m_propertyType = tsonProperty.getPropertyType();
-	m_value = tsonProperty.getValue();
-}
-
-Property::Property(std::string name, std::any value, Type type) : m_type{ type }, m_name{ std::move(name) }, m_value{ std::move(value) }
-{
-
 }
 
 void Property::setValue(const std::any& value) {
