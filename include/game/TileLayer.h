@@ -6,7 +6,7 @@
 #include "PropertyCollection.h"
 #include <vendor/tileson.hpp>
 #include <util/Logging.h>
-
+//#include "TileMap.h"
 class TileMap;
 
 class TileLayer : public sf::Drawable, public sf::Transformable
@@ -26,7 +26,7 @@ public:
 		std::filesystem::path texturePath = tsonTileLayer->getMap()->getTileset(m_name)->getImagePath();
 
 		if (!m_texture.loadFromFile(texturePath.string())) {
-			fmt::print("{} [ERROR]: {}", getTimeString(), ("Texture at \"" + texturePath.string() + "\" is not valid"));
+			LOG_ERROR("Texture at \"" + texturePath.string() + "\" is not valid");
 
 			return false; //No vaild texture found 
 		}
@@ -53,7 +53,6 @@ public:
 		m_parallax.y = tsonTileLayer->getParallax().y;
 
 		//m_tileData = tsonTileLayer->gett
-		
 
 		m_map = caller;
 		//This is where stuff gets weird
@@ -67,31 +66,32 @@ public:
 		//m_vertices.setPrimitiveType(sf::Quads);
 		//m_vertices.resize(width * height * 4);
 
-		//// populate the vertex array, with one quad per tile
-		//for (unsigned int i = 0; i < width; ++i)
-		//    for (unsigned int j = 0; j < height; ++j)
-		//    {
-		//        // get the current tile number
-		//        int tileNumber = tiles[i + j * width].textureIndex;
+		// populate the vertex array, with one quad per tile
+		//for (unsigned int i = 0; i < m_size.x; ++i) {
+		//	for (unsigned int j = 0; j < m_size.y; ++j)
+		//	{
+		//		// get the current tile number
+		//		int tileNumber = m_data[i + j * m_size.x];
 
-		//        // find its position in the tileset texture
-		//        int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
-		//        int tv = tileNumber / (m_tileset.getSize().x / tileSize.x);
+		//		// find its position in the tileset texture
+		//		int tu = tileNumber % (m_tileset.getSize().x / tileSize.x);
+		//		int tv = tileNumber / (m_tileset.getSize().x / tileSize.x);
 
-		//        // get a pointer to the current tile's quad
-		//        sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
-		//        
-		//        // define its 4 corners
-		//        quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-		//        quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-		//        quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-		//        quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+		//		// get a pointer to the current tile's quad
+		//		sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
 
-		//        // define its 4 texture coordinates
-		//        quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
-		//        quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
-		//        quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
-		//    }
+		//		// define its 4 corners
+		//		quad[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+		//		quad[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+		//		quad[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+		//		quad[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+
+		//		// define its 4 texture coordinates
+		//		quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
+		//		quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
+		//		quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
+		//	}
+		//}
 
 		return true;
 	}
@@ -120,20 +120,16 @@ public:
 	inline TileMap* getMap() const;
 
 private:
-	std::vector<uint32_t> m_data;						/* 'data': Array of unsigned int (GIDs)
-															data. tileTileLayer only. */
 	int m_id{};											/* 'id': Incremental id - unique across all TileLayers */
 	std::string m_name;									/* 'name': Name assigned to this TileLayer */
-
-	float m_opacity{};									/* 'opacity': Value between 0 and 1 */
-	PropertyCollection m_properties; 					/* 'properties': A list of properties (name, value, type). */
-	sf::Vector2i m_size;								/* x = 'width': (Column count. Same as map width for fixed-size maps.)
-																					  y = 'height': Row count. Same as map height for fixed-size maps. */
-	bool m_visible{};									/* 'visible': Whether TileLayer is shown or hidden in editor */
-	sf::Vector2f m_parallax{ 1.f, 1.f };				/* Tiled v1.5: parallax factor for this TileLayer. Defaults to 1.
-																				  x = 'parallaxx', y = 'parallaxy'*/
-	//std::map<uint32_t, Tile*>* m_tileMap;
+	sf::Vector2i m_size;								/* x = width, y = height */
+	std::vector<uint32_t> m_data;						/* 'data': Array of unsigned int (GIDs) */
 	std::map<sf::Vector2i, Tile*> m_tileData;			/* Key: sf::Vector2i in tile units. */
+	PropertyCollection m_properties; 					/* 'properties': A list of properties (name, value, type). */
+
+	bool m_visible{};									/* 'visible': Whether TileLayer is shown or hidden in editor */
+	float m_opacity{};									/* 'opacity': Value between 0 and 1 */
+	sf::Vector2f m_parallax{ 1.f, 1.f };				/* Tiled v1.5: parallax factor for this TileLayer. Defaults to 1. */
 
 	sf::Color m_tintColor;								/* 'tintcolor': Hex-formatted color (#RRGGBB or #AARRGGBB) that is multiplied with
 															any graphics drawn by this TileLayer or any child TileLayers (optional). */
@@ -154,7 +150,8 @@ private:
 		target.draw(m_verticies, states);
 	}
 
-	sf::VertexArray m_verticies;
+	//sf::VertexArray m_verticies;
+	std::vector<sf::RectangleShape> tiles;
 	sf::Texture m_texture;
 };
 #pragma warning(default : 4244)

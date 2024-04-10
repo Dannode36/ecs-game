@@ -1,6 +1,7 @@
 #pragma once
 #include "fmt/format.h"
 #include <chrono>
+#include <string>
 
 #define DEBUG_NONE -1
 #define DEBUG_CRTICAL 0
@@ -10,7 +11,7 @@
 
 #define DEBUG_LEVEL DEBUG_WARNING
 
-const std::string getTimeString() {
+const inline std::string getTimeString() {
 	return fmt::format("{:%Y-%m-%d %H:%M:%S}", std::chrono::system_clock::now());
 }
 

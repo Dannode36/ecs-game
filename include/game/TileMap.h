@@ -38,8 +38,8 @@ public:
         {
             //Load layers
             for (int i = 0; i < Layer::Count; i++) {
-                m_objectLayers[i].load(map->getLayer(layerNames[i] + " Objects"));
-                m_tileLayers[i].load(map->getLayer(layerNames[i] + " Tiles"));
+                //m_objectLayers[i].load(map->getLayer(layerNames[i] + " Objects"));
+                //m_tileLayers[i].load(map->getLayer(layerNames[i] + " Tiles"));
             }
             //Gets the layer called "Object Layer" from the "ultimate_demo.json map
             tson::Layer* objectLayer = map->getLayer("Object Layer"); //This is an Object Layer
@@ -124,9 +124,7 @@ public:
             }
         }
         else {
-#if DEBUG_LEVEL >= DEBUG_CRITICAL
-            fmt::print("Tilemap failed to load:\n-->Path: {0}\n-->Tileson Status: {1}", path, (int)map->getStatus());
-#endif
+            LOG_CRITICAL(fmt::format("Tilemap failed to load:\n-->Path: {0}\n-->Tileson Status: {1}", path, (int)map->getStatus()));
             return false;
         }
     }
