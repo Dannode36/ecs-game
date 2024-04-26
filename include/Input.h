@@ -15,9 +15,15 @@ struct InputButtonState {
 
 class Input
 {
+public:
+    static bool controlsInverted;
 private:
+    static bool any;
+    static bool anyDown;
+
     //Keyboard Data------------------------------------------------------------
     static InputButtonState keyStates[KeyCode::KeyCount];
+    static std::string text;
 
     //Mouse Data---------------------------------------------------------------
     static InputButtonState mouseButtonStates[MouseButton::ButtonCount];
@@ -25,17 +31,20 @@ private:
 
     //Window Data--------------------------------------------------------------
     static bool focused; //Is the window focused
-
 public:
     static void Refresh();
+    static void Update(const sf::Event& event);
+
+    static bool Any(); //Is any key or mouse button pressed currently?
+    static bool AnyDown(); //Was any key or mouse button pressed this frame
 
     //Keyboard Getters---------------------------------------------------------
 
-    static bool controlsInverted;
     static void UpdateKeyState(const sf::Event& keyEvent);
     static bool GetKey(KeyCode key);
     static bool GetKeyUp(KeyCode key);
     static bool GetKeyDown(KeyCode key);
+    static std::string GetText();
 
     //Mouse Getters------------------------------------------------------------
 
@@ -44,5 +53,4 @@ public:
     static bool GetMouseButtonUp(MouseButton key);
     static bool GetMouseButtonDown(MouseButton key);
     static sf::Vector2i GetMousePosition();
-    static sf::Vector2f GetMousePosition(sf::View view);
 };

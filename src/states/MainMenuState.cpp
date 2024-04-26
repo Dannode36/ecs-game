@@ -1,6 +1,7 @@
 #include "states/MainMenuState.h"
 #include "interfaces/IApplication.h"
 #include "fmt/format.h"
+#include <util/Logging.h>
 
 MainMenuState::MainMenuState(std::string stateID, IApplication& app) : IState(stateID, app) { }
 
@@ -23,7 +24,7 @@ void MainMenuState::Load() {
     button = Button(texture, texture, texture, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
-            fmt::print("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender));
+            LOG_INFO(fmt::format("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender)));
             app.stateManager.SetActiveState("Game");
         });
 

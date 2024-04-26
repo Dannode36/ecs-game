@@ -75,6 +75,9 @@
     <ClCompile Include="src\game\Tilemap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui\Rectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -200,40 +203,22 @@
     <ClInclude Include="include\ecs\components\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\Tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\TileLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\TileMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\vendor\rapidxml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\vendor\tileson.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\ObjectLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\Frame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\PropertyCollection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\Property.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\util\helpers_graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\util\Logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FilePaths.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\Rectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -263,6 +248,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\checkbox_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\DOW08PICL.jpeg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

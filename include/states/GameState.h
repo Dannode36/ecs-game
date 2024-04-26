@@ -14,7 +14,7 @@
 #include <ecs/ECS.h>
 #include <ecs/systems/EnemySystem.h>
 #include <ecs/systems/CameraSystem.h>
-#include <game/TileMap.h>
+//#include <game/TileMap.h>
 
 class GameState : public IState
 {
@@ -23,7 +23,7 @@ private:
     sf::View view;
 
     //Game Data
-    Map tileMap;
+    //TileMap tileMap;
 
     //ECS
     std::vector<Entity> entities;

@@ -105,6 +105,7 @@ void StateManager::InactivateActiveState() {
     }
 }
 
+//Exits current state and adds it to the bottom of the stack
 void StateManager::DropActiveState() {
     // Is there no currently active state to drop?
     if(!m_Stack.empty()) {
@@ -134,6 +135,42 @@ void StateManager::DropActiveState() {
     m_App->Stop(StatusAppOK);
 }
 
+//Exits current state and removes it from the stack
+void StateManager::RemoveActiveState() {
+    if (!m_Stack.empty()) {
+        // Retrieve the currently active state
+        auto& anState = m_Stack.back();
+
+        // Log the removing of an active state
+        std::cout << "StateManager::RemoveActiveState(" << anState->GetID() << ")\n";
+
+        // Pause the currently active state
+        anState->Pause();
+
+        // Deinitialize the currently active state before we pop it off the stack
+        anState->Unload();
+
+        // Pop the currently active state off the stack
+        m_Stack.pop_back();
+    }
+
+    // Is there another state to activate? then call Resume to activate it
+    if (!m_Stack.empty()) {
+        // Has this state ever been initialized?
+        if (m_Stack.back()->IsLoaded()) {
+            // Resume the new active state
+            m_Stack.back()->Resume();
+        }
+        else {
+            // Initialize the new active state
+            m_Stack.back()->Load();
+        }
+    }
+    else {
+        m_App->Stop(StatusAppOK);
+    }
+}
+
 void StateManager::ResetActiveState() {
     // Is there no currently active state to reset?
     if(!m_Stack.empty()) {
@@ -154,41 +191,6 @@ void StateManager::ResetActiveState() {
 
         // Don't keep pointers around we don't need anymore
         anState = NULL;
-    }
-    else {
-        m_App->Stop(StatusAppOK);
-    }
-}
-
-void StateManager::RemoveActiveState() {
-    if(!m_Stack.empty()) {
-        // Retrieve the currently active state
-        auto& anState = m_Stack.back();
-
-        // Log the removing of an active state
-        std::cout << "StateManager::RemoveActiveState(" << anState->GetID() << ")\n";
-
-        // Pause the currently active state
-        anState->Pause();
- 
-        // Deinitialize the currently active state before we pop it off the stack
-        anState->Unload();
-
-        // Pop the currently active state off the stack
-        m_Stack.pop_back();
-    }
-
-    // Is there another state to activate? then call Resume to activate it
-    if(!m_Stack.empty()) {
-        // Has this state ever been initialized?
-        if(m_Stack.back()->IsLoaded()) {
-            // Resume the new active state
-            m_Stack.back()->Resume();
-        }
-        else {
-            // Initialize the new active state
-            m_Stack.back()->Load();
-        }
     }
     else {
         m_App->Stop(StatusAppOK);

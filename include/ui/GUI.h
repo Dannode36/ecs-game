@@ -2,6 +2,7 @@
 #include "ui/Widget.h"
 #include <map>
 #include "Button.h"
+#include "SFML/System/Time.hpp"
 
 class GUI : sf::Drawable
 {
@@ -10,8 +11,8 @@ private:
 
 public:
 	template<typename T>
-	inline void add(const std::string id, T* button) {
-		elements.emplace(id, button);
+	inline void add(const std::string id, T* widget) {
+		elements.emplace(id, widget);
 	}
 
 	template<typename T>
@@ -30,6 +31,12 @@ public:
 			}
 		}
 	}
+
+	/*inline void updateDt(const sf::Time& dt) {
+		for (auto& pair : elements) {
+			pair.second->;
+		}
+	}*/
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

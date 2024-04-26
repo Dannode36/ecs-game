@@ -2,7 +2,9 @@
 #include "fmt/format.h"
 #include "states/MainMenuState.h"
 #include "states/GameState.h"
+#include "states/SplashScreenState.h"
 #include <Input.h>
+#include <util/Logging.h>
 
 StatusType Application::Start()
 {
@@ -26,8 +28,9 @@ StatusType Application::Start()
     ImGui::SFML::Init(window);
 
     stateManager.RegisterApp(*this);
+    stateManager.AddActiveState(std::shared_ptr<IState>(new SplashScreenState("Splash", *this)));
+    stateManager.AddInactiveState(std::shared_ptr<IState>(new MainMenuState("Main Menu", *this)));
     stateManager.AddInactiveState(std::shared_ptr<IState>(new GameState("Game", *this)));
-    stateManager.AddActiveState(std::shared_ptr<IState>(new MainMenuState("Main Menu", *this)));
     //stateManager.AddActiveState(new GameState("Game", *this));
 
     while (running && !stateManager.IsEmpty()) {
@@ -52,20 +55,18 @@ void Application::Update() {
     while (window.pollEvent(event)) {
         ImGui::SFML::ProcessEvent(window, event);
 
-        activeState->HandleEvent(event); //Allow active state to process the event
-
+        //Test close event first to early out
         if (event.type == sf::Event::Closed) {
             window.close();
             ImGui::SFML::Shutdown(); // will shutdown all windows
             Stop(StatusAppOK);
             return;
         }
-        if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-            Input::UpdateKeyState(event);
-        }
-        if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased) {
-            Input::UpdateMouseState(event);
-        }
+
+        Input::Update(event); //Update the input abstractions
+        activeState->HandleEvent(event); //Allow active state to process the event
+
+        //Engine stuff
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::D && event.key.control && event.key.alt) {
                 showImGuiDemoWindow = !showImGuiDemoWindow;
@@ -92,7 +93,6 @@ void Application::Update() {
         wtGraph.Render("Total time waiting (ms)", static_cast<float>(dt.asMilliseconds() - frameClock.getElapsedTime().asMilliseconds()));
     }
     ImGui::End();
-
 
     //Draw State
     activeState->Draw(window);

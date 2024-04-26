@@ -3776,7 +3776,7 @@ namespace tson
 			//        Undefined = 0,
 			//        Object = 1,
 			//        Ellipse = 2,
-			//        Rectangle = 3,
+			//        Fade = 3,
 			//        Point = 4,
 			//        Polygon = 5,
 			//        Polyline = 6,

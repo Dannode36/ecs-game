@@ -34,8 +34,8 @@ public:
     bool IsPaused() const;
 
     /*
-        \brief Dispose will be called if mCleanup is true so Derived classes 
-        should always call IState::Load() first before initializing their assets.
+        \brief Dispose will be called if mCleanup is true so states should
+        always call IState::Load() first before initializing their assets.
     */
     virtual void Load();
 

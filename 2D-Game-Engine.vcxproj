@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ui\Rectangle.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ecs\Systems\CameraSystem.cpp" />
     <ClCompile Include="src\ECS\Systems\EnemySystem.cpp" />
@@ -174,18 +175,14 @@
     <ClCompile Include="src\game\Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\game\Animation.h" />
-    <ClInclude Include="include\game\Frame.h" />
-    <ClInclude Include="include\game\ObjectLayer.h" />
-    <ClInclude Include="include\game\Property.h" />
-    <ClInclude Include="include\game\PropertyCollection.h" />
-    <ClInclude Include="include\game\Tile.h" />
+    <ClInclude Include="include\FilePaths.h" />
     <ClInclude Include="include\managers\AudioManager.h" />
     <ClInclude Include="include\ecs\components\Camera.h" />
     <ClInclude Include="include\ecs\systems\CameraSystem.h" />
     <ClInclude Include="include\ecs\systems\EnemySystem.h" />
     <ClInclude Include="include\ecs\components\Enemy.h" />
     <ClInclude Include="include\ecs\components\Projectile.h" />
+    <ClInclude Include="include\ui\Rectangle.h" />
     <ClInclude Include="include\ui\Widget.h" />
     <ClInclude Include="include\ui\GUI.h" />
     <ClInclude Include="include\ui\Checkbox.h" />
@@ -204,7 +201,6 @@
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\AssetCache.h" />
     <ClInclude Include="include\managers\AssetManager.h" />
-    <ClInclude Include="include\game\TileLayer.h" />
     <ClInclude Include="include\util\helpers_graphics.h" />
     <ClInclude Include="include\util\Logging.h" />
     <ClInclude Include="include\vendor\rapidxml.hpp" />
@@ -226,7 +222,6 @@
     <ClInclude Include="include\mathf.h" />
     <ClInclude Include="include\util\Event.h" />
     <ClInclude Include="include\managers\StateManager.h" />
-    <ClInclude Include="include\game\TileMap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\Wind.ogg">
@@ -237,6 +232,7 @@
     <None Include="vcpkg_installed\x64-windows\x64-windows\debug\bin\fmtd.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\Downloads\DOW08PICL.jpeg" />
     <Image Include="assets\button_hovered.png" />
     <Image Include="assets\button_normal.png" />
     <Image Include="assets\button_pressed.png" />
