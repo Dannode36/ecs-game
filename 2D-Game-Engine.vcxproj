@@ -232,7 +232,6 @@
     <None Include="vcpkg_installed\x64-windows\x64-windows\debug\bin\fmtd.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\DOW08PICL.jpeg" />
     <Image Include="assets\button_hovered.png" />
     <Image Include="assets\button_normal.png" />
     <Image Include="assets\button_pressed.png" />

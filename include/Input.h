@@ -16,6 +16,7 @@ struct InputButtonState {
 class Input
 {
 public:
+    friend class Application;
     static bool controlsInverted;
 private:
     static bool any;
@@ -31,10 +32,8 @@ private:
 
     //Window Data--------------------------------------------------------------
     static bool focused; //Is the window focused
-public:
-    static void Refresh();
-    static void Update(const sf::Event& event);
 
+public:
     static bool Any(); //Is any key or mouse button pressed currently?
     static bool AnyDown(); //Was any key or mouse button pressed this frame
 
@@ -53,4 +52,7 @@ public:
     static bool GetMouseButtonUp(MouseButton key);
     static bool GetMouseButtonDown(MouseButton key);
     static sf::Vector2i GetMousePosition();
+private:
+    static void Refresh();
+    static void Update(const sf::Event& event);
 };

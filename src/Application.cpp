@@ -94,6 +94,12 @@ void Application::Update() {
     }
     ImGui::End();
 
+    if (ImGui::Begin("Input")) {
+        ImGui::Text(fmt::format("Is any input pressed?: {}", Input::Any()).c_str());
+        ImGui::Text(fmt::format("Is any input down?:    {}", Input::AnyDown()).c_str());
+    }
+    ImGui::End();
+
     //Draw State
     activeState->Draw(window);
 
