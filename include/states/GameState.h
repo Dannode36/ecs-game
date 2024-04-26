@@ -11,9 +11,7 @@
 #include <managers/AssetManager.h>
 #include <ui/imgui/MetricGraph.h>
 #include <ui/Button.h>
-#include <ecs/ECS.h>
-#include <ecs/systems/EnemySystem.h>
-#include <ecs/systems/CameraSystem.h>
+#include "game/components/GameObject.h"
 //#include <game/TileMap.h>
 
 class GameState : public IState
@@ -26,14 +24,9 @@ private:
     //TileMap tileMap;
 
     //ECS
-    std::vector<Entity> entities;
-    std::shared_ptr<PhysicsSystem> physicsSystem;
-    std::shared_ptr<MovementSystem> movementSystem;
-    std::shared_ptr<EnemySystem> enemySystem;
-    std::shared_ptr<CameraSystem> cameraSystem;
     std::future<void> f;
 
-    GameObject* player;
+    Object* player;
     //UI
     Button button;
     Button button2;
@@ -68,5 +61,4 @@ public:
 
 private:
     void Dispose() override;
-    void InitECS();
 };

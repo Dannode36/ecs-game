@@ -1,8 +1,7 @@
 #pragma once
-#include <ecs/Types.h>
 #include <SFML/System/Vector2.hpp>
 
-COMPONENT Projectile
+struct  Projectile
 {
 	float speed;
 	sf::Vector2f direction;

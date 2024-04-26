@@ -21,13 +21,7 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECS\Systems\PhysicsSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ECS\Systems\MovementSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\Button.cpp">
@@ -63,13 +57,7 @@
     <ClCompile Include="src\ui\GuiElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECS\Systems\EnemySystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\managers\AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ecs\Systems\CameraSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Tilemap.cpp">
@@ -107,22 +95,10 @@
     <ClInclude Include="include\states\MainMenuState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ecs\components\NPC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ui\imgui\MetricGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ui\Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\components\Collider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\systems\MovementSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\components\MovementController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Input.h">
@@ -134,43 +110,10 @@
     <ClInclude Include="include\managers\AssetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ecs\components\Character.h">
+    <ClInclude Include="include\game\components\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ecs\components\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\ComponentArray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\ComponentManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\CONSTANTS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\ECS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\ecsmathf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\systems\PhysicsSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\systems\System.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\SystemManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\Types.h">
+    <ClInclude Include="include\game\components\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\managers\StateManager.h">
@@ -185,22 +128,13 @@
     <ClInclude Include="include\ui\Widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ecs\components\Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\components\Projectile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\systems\EnemySystem.h">
+    <ClInclude Include="include\game\components\Projectile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\managers\AudioManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ecs\systems\CameraSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ecs\components\Camera.h">
+    <ClInclude Include="include\game\components\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\vendor\rapidxml.hpp">
