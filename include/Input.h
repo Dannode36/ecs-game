@@ -33,7 +33,7 @@ private:
 
     //Controller Data----------------------------------------------------------
     static ButtonState joystickButtonStates[Joystick::Count][Joystick::ButtonCount]; //2D Array containing the state all joystick buttons
-    static float joystickAxisValues[Joystick::Count][Joystick::AxisCount]; //2D Array containing the state all joystick buttons
+    static float joystickAxisValues[Joystick::Count][Joystick::AxisCount]; //2D Array containing the state all joystick axes
 
     //Window Data--------------------------------------------------------------
     static bool focused; //Is the window focused
