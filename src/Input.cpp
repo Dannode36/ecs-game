@@ -4,10 +4,10 @@ bool Input::any = false;
 bool Input::anyDown = false;
 bool Input::controlsInverted = false;
 
-InputButtonState Input::keyStates[KeyCode::KeyCount];
+ButtonState Input::keyStates[KeyCode::KeyCount];
 std::string Input::text = std::string();
 
-InputButtonState Input::mouseButtonStates[MouseButton::ButtonCount];
+ButtonState Input::mouseButtonStates[MouseButton::ButtonCount];
 
 bool Input::cursorInWindow = false;
 bool Input::focused = false;
@@ -74,6 +74,7 @@ void Input::UpdateKeyState(const sf::Event& keyEvent) {
     if (keyEvent.type == sf::Event::KeyPressed) {
         keyStates[keyEvent.key.code].pressed = true;
         keyStates[keyEvent.key.code].down = true;
+        any = true;
         anyDown = true;
     }
     else if (keyEvent.type == sf::Event::KeyReleased) {
@@ -81,12 +82,15 @@ void Input::UpdateKeyState(const sf::Event& keyEvent) {
         keyStates[keyEvent.key.code].up = true;
     }
 }
+
 bool Input::GetKey(KeyCode key) {
     return keyStates[key].pressed;
 }
+
 bool Input::GetKeyUp(KeyCode key) {
     return keyStates[key].up;
 }
+
 bool Input::GetKeyDown(KeyCode key) {
     return keyStates[key].down;
 }
@@ -101,6 +105,7 @@ void Input::UpdateMouseState(const sf::Event& mbEvent) {
     if (mbEvent.type == sf::Event::MouseButtonPressed) {
         mouseButtonStates[mbEvent.mouseButton.button].pressed = true;
         mouseButtonStates[mbEvent.mouseButton.button].down = true;
+        any = true;
         anyDown = true;
     }
     else if (mbEvent.type == sf::Event::MouseButtonReleased) {
@@ -112,12 +117,15 @@ void Input::UpdateMouseState(const sf::Event& mbEvent) {
         mbEvent.mouseMove.
     }*/
 }
+
 bool Input::GetMouseButton(MouseButton mouseButton) {
     return mouseButtonStates[mouseButton].pressed;
 }
+
 bool Input::GetMouseButtonUp(MouseButton mouseButton) {
     return mouseButtonStates[mouseButton].up;
 }
+
 bool Input::GetMouseButtonDown(MouseButton mouseButton) {
     return mouseButtonStates[mouseButton].down;
 }

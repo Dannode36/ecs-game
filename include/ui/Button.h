@@ -4,7 +4,7 @@
 #include "ui/Widget.h"
 #include "types.h"
 
-enum ButtonState {
+enum WidgetButtonState {
     Button_None = 0,
     Button_Normal,
     Button_Hovered,
@@ -17,7 +17,7 @@ private:
     TexturePtr hovered;
     TexturePtr clicked;
     sf::Sprite sprite;
-    ButtonState state;
+    WidgetButtonState state;
 
 public:
     Event<Button> event;
@@ -30,8 +30,8 @@ public:
     Button(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
     void update(sf::Vector2f mousePos = sf::Vector2f(0, 0));
-    void setState(ButtonState clicked);
-    ButtonState getState() const;
+    void setState(WidgetButtonState clicked);
+    WidgetButtonState getState() const;
     sf::Sprite* getCurrentSprite();
 
     // Inherited via Widget

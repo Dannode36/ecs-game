@@ -31,7 +31,7 @@ void Button::update(sf::Vector2f mousePos) {
         setState(Button_Normal);
     }
 }
-void Button::setState(ButtonState newState) {
+void Button::setState(WidgetButtonState newState) {
     if (state != newState) {
         if (newState == Button_Normal) {
             sprite.setTexture(*normal);
@@ -49,7 +49,7 @@ void Button::setState(ButtonState newState) {
         state = newState;
     }
 }
-ButtonState Button::getState() const {
+WidgetButtonState Button::getState() const {
     return state;
 }
 sf::Sprite* Button::getCurrentSprite() {

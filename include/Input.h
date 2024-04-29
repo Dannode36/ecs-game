@@ -6,8 +6,9 @@
 
 typedef sf::Keyboard::Key KeyCode;
 typedef sf::Mouse::Button MouseButton;
+typedef sf::Joystick Joystick;
 
-struct InputButtonState {
+struct ButtonState {
     bool pressed;
     bool up;
     bool down;
@@ -23,12 +24,16 @@ private:
     static bool anyDown;
 
     //Keyboard Data------------------------------------------------------------
-    static InputButtonState keyStates[KeyCode::KeyCount];
+    static ButtonState keyStates[KeyCode::KeyCount]; //Array containing the state of all supported keys
     static std::string text;
 
     //Mouse Data---------------------------------------------------------------
-    static InputButtonState mouseButtonStates[MouseButton::ButtonCount];
+    static ButtonState mouseButtonStates[MouseButton::ButtonCount]; //Array containing the state of all mouse buttons
     static bool cursorInWindow; //Is the cursor in the area of the window
+
+    //Controller Data----------------------------------------------------------
+    static ButtonState joystickButtonStates[Joystick::Count][Joystick::ButtonCount]; //2D Array containing the state all joystick buttons
+    static float joystickAxisValues[Joystick::Count][Joystick::AxisCount]; //2D Array containing the state all joystick buttons
 
     //Window Data--------------------------------------------------------------
     static bool focused; //Is the window focused

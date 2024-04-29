@@ -97,6 +97,9 @@ void Application::Update() {
     if (ImGui::Begin("Input")) {
         ImGui::Text(fmt::format("Is any input pressed?: {}", Input::Any()).c_str());
         ImGui::Text(fmt::format("Is any input down?:    {}", Input::AnyDown()).c_str());
+        LOG_INFO(fmt::format("Any: {}", Input::Any()));
+        LOG_INFO(fmt::format("AnyDown: {}", Input::AnyDown()));
+        LOG_INFO(fmt::format("Mouse Left Up: {}", Input::GetMouseButtonUp(MouseButton::Left)));
     }
     ImGui::End();
 
