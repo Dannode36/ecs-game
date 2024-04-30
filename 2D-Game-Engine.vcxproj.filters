@@ -184,6 +184,12 @@
     <Image Include="assets\checkbox_normal.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\splash.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\Textures-16.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\Stardew_Valley.ttf" />

@@ -36,6 +36,7 @@ StatusType Application::Start()
     while (running && !stateManager.IsEmpty()) {
         Update();
     }
+
     return status;
 }
 
@@ -113,6 +114,11 @@ void Application::Update() {
         }
     }
     ImGui::End();
+
+    //Purposeful exception
+    if (Input::GetKey(KeyCode::E) && Input::GetKey(KeyCode::LControl)) {
+        throw std::exception("Forced exception");
+    }
 
     //Draw State
     activeState->Draw(window);

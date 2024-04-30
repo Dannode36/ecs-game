@@ -210,19 +210,45 @@
     <None Include="vcpkg_installed\x64-windows\x64-windows\debug\bin\fmtd.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\button_hovered.png" />
-    <Image Include="assets\button_normal.png" />
-    <Image Include="assets\button_pressed.png" />
-    <Image Include="assets\checkbox_check.png" />
-    <Image Include="assets\checkbox_hovered.png" />
-    <Image Include="assets\checkbox_normal.png" />
+    <Image Include="assets\button_hovered.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\button_normal.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\button_pressed.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\checkbox_check.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\checkbox_hovered.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\checkbox_normal.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
     <Image Include="assets\player.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\splash.png">
+      <DeploymentContent>true</DeploymentContent>
+    </Image>
+    <Image Include="assets\Textures-16.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="assets\Roboto-Regular.ttf" />
-    <Font Include="assets\Stardew_Valley.ttf" />
+    <Font Include="assets\Roboto-Regular.ttf">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent>true</DeploymentContent>
+    </Font>
+    <Font Include="assets\Stardew_Valley.ttf">
+      <DeploymentContent>true</DeploymentContent>
+    </Font>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
