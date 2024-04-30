@@ -9,16 +9,16 @@
 StatusType Application::Start()
 {
 #if DEBUG_LEVEL >= DEBUG_VERBOSE
-    fmt::print("----Available Video Modes ->----\n");
+    fmt::print(">>>>Available Video Modes>>>>>>>\n");
     int i = 0;
     for (auto& videoMode : sf::VideoMode::getFullscreenModes()) {
         fmt::print("Video mode {0}: Width={1}, Height={2}, Bits per pixel={3}\n", i, videoMode.width, videoMode.height, videoMode.bitsPerPixel);
         i++;
     }
-    fmt::print("--------------------------------\n");
+    fmt::print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
 #endif // DEBUG_INFO
 
-    window.create(sf::VideoMode(1280, 800), "ECS Game");
+    window.create(sf::VideoMode(1280, 800), "Game");
     //window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
@@ -97,9 +97,20 @@ void Application::Update() {
     if (ImGui::Begin("Input")) {
         ImGui::Text(fmt::format("Is any input pressed?: {}", Input::Any()).c_str());
         ImGui::Text(fmt::format("Is any input down?:    {}", Input::AnyDown()).c_str());
-        LOG_INFO(fmt::format("Any: {}", Input::Any()));
-        LOG_INFO(fmt::format("AnyDown: {}", Input::AnyDown()));
-        LOG_INFO(fmt::format("Mouse Left Up: {}", Input::GetMouseButtonUp(MouseButton::Left)));
+        
+        ImGui::NewLine();
+
+        ImGui::Text("Mouse");
+
+        for (size_t i = 0; auto& mouseBtn : Input::mouseButtonStates) {
+            ImGui::Text(fmt::format("Is any mouse {} pressed?: {}", i, Input::GetMouseButton(MouseButton(i))).c_str());
+            i++;
+        }
+
+        for (size_t i = 0; auto & key : Input::keyStates) {
+            ImGui::Text(fmt::format("Is any key {} pressed?: {}", keyToString((KeyCode)i), Input::GetKey((KeyCode)i)).c_str());
+            i++;
+        }
     }
     ImGui::End();
 

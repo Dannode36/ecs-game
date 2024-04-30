@@ -20,7 +20,7 @@ private:
     WidgetButtonState state;
 
 public:
-    Event<Button> event;
+    Event<Button&> event;
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
