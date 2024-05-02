@@ -6,6 +6,11 @@
 #include "SFML/System/Clock.hpp"
 #include "SFML/Window/Event.hpp"
 
+#ifndef SPDLOG_FMT_EXTERNAL
+    #define SPDLOG_FMT_EXTERNAL
+#endif
+#include "vendor/spdlog/spdlog.h"
+
 #include "interfaces/IApplication.h"
 #include <ui/imgui/MetricGraph.h>
 
@@ -22,6 +27,8 @@ private:
     //Window
     StatusType status = StatusNoError;
     sf::Clock deltaClock{};
+
+    std::shared_ptr<sf::Texture> atlas;
 
     //Debug UI
     sf::Clock frameClock{};

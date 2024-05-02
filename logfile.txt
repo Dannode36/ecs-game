@@ -1,0 +1,12 @@
+11:00:57 [INFO]: TexturePacker Completed:
+11:00:57 [INFO]:     Number of textures: 2
+11:00:57 [INFO]:     Output dimensions: 80x64
+11:00:57 [INFO]:     Empty tiles: 
+11:02:25 [INFO]: TexturePacker Completed:
+11:02:25 [INFO]:     Number of textures: 2
+11:02:25 [INFO]:     Output dimensions: 80x64
+11:02:25 [INFO]:     Empty tiles: 302
+11:03:08 [INFO]: TexturePacker Completed:
+11:03:08 [INFO]:     Number of textures: 2
+11:03:08 [INFO]:     Output dimensions: 80x64
+11:03:08 [INFO]:     Empty tiles: 2

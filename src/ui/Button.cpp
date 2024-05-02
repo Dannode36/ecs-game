@@ -81,6 +81,13 @@ void Button::handleEvent(sf::Event& event) {
     //    setState(Button_Normal);
     //}
 }
+sf::Vector2f Button::getPosition() {
+    return sf::Vector2f();
+}
+sf::Vector2f Button::getSize() {
+    return sf::Vector2f();
+}
+
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite);
 }

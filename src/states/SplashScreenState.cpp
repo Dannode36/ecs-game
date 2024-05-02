@@ -1,7 +1,7 @@
 #include "states/SplashScreenState.h"
 #include <FilePaths.h>
 #include "interfaces/IApplication.h"
-#include <util/Logging.h>
+#include "vendor/spdlog/spdlog.h"
 
 SplashScreenState::SplashScreenState(std::string stateID, IApplication& app) : IState(stateID, app) { }
 
@@ -29,7 +29,7 @@ void SplashScreenState::Load() {
 
 	if (!splashImage.loadFromFile(SPLASH_IMAGE)) {
 		app.Stop(StatusAppMissingAsset);
-		LOG_CRITICAL("Could not load splash image");
+		spdlog::critical("Could not load splash image");
 	}
 
 	splashSprite.setTexture(splashImage);
