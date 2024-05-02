@@ -2,7 +2,7 @@
 
 
 int main(int argc, char* argv[]) {
-	spdlog::set_pattern("[%H:%M:%S] %^[%l]%$: %v");
+	spdlog::set_pattern("[%T] %^[%l]%$: %v");
 
 	try {
 		Application app;

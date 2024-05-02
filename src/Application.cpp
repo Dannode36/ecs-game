@@ -35,8 +35,8 @@ StatusType Application::Start()
 
     {
         std::vector<TileSet> tilesets;
-        tilesets.emplace_back("assets/packing_test_1.png", 0, 10);
-        tilesets.emplace_back("assets/packing_test_2.png", 10, 8);
+        //tilesets.emplace_back("assets/packing_test_1.png", 0, 10);
+        tilesets.emplace_back("assets/packing_test_2.png", 0, 8);
         atlas = packTilesets(tilesets, 16U);
     }
 
@@ -98,45 +98,58 @@ void Application::Update() {
     //Update ImGui
     ImGui::SFML::Update(window, dt);
     ImGui::SFML::SetCurrentWindow(window);
-    ImGui::ShowDemoWindow(&showImGuiDemoWindow);
+    if (showImGuiDemoWindow) {
+        ImGui::ShowDemoWindow(&showImGuiDemoWindow);
+    }
 
     //Application-wide Debug UI
-    assetManager.RenderDebugMetricsUI(NULL);
-
-    if (ImGui::Begin("Metrics")) {
-        fpsGraph.Render("Framerate", 1.f / dt.asSeconds());
-        ImGui::NewLine();
-        ftGraph.Render("Actual frame time (ms)", static_cast<float>(frameClock.getElapsedTime().asMilliseconds()));
-        ImGui::NewLine();
-        wtGraph.Render("Total time waiting (ms)", static_cast<float>(dt.asMilliseconds() - frameClock.getElapsedTime().asMilliseconds()));
+    static bool assetMgrMetricsOpen = true;
+    if (assetMgrMetricsOpen) {
+        assetManager.RenderDebugMetricsUI(&assetMgrMetricsOpen);
     }
-    ImGui::End();
 
-    if (ImGui::Begin("Input")) {
-        ImGui::Text(fmt::format("Is any input pressed?: {}", Input::Any()).c_str());
-        ImGui::Text(fmt::format("Is any input down?:    {}", Input::AnyDown()).c_str());
-        
-        ImGui::NewLine();
-
-        ImGui::Text("Mouse");
-
-        for (size_t i = 0; auto& mouseBtn : Input::mouseButtonStates) {
-            ImGui::Text(fmt::format("Is any mouse {} pressed?: {}", i, Input::GetMouseButton(MouseButton(i))).c_str());
-            i++;
+    static bool metricsOpen = true;
+    if (metricsOpen) {
+        if (ImGui::Begin("Metrics", &metricsOpen)) {
+            fpsGraph.Render("Framerate", 1.f / dt.asSeconds());
+            ImGui::NewLine();
+            ftGraph.Render("Actual frame time (ms)", static_cast<float>(frameClock.getElapsedTime().asMilliseconds()));
+            ImGui::NewLine();
+            rtGraph.Render("Total time rendering (us)", static_cast<float>(renderTime.asMicroseconds()));
+            ImGui::NewLine();
+            wtGraph.Render("Total time waiting (ms)", static_cast<float>(dt.asMilliseconds() - frameClock.getElapsedTime().asMilliseconds()));
         }
-
-        for (size_t i = 0; auto & key : Input::keyStates) {
-            ImGui::Text(fmt::format("Is any key {} pressed?: {}", keyToString((KeyCode)i), Input::GetKey((KeyCode)i)).c_str());
-            i++;
-        }
+        ImGui::End();
     }
-    ImGui::End();
+
+    static bool inputOpen = true;
+    if (inputOpen) {
+        if (ImGui::Begin("Input", &inputOpen)) {
+            ImGui::Text(fmt::format("Is any input pressed?: {}", Input::Any()).c_str());
+            ImGui::Text(fmt::format("Is any input down?:    {}", Input::AnyDown()).c_str());
+
+            ImGui::NewLine();
+
+            ImGui::Text("Mouse");
+
+            for (size_t i = 0; auto & mouseBtn : Input::mouseButtonStates) {
+                ImGui::Text(fmt::format("Is any mouse {} pressed?: {}", i, Input::GetMouseButton(MouseButton(i))).c_str());
+                i++;
+            }
+
+            for (size_t i = 0; auto & key : Input::keyStates) {
+                ImGui::Text(fmt::format("Is any key {} pressed?: {}", keyToString((KeyCode)i), Input::GetKey((KeyCode)i)).c_str());
+                i++;
+            }
+        }
+        ImGui::End();
+    }
 
     //Purposeful exception
     if (Input::GetKey(KeyCode::E) && Input::GetKey(KeyCode::LControl)) {
         throw std::exception("Forced exception");
     }
-
+    renderClock.restart();
     //Draw State
     activeState->Draw(window);
 
@@ -145,6 +158,7 @@ void Application::Update() {
 
     //Render
     ImGui::SFML::Render(window);
+    renderTime = renderClock.getElapsedTime();
     window.display();
 
     //Cleanup
