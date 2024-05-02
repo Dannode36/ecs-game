@@ -33,14 +33,10 @@ private:
 
     //Mouse Data---------------------------------------------------------------
     static ButtonState mouseButtonStates[MouseButton::ButtonCount]; //Array containing the state of all mouse buttons
-    static bool cursorInWindow; //Is the cursor in the area of the window
 
     //Controller Data----------------------------------------------------------
     static ButtonState joyBtnStates[Joystick::Count][Joystick::ButtonCount]; //2D Array containing the state all joystick buttons
     static bool joyConnectionFlags[Joystick::Count];
-
-    //Window Data--------------------------------------------------------------
-    static bool focused; //Is the window focused
 
 public:
     static bool Any(); //Is any key or mouse button pressed currently?

@@ -17,9 +17,6 @@ ButtonState Input::mouseButtonStates[MouseButton::ButtonCount];
 ButtonState Input::joyBtnStates[Joystick::Count][Joystick::ButtonCount];
 bool Input::joyConnectionFlags[Joystick::Count];
 
-bool Input::cursorInWindow = false;
-bool Input::focused = false;
-
 static inline constexpr bool isKeyboardEvent(sf::Event::EventType type) {
     return type == sf::Event::KeyPressed 
         || type == sf::Event::KeyReleased;
@@ -49,18 +46,6 @@ void Input::Update(const sf::Event& event) {
     }
     else if (event.type == sf::Event::TextEntered) {
         text += event.text.unicode;
-    }
-    else if (event.type == sf::Event::GainedFocus) {
-        focused = true;
-    }
-    else if (event.type == sf::Event::LostFocus) {
-        focused = false;
-    }
-    else if (event.type == sf::Event::MouseEntered) {
-        cursorInWindow = true;
-    }
-    else if (event.type == sf::Event::MouseLeft) {
-        cursorInWindow = false;
     }
 }
 

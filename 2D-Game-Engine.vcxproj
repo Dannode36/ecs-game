@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\util\TexturePacker.h" />
     <ClCompile Include="src\ui\Rectangle.cpp" />
     <ClCompile Include="src\managers\AudioManager.cpp" />
     <ClCompile Include="src\ui\GuiElement.cpp" />
