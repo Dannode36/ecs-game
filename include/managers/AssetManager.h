@@ -103,7 +103,7 @@ public:
 		std::any_cast<AssetCache<T>>(caches[typeid(T).name()]).LoadAsync(assetPath);
 	}*/
 
-	void RenderDebugMetricsUI(bool* open);
+	void RenderDebugMetricsUI(bool* open = NULL);
 
 	template<typename T>
 	inline void RegisterAssetType() {

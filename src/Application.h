@@ -31,9 +31,12 @@ private:
     std::shared_ptr<sf::Texture> atlas;
 
     //Debug UI
+    sf::Clock renderClock{};
+    sf::Time renderTime{};
     sf::Clock frameClock{};
     MetricGraph fpsGraph{};
     MetricGraph ftGraph{};
+    MetricGraph rtGraph{};
     MetricGraph wtGraph{};
     bool showImGuiDemoWindow{ false };
 };
