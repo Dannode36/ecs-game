@@ -52,6 +52,14 @@ void Checkbox::handleEvent(sf::Event& event) {
     update();
 }
 
+sf::Vector2f Checkbox::getSize() {
+    return sprite.getLocalBounds().getSize();
+}
+
+sf::Vector2f Checkbox::getPosition() {
+    return sprite.getPosition();
+}
+
 void Checkbox::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite);
     if (checked) {

@@ -1,16 +1,17 @@
 #include "Application.h"
-#include <util/Logging.h>
 
-int main()
-{
+
+int main(int argc, char* argv[]) {
+	spdlog::set_pattern("[%H:%M:%S] %^[%l]%$: %v");
+
 	try {
 		Application app;
 		return app.Start();
 	}
 	catch (const std::exception& e) {
-		LOG_CRITICAL(std::string("A fatal exception occurred: ") + e.what());
+		spdlog::critical("A fatal exception occurred and caused the application to abort: {}", e.what());
 	}
 	catch (...){
-		LOG_CRITICAL("A fatal exception occurred");
+		spdlog::critical("A fatal exception occurred and caused the application to abort");
 	}
 }

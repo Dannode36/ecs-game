@@ -1,7 +1,7 @@
 #include "states/MainMenuState.h"
 #include "interfaces/IApplication.h"
 #include "fmt/format.h"
-#include <util/Logging.h>
+#include <vendor/spdlog/spdlog.h>
 
 MainMenuState::MainMenuState(std::string stateID, IApplication& app) : IState(stateID, app) { }
 
@@ -24,7 +24,7 @@ void MainMenuState::Load() {
     button = Button(texture, texture, texture, sf::Vector2f(300, 300));
     button.event.addListener(
         [&](Button& sender) {
-            LOG_INFO(fmt::format("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender)));
+            spdlog::info(fmt::format("Button(Load Scene, {}) was pressed\n", fmt::ptr(&sender)));
             app.stateManager.SetActiveState("Game");
         });
 
@@ -69,4 +69,11 @@ void MainMenuState::Draw(sf::RenderWindow& window) {
     //window.setView(app.uiView);
     window.draw(button);
     window.draw(checkbox);
+
+    sf::RectangleShape debugRect(checkbox.getSize());
+    debugRect.setPosition(checkbox.getPosition());
+    debugRect.setFillColor(sf::Color::Transparent);
+    debugRect.setOutlineColor(sf::Color::Red);
+    debugRect.setOutlineThickness(0.5f);
+    window.draw(debugRect);
 }

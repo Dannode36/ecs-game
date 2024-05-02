@@ -10,4 +10,6 @@ public:
 	Event<bool> hoverEvent;
 
 	virtual void handleEvent(sf::Event& mousePos) = 0;
+	virtual sf::Vector2f getPosition() = 0;
+	virtual sf::Vector2f getSize() = 0;
 };

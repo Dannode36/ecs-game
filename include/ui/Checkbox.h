@@ -26,7 +26,12 @@ public:
     Checkbox(TexturePtr normal, TexturePtr hovered, TexturePtr clicked, sf::Vector2f position);
 
     void setState(bool checked, bool hovered);
-
     // Inherited via Widget
     void handleEvent(sf::Event& event) override;
+
+    // Inherited via Widget
+    sf::Vector2f getSize() override;
+
+    // Inherited via Widget
+    sf::Vector2f getPosition() override;
 };

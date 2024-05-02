@@ -4,7 +4,7 @@
 #include "states/GameState.h"
 #include "states/SplashScreenState.h"
 #include <Input.h>
-#include <util/Logging.h>
+#include <util/TexturePacker.h>
 
 StatusType Application::Start()
 {
@@ -28,10 +28,27 @@ StatusType Application::Start()
     ImGui::SFML::Init(window);
 
     stateManager.RegisterApp(*this);
-    stateManager.AddActiveState(std::shared_ptr<IState>(new SplashScreenState("Splash", *this)));
-    stateManager.AddInactiveState(std::shared_ptr<IState>(new MainMenuState("Main Menu", *this)));
+    //stateManager.AddActiveState(std::shared_ptr<IState>(new SplashScreenState("Splash", *this)));
+    stateManager.AddActiveState(std::shared_ptr<IState>(new MainMenuState("Main Menu", *this)));
     stateManager.AddInactiveState(std::shared_ptr<IState>(new GameState("Game", *this)));
     //stateManager.AddActiveState(new GameState("Game", *this));
+
+    {
+        std::vector<TileSet> tilesets;
+        tilesets.emplace_back("assets/packing_test_1.png", 0, 10);
+        tilesets.emplace_back("assets/packing_test_2.png", 10, 8);
+        atlas = packTilesets(tilesets, 16U);
+    }
+
+    /*try {
+        std::vector<TileSet> tilesets;
+        tilesets.emplace_back("assets/packing_test_1.png", 0, 10);
+        tilesets.emplace_back("assets/packing_test_2.png", 11, 8);
+        packTilesets(tilesets, 16U);
+    }
+    catch (const std::exception& e) {
+        LOG_CRITICAL(std::string("A fatal exception occurred: ") + e.what());
+    }*/
 
     while (running && !stateManager.IsEmpty()) {
         Update();
@@ -122,6 +139,9 @@ void Application::Update() {
 
     //Draw State
     activeState->Draw(window);
+
+    sf::Sprite atlasSprite(*atlas);
+    window.draw(atlasSprite);
 
     //Render
     ImGui::SFML::Render(window);

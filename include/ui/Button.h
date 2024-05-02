@@ -36,4 +36,8 @@ public:
 
     // Inherited via Widget
     void handleEvent(sf::Event& event) override;
+
+    // Inherited via Widget
+    sf::Vector2f getPosition() override;
+    sf::Vector2f getSize() override;
 };
