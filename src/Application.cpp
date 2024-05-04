@@ -35,8 +35,8 @@ StatusType Application::Start()
 
     {
         std::vector<TileSet> tilesets;
-        //tilesets.emplace_back("assets/packing_test_1.png", 0, 10);
-        tilesets.emplace_back("assets/packing_test_2.png", 0, 8);
+        tilesets.emplace_back("assets/packing_test_1.png", 0, 10);
+        tilesets.emplace_back("assets/packing_test_2.png", 10, 8);
         atlas = packTilesets(tilesets, 16U);
     }
 
