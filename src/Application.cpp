@@ -8,15 +8,16 @@
 
 StatusType Application::Start()
 {
-#if DEBUG_LEVEL >= DEBUG_VERBOSE
-    fmt::print(">>>>Available Video Modes>>>>>>>\n");
-    int i = 0;
-    for (auto& videoMode : sf::VideoMode::getFullscreenModes()) {
-        fmt::print("Video mode {0}: Width={1}, Height={2}, Bits per pixel={3}\n", i, videoMode.width, videoMode.height, videoMode.bitsPerPixel);
-        i++;
+    {
+        std::string msg;
+        msg += ">>>>Available Video Modes>>>>>>>\n";
+        for (int i = 0; auto& videoMode : sf::VideoMode::getFullscreenModes()) {
+            msg += fmt::format("Video mode {0}: Width={1}, Height={2}, Bits per pixel={3}\n", i, videoMode.width, videoMode.height, videoMode.bitsPerPixel);
+            i++;
+        }
+        msg += "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n";
+        spdlog::debug(msg);
     }
-    fmt::print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-#endif // DEBUG_INFO
 
     window.create(sf::VideoMode(1280, 800), "Game");
     //window.create(sf::VideoMode::getFullscreenModes()[1], "ImGui + SFML = <3", sf::Style::Fullscreen);
