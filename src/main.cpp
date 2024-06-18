@@ -19,6 +19,6 @@ int main(int argc, char* argv[]) {
 		spdlog::critical("A fatal exception occurred and caused the application to abort: {}", e.what());
 	}
 	catch (...){
-		spdlog::critical("A fatal exception occurred and caused the application to abort");
+		spdlog::critical("A unknown fatal exception occurred and caused the application to abort");
 	}
 }
